@@ -1,0 +1,43 @@
+#plot-panel {
+	width: 100%;
+	height: 500px;
+	display: table;
+}
+
+.side-panel {
+	display: table-cell;
+	width: 20%;
+	height: 100%;
+	vertical-align: middle;
+}
+
+.plot-panel {
+	display: table-cell;
+	width: 60%;
+	height: 100%;
+	vertical-align: middle;
+}
+
+#hot {
+	width: 100%;
+}
+
+iframe {
+	overflow: hidden;
+	border: 0px;
+}
+
+.invis {
+	display: none;
+}
+
+#plot-frame {
+	width: 100%;
+	height: 400px;
+	overflow: hidden;
+}
+
+/*#invisible-file {
+	display: none;
+}*/
+
