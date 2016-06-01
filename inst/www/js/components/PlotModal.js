@@ -10,7 +10,7 @@ var PlotModal = React.createClass({
 		var wololo="enabled";
 
 		this.props.variables.forEach(function (variable) {
-			options_list.push(<option value={variable}>{variable}</option>);				
+			options_list.push(<option value={variable}>{variable}</option>);
 		});
 
 		return (

@@ -20,6 +20,10 @@ var MyBar = React.createClass(
 		this.props.onClick("show-table");
 	},
 
+	plotDendogram: function(){
+		alert("dendogram");
+	},
+
 	lineClick: function() {
 		this.props.onClick("show-feature");
 	},
@@ -84,6 +88,8 @@ var MyBar = React.createClass(
 							<MenuItem>Line</MenuItem>
 						</ModalTrigger>
 
+						<MenuItem onClick={this.plotDendogram} href = "dendogram.html">Dendogram</MenuItem>
+
 						<ModalTrigger modal={<PlotModal onClick={this.plotClick.bind(this, "scatterChart")} variables={this.props.variables}  />}>
 							<MenuItem>Scatter</MenuItem>
 						</ModalTrigger>
@@ -120,7 +126,7 @@ var MyBar = React.createClass(
 						<ModalTrigger modal={<ChoiceModal onClick={this.uniClick} variables={this.props.variables} />}>
 							<MenuItem>Univariate</MenuItem>
 						</ModalTrigger>
-						
+
 						<ModalTrigger modal={<BivariateModal onClick={this.biClick} variables={this.props.variables} />}>
 							<MenuItem>Bivariate</MenuItem>
 						</ModalTrigger>
@@ -148,7 +154,7 @@ var MyBar = React.createClass(
 						<ModalTrigger modal={<DensityClusterModal onClick={this.densityClusterClick.bind(this, "density")} variables={this.props.variables} />}>
 							<MenuItem>Density-based (DBSCAN)</MenuItem>
 						</ModalTrigger>
-						
+
 					</DropdownButton>
 
 					<DropdownButton title="Classification">
