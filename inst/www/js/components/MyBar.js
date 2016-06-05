@@ -21,7 +21,15 @@ var MyBar = React.createClass(
 	},
 
 	plotDendogram: function(){
-		alert("dendogram");
+		window.document.location.href = 'dendogram.html';
+	},
+
+	plotHeatmap: function(){
+		window.document.location.href = 'heatmap.html';
+	},
+
+	plotKmeans: function(){
+		window.document.location.href = 'kmeans.html';
 	},
 
 	lineClick: function() {
@@ -88,7 +96,9 @@ var MyBar = React.createClass(
 							<MenuItem>Line</MenuItem>
 						</ModalTrigger>
 
-						<MenuItem onClick={this.plotDendogram} href = "dendogram.html">Dendogram</MenuItem>
+						<MenuItem onClick={this.plotDendogram}>Dendogram</MenuItem>
+						<MenuItem onClick={this.plotHeatmap}>Heatmap</MenuItem>
+						<MenuItem onClick={this.plotKmeans}>k-means clustering</MenuItem>
 
 						<ModalTrigger modal={<PlotModal onClick={this.plotClick.bind(this, "scatterChart")} variables={this.props.variables}  />}>
 							<MenuItem>Scatter</MenuItem>

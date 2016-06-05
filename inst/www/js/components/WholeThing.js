@@ -109,7 +109,7 @@ var WholeThing = React.createClass(
 
 		// State is updated with a new file on clicking upload
 		if(this.state.file !== prevState.file)
-		{			
+		{
 			// read.csv
 			ocpu.seturl("//public.opencpu.org/ocpu/library/utils/R");
 
@@ -123,7 +123,7 @@ var WholeThing = React.createClass(
 
 	        		var headers = Object.keys(out[0]);
 	        		this.setState({variables: headers});
-	       
+
                 	this.refs.data_ref.setHeaders(headers);
                 	console.log(out);
                 	this.refs.data_ref.displayOn();
@@ -153,7 +153,7 @@ var WholeThing = React.createClass(
 	    // Plot graph
 	    if(this.props.plot) {
 
-	    	makePlot(this);	
+	    	makePlot(this);
 	        this.setProps({plot: false});
 
 	    }
@@ -170,7 +170,7 @@ var WholeThing = React.createClass(
 
 	    	else
 	    		densityCluster(bundle);
-		
+
 			this.setState({cluster: false});
 	    }
 
@@ -302,9 +302,9 @@ var WholeThing = React.createClass(
 						session.getObject(null, {force: true}, function (out) {
 							console.log(out);
 
-							if(fn === "t.test") 
+							if(fn === "t.test")
 								d = "t: " + out.statistic[0] + "\np: " + out["p.value"][0];
-							else 
+							else
 								d = out;
 							bi_table.spliceRow(n, 0, 0, fn_names[fn], d);
 
@@ -338,7 +338,7 @@ var WholeThing = React.createClass(
 				ocpu.seturl("//public.opencpu.org/ocpu/library/stats/R");
 
 				functions.forEach(function (fn, n) {
-					var paired = false; 
+					var paired = false;
 					var student = false;
 					var row = [fn];
 
@@ -407,7 +407,7 @@ var WholeThing = React.createClass(
 					//"data": new ocpu.Snippet("jsonlite::fromJSON('" + JSON.stringify(data) + "')")
 					"data": new ocpu.Snippet("data.frame(label = jsonlite::fromJSON('" + JSON.stringify(values) + "'), value = jsonlite::fromJSON('" + JSON.stringify(groups) + "'))")
 				}, function (session) {
-					
+
 					// BEGIN
 		        	functions.forEach(function (fn, n) {
 		        		var row = [fn];
@@ -459,7 +459,7 @@ var WholeThing = React.createClass(
 		        // Data
 		        var data = d3.csv.parse(dataCSV);
 				var ndx = crossfilter(data);
-				console.log(values);			
+				console.log(values);
 
 		        // Bar is true, build plot
 		        if(values.bar) {
@@ -491,7 +491,7 @@ var WholeThing = React.createClass(
 		        if(values.bubble) {
 		        	console.log(count);
 					var bubbleChart = dc.bubbleChart("#box_" + count);
-					
+
 					var peopleDimension = ndx.dimension(function (d) {
 						return d[bubble_g];
 					});
