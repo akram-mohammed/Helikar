@@ -20,24 +20,16 @@ var MyBar = React.createClass(
 		this.props.onClick("show-table");
 	},
 
-	plotDendogram: function(){
-		window.document.location.href = 'dendogram.html';
-	},
-
-	plotHeatmap: function(){
-		window.document.location.href = 'heatmap.html';
-	},
-
-	plotKmeans: function(){
-		window.document.location.href = 'kmeans.html';
-	},
-
 	lineClick: function() {
 		this.props.onClick("show-feature");
 	},
 
 	plotClick: function(plotType, child, var_x, var_y, var_g, x_name, y_name) {
 		this.props.onClick("plot", plotType, var_x, var_y, var_g, x_name, y_name);
+	},
+
+	newClick: function(plotType, child, var_x, var_y, x_name, y_name, var_k) {
+		this.props.onClick("plot", plotType, var_x, var_y, x_name, y_name, var_k);
 	},
 
 	uniClick: function(child, variables, functions) {
@@ -96,9 +88,25 @@ var MyBar = React.createClass(
 							<MenuItem>Line</MenuItem>
 						</ModalTrigger>
 
-						<MenuItem onClick={this.plotDendogram}>Dendogram</MenuItem>
-						<MenuItem onClick={this.plotHeatmap}>Heatmap</MenuItem>
-						<MenuItem onClick={this.plotKmeans}>k-means clustering</MenuItem>
+						<ModalTrigger modal={<DendogramModal/>}>
+							<MenuItem>Dendogram ?</MenuItem>
+						</ModalTrigger>
+
+						<ModalTrigger modal={<KMeansModal/>}>
+							<MenuItem>k-means clustering ?</MenuItem>
+						</ModalTrigger>
+
+						<ModalTrigger modal={<ScatterMatrixModal/>}>
+							<MenuItem>Scatter Plot Matrix ?</MenuItem>
+						</ModalTrigger>
+
+						<ModalTrigger modal={<HeatmapModal/>}>
+							<MenuItem>Heatmap ?</MenuItem>
+						</ModalTrigger>
+
+						<ModalTrigger modal={<NewChartModal onClick={this.newClick.bind(this, "newChart")} variables={this.props.variables}  />}>
+							<MenuItem>New Chart</MenuItem>
+						</ModalTrigger>
 
 						<ModalTrigger modal={<PlotModal onClick={this.plotClick.bind(this, "scatterChart")} variables={this.props.variables}  />}>
 							<MenuItem>Scatter</MenuItem>

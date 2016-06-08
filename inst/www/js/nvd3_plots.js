@@ -22,7 +22,7 @@ function makePlot(obj, props) {
 
 	if(type === "regression") type = "scatterChart";
 
-	/*	
+	/*
 	 *	Testing NVD3
 	 */
 
@@ -56,6 +56,10 @@ function makePlot(obj, props) {
 		else {
 			plotStandard(dataJSON, type, props.var_x, props.var_y, props.var_g, props.x_name, props.y_name);
 		}
+	}
+
+	if (type === "newChart") {
+		
 	}
 
 	if(type === "discreteBarChart")
@@ -313,7 +317,7 @@ function plotBox(data, type, var_x, var_y, x_name, y_name) {
 }
 
 function plotHierarchical(obj) {
-	
+
 	var data = document.getElementById('plot-panel').innerHTML;
 	root = JSON.parse(data);
 

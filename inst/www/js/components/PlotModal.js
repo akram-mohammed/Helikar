@@ -33,9 +33,9 @@ var PlotModal = React.createClass({
 						{options_list}
 					</Input>
 				</div>
-		        <div className='modal-footer'>
-    			    <Button onClick={this.handleClick}>Submit</Button>
-        		</div>
+        <div className='modal-footer'>
+			    <Button onClick={this.handleClick}>Submit</Button>
+    		</div>
 			</Modal>
 		);
 	},

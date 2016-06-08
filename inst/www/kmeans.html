@@ -2,10 +2,10 @@
 <html>
   <head>
     <title>k-means clustering</title>
-    <script type="text/javascript" src="http://d3js.org/d3.v3.min.js"></script>
-  <script src="http://code.jquery.com/jquery-1.8.3.min.js" type="text/javascript" charset="utf-8"></script>
-	<script src="./js/jquery.tipsy.js" type="text/javascript" charset="utf-8"></script>
-	<link rel="stylesheet" href="http://onehackoranother.com/projects/jquery/tipsy/stylesheets/tipsy.css" type="text/css" title="no title" charset="utf-8"/>
+    <script type="text/javascript" src="./d3/d3.min.js"></script>
+  <script src="./js/libs/jquery-1.8.3.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="./js/libs/jquery.tipsy.js" type="text/javascript" charset="utf-8"></script>
+	<link rel="stylesheet" href="./css/libs/tipsy.css" type="text/css" title="no title" charset="utf-8"/>
 <style type="text/css">
 	.axis path,
 	.axis line {
@@ -36,8 +36,8 @@
 <script type="text/javascript">
 	// set the stage
 	var margin = {t:30, r:20, b:20, l:40 },
-		w = 600 - margin.l - margin.r,
-		h = 600 - margin.t - margin.b,
+		w = $(document).width()-20 - margin.l - margin.r,
+		h = $(document).height()-20 - margin.t - margin.b,
 		x = d3.scale.linear().range([0, w]),
 		y = d3.scale.linear().range([h - 60, 0]),
 		//colors that will reflect geographical regions
@@ -71,13 +71,12 @@ d3.json("kmeans.json", function(data) {
   //R function that inputs json data and returns te clusters
 
   // array of the regions, used for the legend
-  var regions = ["1", "2", "3", "4", "5", "6"]
+  var regions = ["1", "2", "3", "4"]
 
   //alert((JSON.stringify(data)));
 
 	// sort data alphabetically by region, so that the colors match with legend
 	//data.sort(function(a, b) { return d3.ascending(a.region, b.region); })
-	console.log(data)
 
 	var x0 = Math.max(-d3.min(data, function(d) { return d.trust; }), d3.max(data, function(d) { return d.trust; }));
 	x.domain([-2.00, 2.00]);
@@ -149,18 +148,18 @@ d3.json("kmeans.json", function(data) {
 	var mouseOff = function() {
 		var circle = d3.select(this);
 
-    //console.log(circle.attr("id"));
+    // console.log(circle.attr("id"));
 
     // go back to original size and opacity
     if(circle.attr("id") == "center"){
       circle.transition()
-  		.duration(800).style("opacity", 0.8)
-  		.attr("r", 8).ease("elastic");
+      .duration(800).style("opacity", 0.8)
+      .attr("r", 8).ease("elastic");
     }
-    else {
+    else{
       circle.transition()
-  		.duration(800).style("opacity", 0.8)
-  		.attr("r", 4).ease("elastic");
+      .duration(800).style("opacity", 0.8)
+      .attr("r", 4).ease("elastic");
     }
 
 		// fade out guide lines, then remove them
