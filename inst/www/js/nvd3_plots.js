@@ -27,7 +27,6 @@ function makePlot(obj, props) {
 	 */
 
 	var nvdata = [{key: "Data", values: JSON.parse(dataJSON)}];
-	console.log(dataJSON);
 
 	/*
 	 *	Slope/intercept
@@ -59,7 +58,20 @@ function makePlot(obj, props) {
 	}
 
 	if (type === "newChart") {
-		
+		var myname = "send";
+		var json_string = "default";
+		var req = ocpu.rpc("hello", {
+        myname : myname
+      }, function(output){
+        $("#output").text(output.message);
+        json_string = output.message;
+      });
+      alert(json_string);
+      //if R returns an error, alert the error message
+      req.fail(function(){
+        alert("Server error: " + req.responseText);
+      });
+
 	}
 
 	if(type === "discreteBarChart")
