@@ -1,5 +1,5 @@
 #' Return arg + 1
-#' 
+#'
 #' @export
 #' @import e1071
 #' @import stats

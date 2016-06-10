@@ -14,4 +14,3 @@ myfn(fn, train, test, split)
 \description{
 Return arg + 1
 }
-
