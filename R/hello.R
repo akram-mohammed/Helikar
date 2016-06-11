@@ -1,5 +1,5 @@
-hello <- function(mynae = ""){
-
-  myname <- paste(mynane, "+ wooo");
-  list(message = "return")
+hello <- function(myname = ""){
+  
+  myname <- paste(myname, "+ wooo");
+  list(message = myname)
 }
