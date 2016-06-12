@@ -2,6 +2,6 @@
 
 export(classify)
 export(myfn)
-#import(e1071)
+import(e1071)
 import(stats)
 export(hello)
