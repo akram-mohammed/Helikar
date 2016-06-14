@@ -60,16 +60,17 @@ function makePlot(obj, props) {
 	if (type === "newChart") {
 		ocpu.seturl("//public.opencpu.org/ocpu/github/shubhamkmr47/Helikar/R");
 		var json_string = "default";
-		var req = ocpu.rpc("hello", function(output){
-        $("#output").text(output.message);
+		var myname = "myname";
+
+		var req = ocpu.rpc("hello", {myname: myname}, function(output){
         json_string = output.message;
+				alert(json_string);
       });
-      alert(json_string);
-      //if R returns an error, alert the error message
+
+			//if R returns an error, alert the error message
       req.fail(function(){
         alert("Server error: " + req.responseText);
       });
-
 	}
 
 	if(type === "discreteBarChart")
