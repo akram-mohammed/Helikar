@@ -58,9 +58,9 @@ function makePlot(obj, props) {
 	}
 
 	if (type === "newChart") {
-		ocpu.seturl("//public.opencpu.org/ocpu/github/shubhamkmr47/Helikar/R");
+		ocpu.seturl("http://localhost/ocpu/github/shubhamkmr47/Helikar/R");
 		var json_string = "default";
-		var myname = "myname";
+		var myname = "send this";
 
 		var req = ocpu.rpc("hello", {myname: myname}, function(output){
         json_string = output.message;
