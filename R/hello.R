@@ -5,7 +5,12 @@
 #' @export
 #' @param myname your name. Required.
 hello <- function(myname = ""){
-library(rjson)
+
+if (!require("rjson")) {
+  install.packages("rjson", dependencies = TRUE)
+  library(rjson)
+}
+
 json_file <-  '[
  {
  "rows": [ "Mazda RX4" ],
