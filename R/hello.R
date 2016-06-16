@@ -10,7 +10,6 @@ hello <- function(myname = ""){
 #  install.packages("rjson", dependencies = TRUE)
 #  library(rjson)
 #}
-curl https://public.opencpu.org/ocpu/library/rjson/R/
 
 json_file <-  '[
  {
@@ -462,7 +461,7 @@ json_file <-  '[
 "carb": [      2 ]
 }
 ]'
-json_file <- fromJSON(json_file)
+json_file <- rjson::fromJSON(json_file)
 
 json_file <- lapply(json_file, function(x) {
   x[sapply(x, is.null)] <- NA
