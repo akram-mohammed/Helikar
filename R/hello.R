@@ -6,10 +6,11 @@
 #' @param myname your name. Required.
 hello <- function(myname = ""){
 
-if (!require("rjson")) {
-  install.packages("rjson", dependencies = TRUE)
-  library(rjson)
-}
+#if (!require("rjson")) {
+#  install.packages("rjson", dependencies = TRUE)
+#  library(rjson)
+#}
+curl https://public.opencpu.org/ocpu/library/rjson/R/
 
 json_file <-  '[
  {
