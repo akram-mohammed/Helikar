@@ -461,7 +461,7 @@ json_file <-  '[
 "carb": [      2 ]
 }
 ]'
-json_file <- rjson::fromJSON(json_file)
+json_file <- fromJSON(json_file)
 
 json_file <- lapply(json_file, function(x) {
   x[sapply(x, is.null)] <- NA

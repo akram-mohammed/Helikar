@@ -62,6 +62,8 @@ function makePlot(obj, props) {
 		var json_string = "default";
 		var myname = dataJSON;
 
+		ocpu.seturl("//public.opencpu.org/ocpu/library/rjson/R");
+
 		var req = ocpu.rpc("hello", {myname: myname}, function(output){
         json_string = output.message;
 				alert(json_string);
