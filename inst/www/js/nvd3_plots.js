@@ -58,6 +58,7 @@ function makePlot(obj, props) {
 	}
 
 	if (type === "newChart") {
+
 		ocpu.seturl("http://localhost/ocpu/github/shubhamkmr47/Helikar/R");
 		var json_string = "default";
 		var myname = dataJSON;
