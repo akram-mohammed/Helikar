@@ -1,5 +1,7 @@
 kmeans <- function(myname = ""){
 
+  library(jsonlite)
+  
   data <- fromJSON(myname)
   colnames(data) <- c("X", "Y")
 
