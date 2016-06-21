@@ -1,4 +1,4 @@
-kmeans <- function(myname = ""){
+kmeansClustring <- function(myname = ""){
 
   library(jsonlite)
 
