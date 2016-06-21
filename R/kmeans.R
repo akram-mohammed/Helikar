@@ -1,6 +1,6 @@
 kmeans <- function(myname = ""){
 
-  data <- fromJSON(json_string)
+  data <- fromJSON(myname)
   colnames(data) <- c("X", "Y")
 
   cl <- kmeans(data, 6)
