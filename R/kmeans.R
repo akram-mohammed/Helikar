@@ -1,13 +1,13 @@
 kmeans <- function(myname = ""){
 
   library(jsonlite)
-  
+
   data <- fromJSON(myname)
   colnames(data) <- c("X", "Y")
 
-  cl <- kmeans(data, 6)
+  cl <- kmeans(x = data, centers = 6)
 
-  data <- cbind(description = c(1:dim(data)), data, cl = cl$cluster)
+  data <- cbind(description = c(1:dim(data)[1]), data, cl = cl$cluster)
 
   center <- cl$centers
   colnames(center) <- c("X", "Y")
