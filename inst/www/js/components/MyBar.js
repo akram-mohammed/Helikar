@@ -28,7 +28,7 @@ var MyBar = React.createClass(
 		this.props.onClick("plot", plotType, var_x, var_y, var_g, x_name, y_name);
 	},
 
-	newClick: function(plotType, child, var_x, var_y, x_name, y_name, var_k) {
+	plotD3Chart: function(plotType, child, var_x, var_y, x_name, y_name, var_k) {
 		this.props.onClick("plot", plotType, var_x, var_y, x_name, y_name, var_k);
 	},
 
@@ -104,8 +104,12 @@ var MyBar = React.createClass(
 							<MenuItem>Heatmap ?</MenuItem>
 						</ModalTrigger>
 
-						<ModalTrigger modal={<NewChartModal onClick={this.newClick.bind(this, "newChart")} variables={this.props.variables}  />}>
-							<MenuItem>New Chart</MenuItem>
+						<ModalTrigger modal={<NewChartModal onClick={this.plotD3Chart.bind(this, "plotDendogram")} variables={this.props.variables}  />}>
+							<MenuItem>Dendogram Data</MenuItem>
+						</ModalTrigger>
+
+						<ModalTrigger modal={<NewChartModal onClick={this.plotD3Chart.bind(this, "plotKMeans")} variables={this.props.variables}  />}>
+							<MenuItem>K-means clustering Data</MenuItem>
 						</ModalTrigger>
 
 						<ModalTrigger modal={<PlotModal onClick={this.plotClick.bind(this, "scatterChart")} variables={this.props.variables}  />}>

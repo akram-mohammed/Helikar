@@ -3,8 +3,6 @@
  *	MASSIVE TODO: reorganise the variables into SOME consistent system
  */
 
-var dendogramData = "";
-
 function makePlot(obj, props) {
 	// read.csv
 	ocpu.seturl("//public.opencpu.org/ocpu/library/utils/R");
@@ -59,13 +57,15 @@ function makePlot(obj, props) {
 		}
 	}
 
-	if (type === "newChart") {
+	if (type === "plotDendogram") {
 
 		ocpu.seturl("http://localhost/ocpu/github/shubhamkmr47/Helikar/R");
-		var myname = dataJSON;
+		//var myname = JSON.stringify(dataJSON);
 
-		var req = ocpu.rpc("hello", {myname: myname}, function(output){
-        dendogramData = output.message;
+		var myname = '[{"rows":"Mazda RX4","mpg":21,"cyl":6,"disp":160,"hp":110,"drat":3.9,"wt":2.62,"_row":"Mazda RX4"},{"rows":"Mazda RX4 Wag","mpg":21,"cyl":6,"disp":160,"hp":110,"drat":3.9,"wt":2.875,"_row":"Mazda RX4 Wag"},{"rows":"Datsun 710","mpg":22.8,"cyl":4,"disp":108,"hp":93,"drat":3.85,"wt":2.32,"_row":"Datsun 710"},{"rows":"Hornet 4 Drive","mpg":21.4,"cyl":6,"disp":258,"hp":110,"drat":3.08,"wt":3.215,"_row":"Hornet 4 Drive"}]';
+
+		var req = ocpu.rpc("dendogram", {myname: myname}, function(output){
+        var dendogramData = output.message;
 				alert(dendogramData);
       });
 
@@ -73,6 +73,24 @@ function makePlot(obj, props) {
       req.fail(function(){
         alert("Server error: " + req.responseText);
       });
+	}
+
+	if (type === "plotKMeans") {
+
+		ocpu.seturl("http://localhost/ocpu/github/shubhamkmr47/Helikar/R");
+		//var myname = JSON.stringify(dataJSON);
+
+		var myname = '[[0.0096,0.0283],[0.1053,-0.4595],[-0.1519,-0.3275],[0.0299,-0.1422],[-0.4431,-0.5495],[0.5218,-0.3045],[0.3919,-0.1067],[-0.2034,-0.0542],[0.0907,0.6483],[0.4574,0.0183],[0.3864,-0.1544],[0.175,-0.5264],[0.1139,0.2195],[0.1146,0.4341],[-0.5456,-0.4668],[-0.137,0.5668],[-0.1367,0.2669],[0.3083,0.1026],[-0.5339,-0.4224],[0.0114,0.4013],[0.0563,-0.4791],[0.1473,-0.5208],[0.0644,-0.1285],[-0.0118,0.2024],[0.051,0.2226],[-0.0813,-0.2091],[-0.201,-0.3999],[0.3465,0.1808],[0.056,0.14],[-0.4792,0.3255],[-0.1937,0.2955],[-0.073,-0.0346],[-0.2412,0.1216],[0.3337,-0.1996],[0.1379,0.4444],[0.2814,-0.4178],[0.1038,-0.1664],[0.255,-0.3221],[-0.2745,-0.1017],[-0.0072,-0.0292],[0.2311,-0.0692],[-0.4044,-0.1763],[-0.407,-0.0618],[0.2757,0.0316],[0.3684,0.0814],[0.0149,0.1241],[0.5225,0.1926],[0.0908,-0.1627],[-0.0421,0.3218],[-0.1467,0.0224],[1.2394,0.5003],[0.8019,0.8845],[1.295,0.735],[1.0527,1.4569],[0.814,1.1785],[0.6989,0.577],[0.4427,1.1997],[0.879,0.8012],[1.2741,0.8497],[1.8295,0.8153],[0.9722,0.5095],[1.0712,0.2892],[0.5813,0.6199],[0.922,0.8683],[0.9628,0.7811],[1.3206,0.8219],[0.6911,1.2796],[1.2192,1.2647],[0.7006,0.8767],[0.7398,0.9155],[1.1443,1.2083],[0.5445,1.3173],[1.006,1.0689],[0.6264,0.7918],[0.7061,0.8204],[1.5248,1.2888],[0.6812,0.536],[1.2815,0.805],[1.0439,1.3041],[0.9782,0.9661],[1.2339,0.8383],[0.6874,1.2527],[0.8016,0.9964],[0.7995,1.2135],[1.1569,1.0523],[0.9173,0.8672],[0.6772,1.1078],[1.2194,0.8569],[1.3936,1.0115],[0.9701,0.9463],[1.8212,1.0501],[0.8998,0.77],[0.9107,0.8587],[1.1183,1.2319],[0.9565,1.4298],[0.67,1.1888],[0.4177,1.4679],[0.4863,0.8034],[0.8533,0.796],[0.5229,1.0662]]';
+
+		var req = ocpu.rpc("kmeans", {myname: myname}, function(output){
+				var kmeansData = output.message;
+				alert(kmeansData);
+			});
+
+			//if R returns an error, alert the error message
+			req.fail(function(){
+				alert("Server error: " + req.responseText);
+			});
 	}
 
 	if(type === "discreteBarChart")
