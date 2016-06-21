@@ -25,10 +25,11 @@ OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
 NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.*/
 
+function plotDendogram(){
+  // Get JSON data
 
-// Get JSON data
-treeJSON = d3.json("flare.json", function(error, treeData) {
-
+    alert(dendogramData);
+    treeData = JSON.parse('{ "name": "", "children": [{ "name": " Hornet 4 Drive " }, { "name": "", "children": [{ "name": " Datsun 710 " }, { "name": "", "children": [{ "name": " Mazda RX4 Wag " }, { "name": " Mazda RX4 " }] }] }] }');
     // Calculate total nodes, max label length
     var totalNodes = 0;
     var maxLabelLength = 0;
@@ -129,7 +130,7 @@ treeJSON = d3.json("flare.json", function(error, treeData) {
 
 
     // define the baseSvg, attaching a class for styling and the zoomListener
-    var baseSvg = d3.select("#tree-container").append("svg")
+    var baseSvg = d3.select("#plot-container").append("svg")
         .attr("width", viewerWidth)
         .attr("height", viewerHeight)
         .attr("class", "overlay")
@@ -370,4 +371,4 @@ treeJSON = d3.json("flare.json", function(error, treeData) {
     // Layout the tree initially and center on the root node.
     update(root);
     centerNode(root);
-});
+}

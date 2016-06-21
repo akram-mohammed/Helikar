@@ -3,6 +3,8 @@
  *	MASSIVE TODO: reorganise the variables into SOME consistent system
  */
 
+var dendogramData = "";
+
 function makePlot(obj, props) {
 	// read.csv
 	ocpu.seturl("//public.opencpu.org/ocpu/library/utils/R");
@@ -60,12 +62,11 @@ function makePlot(obj, props) {
 	if (type === "newChart") {
 
 		ocpu.seturl("http://localhost/ocpu/github/shubhamkmr47/Helikar/R");
-		var json_string = "default";
 		var myname = dataJSON;
 
 		var req = ocpu.rpc("hello", {myname: myname}, function(output){
-        json_string = output.message;
-				alert(json_string);
+        dendogramData = output.message;
+				alert(dendogramData);
       });
 
 			//if R returns an error, alert the error message

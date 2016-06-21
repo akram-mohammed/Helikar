@@ -7,7 +7,7 @@
 hello <- function(myname = ""){
 
 library(jsonlite)
-json_file <- '[{"rows":"Mazda RX4","mpg":21,"cyl":6,"disp":160,"hp":110,"drat":3.9,"wt":2.62,"_row":"Mazda RX4"},{"rows":"Mazda RX4 Wag","mpg":21,"cyl":6,"disp":160,"hp":110,"drat":3.9,"wt":2.875,"_row":"Mazda RX4 Wag"},{"rows":"Datsun 710","mpg":22.8,"cyl":4,"disp":108,"hp":93,"drat":3.85,"wt":2.32,"_row":"Datsun 710"},{"rows":"Hornet 4 Drive","mpg":21.4,"cyl":6,"disp":258,"hp":110,"drat":3.08,"wt":3.215,"_row":"Hornet 4 Drive"}]'
+json_file <- myname
 json_file <- fromJSON(json_file)
 
 json_file <- lapply(json_file, function(x) {

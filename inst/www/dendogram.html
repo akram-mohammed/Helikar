@@ -41,7 +41,7 @@
        display: none;
   }
 
-	#tree-container{
+	#plot-container{
 		overflow-y: hidden;
 		overflow-x: hidden;
 	}
@@ -50,7 +50,13 @@
 <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
 <script src="http://d3js.org/d3.v3.min.js"></script>
 <script src="./js/dendogram.js"></script>
+<script src="./js/nvd3_plots.js"></script>
 <body>
-    <div id="tree-container"></div>
+    <div id="plot-container">
+
+		</div>
+		<script type="text/javascript">
+			plotDendogram();
+		</script>
 </body>
 </html>

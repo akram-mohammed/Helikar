@@ -3,7 +3,7 @@ var DendogramModal = React.createClass({
         return (
           <div>
             <iframe
-                    style={{overflow:"hidden", height:"500", width:"100%", position:"absolute"}}
+                    style={{overflow:"hidden", height:"100%", width:"100%", position:"absolute"}}
                     src="./dendogram.html"
                     //src="http://localhost/Helikar/inst/www/dendogram.html{this.props.code}"
                     frameborder="0"
