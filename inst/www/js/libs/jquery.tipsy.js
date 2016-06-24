@@ -54,7 +54,6 @@
         garbageCollect(this);
     }
 
-
     Tipsy.prototype = {
         show: function() {
             var title = this.getTitle();

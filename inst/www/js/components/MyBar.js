@@ -28,8 +28,8 @@ var MyBar = React.createClass(
 		this.props.onClick("plot", plotType, var_x, var_y, var_g, x_name, y_name);
 	},
 
-	plotD3Chart: function(plotType, child, var_x, var_y, x_name, y_name, var_k) {
-		this.props.onClick("plot", plotType, var_x, var_y, x_name, y_name, var_k);
+	plotD3Chart: function(plotType, child) {
+		this.props.onClick("plot", plotType);
 	},
 
 	uniClick: function(child, variables, functions) {
@@ -88,10 +88,6 @@ var MyBar = React.createClass(
 							<MenuItem>Line</MenuItem>
 						</ModalTrigger>
 
-						<ModalTrigger modal={<KMeansModal/>}>
-							<MenuItem>k-means clustering ?</MenuItem>
-						</ModalTrigger>
-
 						<ModalTrigger modal={<ScatterMatrixModal/>}>
 							<MenuItem>Scatter Plot Matrix ?</MenuItem>
 						</ModalTrigger>
@@ -100,12 +96,12 @@ var MyBar = React.createClass(
 							<MenuItem>Heatmap ?</MenuItem>
 						</ModalTrigger>
 
-						<ModalTrigger modal={<NewChartModal onClick={this.plotD3Chart.bind(this, "plotDendogram")} variables={this.props.variables}  />}>
+						<ModalTrigger modal={<DendogramModal onClick={this.plotD3Chart.bind(this, "plotDendogram")} variables={this.props.variables}  />}>
 							<MenuItem>Dendogram</MenuItem>
 						</ModalTrigger>
 
 						<ModalTrigger modal={<NewChartModal onClick={this.plotD3Chart.bind(this, "plotKMeans")} variables={this.props.variables}  />}>
-							<MenuItem>K-means clustering Data</MenuItem>
+							<MenuItem>K-means clustering</MenuItem>
 						</ModalTrigger>
 
 						<ModalTrigger modal={<PlotModal onClick={this.plotClick.bind(this, "scatterChart")} variables={this.props.variables}  />}>
