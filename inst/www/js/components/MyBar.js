@@ -88,10 +88,6 @@ var MyBar = React.createClass(
 							<MenuItem>Line</MenuItem>
 						</ModalTrigger>
 
-						<ModalTrigger modal={<DendogramModal/>}>
-							<MenuItem>Dendogram ?</MenuItem>
-						</ModalTrigger>
-
 						<ModalTrigger modal={<KMeansModal/>}>
 							<MenuItem>k-means clustering ?</MenuItem>
 						</ModalTrigger>
@@ -105,7 +101,7 @@ var MyBar = React.createClass(
 						</ModalTrigger>
 
 						<ModalTrigger modal={<NewChartModal onClick={this.plotD3Chart.bind(this, "plotDendogram")} variables={this.props.variables}  />}>
-							<MenuItem>Dendogram Data</MenuItem>
+							<MenuItem>Dendogram</MenuItem>
 						</ModalTrigger>
 
 						<ModalTrigger modal={<NewChartModal onClick={this.plotD3Chart.bind(this, "plotKMeans")} variables={this.props.variables}  />}>

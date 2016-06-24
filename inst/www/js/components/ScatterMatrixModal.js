@@ -13,5 +13,4 @@ var ScatterMatrixModal = React.createClass({
         );
     }
 });
-React.render(<DendogramModal/>, document.body);
-//React.render(<DendogramModal code="IytNBm8WA1c" />, document.body);
+React.render(<ScatterMatrixModal/>, document.body);

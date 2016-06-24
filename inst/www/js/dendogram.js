@@ -25,11 +25,9 @@ OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
 NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.*/
 
-function plotDendogram(){
+function plotDendogram(data){
   // Get JSON data
-
-    alert(dendogramData);
-    treeData = JSON.parse('{ "name": "", "children": [{ "name": " Hornet 4 Drive " }, { "name": "", "children": [{ "name": " Datsun 710 " }, { "name": "", "children": [{ "name": " Mazda RX4 Wag " }, { "name": " Mazda RX4 " }] }] }] }');
+    treeData = JSON.parse(data);
     // Calculate total nodes, max label length
     var totalNodes = 0;
     var maxLabelLength = 0;
@@ -43,8 +41,8 @@ function plotDendogram(){
     var root;
 
     // size of the diagram
-    var viewerWidth = $(document).width()-20;
-    var viewerHeight = $(document).height()-20;
+    var viewerWidth = $(document).width();
+    var viewerHeight = $(document).height();
 
     var tree = d3.layout.tree()
         .size([viewerHeight, viewerWidth]);
@@ -130,7 +128,7 @@ function plotDendogram(){
 
 
     // define the baseSvg, attaching a class for styling and the zoomListener
-    var baseSvg = d3.select("#plot-container").append("svg")
+    var baseSvg = d3.select("#plot-panel").append("svg")
         .attr("width", viewerWidth)
         .attr("height", viewerHeight)
         .attr("class", "overlay")

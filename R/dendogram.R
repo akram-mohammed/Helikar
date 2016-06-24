@@ -1,8 +1,9 @@
 ###returns json object to render dendogram
-dendogram <- function(myname = ""){
+dendogram <- function(data = ""){
 
 library(jsonlite)
-json_file <- myname
+
+json_file <- data
 json_file <- fromJSON(json_file)
 
 json_file <- lapply(json_file, function(x) {
@@ -12,8 +13,9 @@ json_file <- lapply(json_file, function(x) {
 
 data <- do.call("cbind", json_file)
 data <- data.frame(data)
-rownames(data) <- data$rows
-data$rows <- NULL
+data <- na.omit(data)
+rownames(data) <- as.vector(data[ ,1])
+data[,1] <- NULL
 d <- dist(data)
 hc <- hclust(d)
 
