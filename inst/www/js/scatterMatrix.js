@@ -8,7 +8,7 @@ function plotScatterMatrix(data){
       traits = d3.keys(data[0]).filter(function(d) { return d !== "Groups"; }),
       n = traits.length;
 
-  var width = window.screen.availWidth*0.7,
+  var width = window.screen.availWidth*0.8,
       size = width/n,
       padding = 20;
 

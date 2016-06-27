@@ -111,6 +111,23 @@ function makePlot(obj, props) {
 			});
 	}
 
+	if (type === "plotQQ") {
+
+		ocpu.seturl("http://localhost/ocpu/github/shubhamkmr47/Helikar/R");
+
+		var data = dataJSON;
+
+		var req = ocpu.rpc("scatterMatrix", {data: data}, function(output){
+				var scatterMatrixData = output.message;
+					plotScatterMatrix(scatterMatrixData);
+			});
+
+			//if R returns an error, alert the error message
+			req.fail(function(){
+				alert("Server error: " + req.responseText);
+			});
+	}
+
 	if(type === "discreteBarChart")
 		plotBar(dataJSON, type, props.var_x, props.var_y);
 

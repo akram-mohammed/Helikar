@@ -104,6 +104,10 @@ var MyBar = React.createClass(
 							<MenuItem>Scatter Matrix</MenuItem>
 						</ModalTrigger>
 
+						<ModalTrigger modal={<QQPlotModal onClick={this.plotD3Chart.bind(this, "plotQQ")} variables={this.props.variables}  />}>
+							<MenuItem>QQ plot</MenuItem>
+						</ModalTrigger>
+
 						<ModalTrigger modal={<PlotModal onClick={this.plotClick.bind(this, "scatterChart")} variables={this.props.variables}  />}>
 							<MenuItem>Scatter</MenuItem>
 						</ModalTrigger>
