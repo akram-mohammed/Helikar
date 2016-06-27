@@ -117,9 +117,9 @@ function makePlot(obj, props) {
 
 		var data = dataJSON;
 
-		var req = ocpu.rpc("scatterMatrix", {data: data}, function(output){
-				var scatterMatrixData = output.message;
-					plotScatterMatrix(scatterMatrixData);
+		var req = ocpu.rpc("q_qplot", {data: data}, function(output){
+				var qqPlotData = output.message;
+					plotQQ(qqPlotData);
 			});
 
 			//if R returns an error, alert the error message
