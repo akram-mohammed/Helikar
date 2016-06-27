@@ -11,7 +11,7 @@ q_qplot <- function(data = ""){
     unlist(x)
   })
 
-  data <- do.call("cbind", json_file)
+  data <- do.call("cbind", data)
   data <- data.frame(data)
   data <- na.omit(data)
 
