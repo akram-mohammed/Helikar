@@ -3,10 +3,10 @@ var DendogramModal = React.createClass({
 	render: function() {
 
 		return (
-			<Modal {...this.props} title="Choose data">
+			<Modal {...this.props} title="Dendogram">
 
 				<div className='modal-body'>
-          Plot Dendogram
+          Input format: The csv file of data should contain a column of rows.
 				</div>
 
 				<div className='modal-footer'>

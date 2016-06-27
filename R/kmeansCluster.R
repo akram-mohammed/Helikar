@@ -5,7 +5,7 @@ kmeansCluster <- function(data = ""){
   data <- fromJSON(data)
   data <- na.omit(data)
   colnames(data) <- c("X", "Y")
-  
+
   cl <- kmeans(x = data, centers = 6)
 
   data <- cbind(description = c(1:dim(data)[1]), data, cl = cl$cluster)

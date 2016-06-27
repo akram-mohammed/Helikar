@@ -88,10 +88,6 @@ var MyBar = React.createClass(
 							<MenuItem>Line</MenuItem>
 						</ModalTrigger>
 
-						<ModalTrigger modal={<ScatterMatrixModal/>}>
-							<MenuItem>Scatter Plot Matrix ?</MenuItem>
-						</ModalTrigger>
-
 						<ModalTrigger modal={<HeatmapModal/>}>
 							<MenuItem>Heatmap ?</MenuItem>
 						</ModalTrigger>
@@ -100,8 +96,12 @@ var MyBar = React.createClass(
 							<MenuItem>Dendogram</MenuItem>
 						</ModalTrigger>
 
-						<ModalTrigger modal={<NewChartModal onClick={this.plotD3Chart.bind(this, "plotKMeans")} variables={this.props.variables}  />}>
+						<ModalTrigger modal={<KMeansModal onClick={this.plotD3Chart.bind(this, "plotKMeans")} variables={this.props.variables}  />}>
 							<MenuItem>K-means clustering</MenuItem>
+						</ModalTrigger>
+
+						<ModalTrigger modal={<ScatterMatrixModal onClick={this.plotD3Chart.bind(this, "plotScatterMatrix")} variables={this.props.variables}  />}>
+							<MenuItem>Scatter Matrix</MenuItem>
 						</ModalTrigger>
 
 						<ModalTrigger modal={<PlotModal onClick={this.plotClick.bind(this, "scatterChart")} variables={this.props.variables}  />}>
