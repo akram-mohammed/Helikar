@@ -4,7 +4,7 @@ q_qplot <- function(data = ""){
 
   library(jsonlite)
 
-  data <- fromJSON(json_file)
+  data <- fromJSON(data)
 
   data <- lapply(data, function(x) {
     x[sapply(x, is.null)] <- NA
