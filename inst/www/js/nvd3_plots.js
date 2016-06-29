@@ -5,6 +5,7 @@
 
 function makePlot(obj, props) {
 
+
 	// read.csv
 	ocpu.seturl("//public.opencpu.org/ocpu/library/utils/R");
 
@@ -120,6 +121,24 @@ function makePlot(obj, props) {
 		var req = ocpu.rpc("q_qplot", {data: data}, function(output){
 				var qqPlotData = output.message;
 					plotQQ(qqPlotData);
+			});
+
+			//if R returns an error, alert the error message
+			req.fail(function(){
+				alert("Server error: " + req.responseText);
+			});
+	}
+
+	if (type === "plotTimeSeries") {
+
+		ocpu.seturl("http://localhost/ocpu/github/shubhamkmr47/Helikar/R");
+
+		var data = dataJSON;
+
+		var req = ocpu.rpc("timeSeries", {data: data}, function(output){
+				var timeSeriesData = output.message;
+				var count = output.count;
+					plotTimeSeries(timeSeriesData, count);
 			});
 
 			//if R returns an error, alert the error message

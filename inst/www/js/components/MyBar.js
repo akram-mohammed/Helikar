@@ -29,6 +29,7 @@ var MyBar = React.createClass(
 	},
 
 	plotD3Chart: function(plotType, child) {
+		this.tableClick();
 		this.props.onClick("plot", plotType);
 	},
 
@@ -106,6 +107,10 @@ var MyBar = React.createClass(
 
 						<ModalTrigger modal={<QQPlotModal onClick={this.plotD3Chart.bind(this, "plotQQ")} variables={this.props.variables}  />}>
 							<MenuItem>QQ plot</MenuItem>
+						</ModalTrigger>
+
+						<ModalTrigger modal={<TimeSeriesModal onClick={this.plotD3Chart.bind(this, "plotTimeSeries")} variables={this.props.variables}  />}>
+							<MenuItem>Time Series</MenuItem>
 						</ModalTrigger>
 
 						<ModalTrigger modal={<PlotModal onClick={this.plotClick.bind(this, "scatterChart")} variables={this.props.variables}  />}>

@@ -32,6 +32,12 @@ function plotQQ(data){
     .tickSize(6, 3, 0)
     .orient("left");
 
+  // group that will contain all of the plots
+  var groups = svg.append("g").attr("transform", "translate(" + margin.l + "," + margin.t + ")");
+
+  // array of the regions, used for the legend
+  var regions = ["1", "2", "3", "4", "5", "6"];
+
   // sort data alphabetically by region, so that the colors match with legend
   //data.sort(function(a, b) { return d3.ascending(a.region, b.region); })
 
@@ -53,7 +59,7 @@ function plotQQ(data){
     .attr({
       cx: function(d) { return x(+d.X); },
       cy: function(d) { return y(+d.Y); },
-      r: function(d)  { return 4;},
+      r: function(d) { return 4;},
     })
     .style("fill", function(d) { return color(d.cl); });
 
@@ -99,4 +105,108 @@ function plotQQ(data){
       this.parentNode.appendChild(this);
       });
     };
+
+    // skip this functionality for IE9, which doesn't like it
+    var matched, browser;
+    jQuery.uaMatch = function( ua ) {
+      ua = ua.toLowerCase();
+
+      var match = /(chrome)[ \/]([\w.]+)/.exec( ua ) ||
+          /(webkit)[ \/]([\w.]+)/.exec( ua ) ||
+          /(opera)(?:.*version|)[ \/]([\w.]+)/.exec( ua ) ||
+          /(msie) ([\w.]+)/.exec( ua ) ||
+          ua.indexOf("compatible") < 0 && /(mozilla)(?:.*? rv:([\w.]+)|)/.exec( ua ) ||
+          [];
+
+      return {
+          browser: match[ 1 ] || "",
+          version: match[ 2 ] || "0"
+      };
+    };
+
+    matched = jQuery.uaMatch( navigator.userAgent );
+    browser = {};
+
+    if ( matched.browser ) {
+      browser[ matched.browser ] = true;
+      browser.version = matched.version;
+    }
+
+    // Chrome is Webkit, but Webkit is also Safari.
+    if ( browser.chrome ) {
+      browser.webkit = true;
+    } else if ( browser.webkit ) {
+      browser.safari = true;
+    }
+
+    jQuery.browser = browser;
+
+    if (!browser.msie) {
+      circle.moveToFront();
+      }
+  };
+  // what happens when we leave a bubble?
+  var mouseOff = function() {
+    var circle = d3.select(this);
+
+    // console.log(circle.attr("id"));
+
+    // go back to original size and opacity
+    if(circle.attr("id") == "center"){
+      circle.transition()
+      .duration(800).style("opacity", 0.8)
+      .attr("r", 8).ease("elastic");
+    }
+    else{
+      circle.transition()
+      .duration(800).style("opacity", 0.8)
+      .attr("r", 4.5).ease("elastic");
+    }
+
+    // fade out guide lines, then remove them
+    d3.selectAll(".guide").transition().duration(100).styleTween("opacity",
+            function() { return d3.interpolate(0.8, 0); })
+      .remove()
+  };
+
+  // run the mouseon/out functions
+  circles.on("mouseover", mouseOn);
+  circles.on("mouseout", mouseOff);
+
+  // tooltips (using jQuery plugin tipsy)
+  circles.append("title")
+      .text(function(d) { return d.description; })
+
+  $(".circles").tipsy({ gravity: 's', });
+
+  // the legend color guide
+  var legend = svg.selectAll("rect")
+
+  // draw axes and axis labels
+  svg.append("g")
+    .attr("class", "x axis")
+    .attr("transform", "translate(" + margin.l + "," + (h - 60 + margin.t) + ")")
+    .call(xAxis);
+
+  svg.append("g")
+    .attr("class", "y axis")
+    .attr("transform", "translate(" + margin.l + "," + margin.t + ")")
+    .call(yAxis);
+
+  svg.append("text")
+    .attr("class", "x label")
+    .attr("text-anchor", "end")
+    .attr("x", w + 50)
+    .attr("y", h - margin.t - 5)
+    .text("x-coordinate");
+
+  svg.append("text")
+    .attr("class", "y label")
+    .attr("text-anchor", "end")
+    .attr("x", -20)
+    .attr("y", 45)
+    .attr("dy", ".75em")
+    .attr("transform", "rotate(-90)")
+    .text("y-coordinate");
+
 }
