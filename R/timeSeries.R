@@ -6,9 +6,8 @@ timeSeries <- function(data = ""){
 
   data <- fromJSON(data)
 
-  data <- do.call("cbind", data)
-  data <- data.frame(data)
-  data <- na.omit(data)
+  index <- apply(data, 1, function(x){!all(is.na(x))})
+  data <- data[index, ]
 
   data <- sapply(data, as.character)
   data <- as.data.frame(data)
