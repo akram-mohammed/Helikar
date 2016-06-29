@@ -1,8 +1,10 @@
 function plotTimeSeries(data, count){
 
+  data = JSON.parse(data);
+
   var margin = {top: 20, right: 200, bottom: 100, left: 50},
       margin2 = { top: 430, right: 10, bottom: 20, left: 40 },
-      width = 960 - margin.left - margin.right,
+      width = $(document).width() - margin.left - margin.right,
       height = 500 - margin.top - margin.bottom,
       height2 = 500 - margin2.top - margin2.bottom;
 
@@ -71,8 +73,6 @@ function plotTimeSeries(data, count){
 
   //end slider part-----------------------------------------------------------------------------------
 
-  data = JSON.parse(data);
-
   color.domain(d3.keys(data[0]).filter(function(key) { // Set the domain of the color ordinal scale to be all the csv headers except "date", matching a color to an issue
     return key !== "date";
   }));
@@ -91,7 +91,7 @@ function plotTimeSeries(data, count){
           rating: +(d[name]),
           };
       }),
-      visible: (name === "Unemployment" ? true : false) // "visible": all false except for economy which is true.
+      //visible: (name === "Unemployment" ? true : false) // "visible": all false except for economy which is true.
     };
   });
 

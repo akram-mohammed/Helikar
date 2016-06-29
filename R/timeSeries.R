@@ -6,11 +6,6 @@ timeSeries <- function(data = ""){
 
   data <- fromJSON(data)
 
-  data <- lapply(data, function(x) {
-    x[sapply(x, is.null)] <- NA
-    unlist(x)
-  })
-
   data <- do.call("cbind", data)
   data <- data.frame(data)
   data <- na.omit(data)

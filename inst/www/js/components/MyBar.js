@@ -29,7 +29,6 @@ var MyBar = React.createClass(
 	},
 
 	plotD3Chart: function(plotType, child) {
-		this.tableClick();
 		this.props.onClick("plot", plotType);
 	},
 
