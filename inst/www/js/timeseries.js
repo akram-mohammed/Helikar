@@ -1,5 +1,7 @@
 function plotTimeSeries(data, count){
 
+  d3.selectAll("svg > *").remove();
+
   data = JSON.parse(data);
 
   var margin = {top: 20, right: 200, bottom: 100, left: 50},

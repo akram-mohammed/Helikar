@@ -22,6 +22,21 @@ function makePlot(obj, props) {
 		var type = props.type;
 	}
 
+	if (type === "urlData") {
+		$.ajax({
+			url: props.url,
+			type: 'GET',
+			dataType: "json",
+			success: getUrlData
+	});
+
+	function getUrlData(data){
+		dataJSON = JSON.stringify(data);
+		alert(dataJSON);
+	}
+
+	}
+
 	if(type === "regression") type = "scatterChart";
 
 	/*
@@ -135,13 +150,9 @@ function makePlot(obj, props) {
 
 		var data = dataJSON;
 
-		//var data = '[{ "date": "19740901", "Ageing": "7", "Aids": "1", "Animal Welfare": "1", "Bird Flu": "", "BSE": "", "Coal Pits": "", "EU": "7", "Countryside": "1", "Crime": "15", "Defence": "5", "Drug Abuse": "4", "Economy": "52", "Education": "13", "Farming": "", "German Reunification": "", "GM foods": "", "Housing": "9", "Inflation/Prices": "14", "Inner Cities": "", "Local Govt": "2", "Low Pay": "6", "Morality": "7", "NHS": "27", "Northern Ireland": "", "Nuclear Power": "", "Nuclear Weapons": "1", "Pensions": "10", "Fuel Prices": "7", "Environment": "3", "The Pound": "1", "Poverty/Inequality": "11", "Privatisation": "1", "Public Services": "6", "Immigration": "29", "Scots/Welsh Assembly": "1", "Taxation": "6", "Trade Unions": "", "Transport": "3", "Tsunami": "", "Unemployment": "28" }, { "date": "19741001", "Ageing": "4", "Aids": "1", "Animal Welfare": "1", "Bird Flu": "", "BSE": "", "Coal Pits": "", "EU": "9", "Countryside": "1", "Crime": "14", "Defence": "9", "Drug Abuse": "4", "Economy": "52", "Education": "14", "Farming": "", "German Reunification": "", "GM foods": "", "Housing": "11", "Inflation/Prices": "13", "Inner Cities": "", "Local Govt": "3", "Low Pay": "8", "Morality": "7", "NHS": "19", "Northern Ireland": "", "Nuclear Power": "", "Nuclear Weapons": "1", "Pensions": "11", "Fuel Prices": "4", "Environment": "4", "The Pound": "1", "Poverty/Inequality": "14", "Privatisation": "1", "Public Services": "5", "Immigration": "26", "Scots/Welsh Assembly": "1", "Taxation": "4", "Trade Unions": "", "Transport": "3", "Tsunami": "", "Unemployment": "27" }, { "date": "19771101", "Ageing": "8", "Aids": "", "Animal Welfare": "1", "Bird Flu": "", "BSE": "", "Coal Pits": "", "EU": "6", "Countryside": "2", "Crime": "18", "Defence": "4", "Drug Abuse": "5", "Economy": "52", "Education": "12", "Farming": "", "German Reunification": "", "GM foods": "", "Housing": "9", "Inflation/Prices": "14", "Inner Cities": "", "Local Govt": "3", "Low Pay": "7", "Morality": "7", "NHS": "21", "Northern Ireland": "", "Nuclear Power": "", "Nuclear Weapons": "1", "Pensions": "10", "Fuel Prices": "4", "Environment": "5", "The Pound": "1", "Poverty/Inequality": "11", "Privatisation": "1", "Public Services": "5", "Immigration": "22", "Scots/Welsh Assembly": "1", "Taxation": "2", "Trade Unions": "", "Transport": "2", "Tsunami": "", "Unemployment": "23" }, { "date": "19780801", "Ageing": "6", "Aids": "", "Animal Welfare": "1", "Bird Flu": "", "BSE": "", "Coal Pits": "", "EU": "6", "Countryside": "1", "Crime": "19", "Defence": "5", "Drug Abuse": "3", "Economy": "55", "Education": "11", "Farming": "", "German Reunification": "", "GM foods": "", "Housing": "11", "Inflation/Prices": "17", "Inner Cities": "", "Local Govt": "3", "Low Pay": "7", "Morality": "7", "NHS": "15", "Northern Ireland": "", "Nuclear Power": "", "Nuclear Weapons": "1", "Pensions": "8", "Fuel Prices": "5", "Environment": "4", "The Pound": "1", "Poverty/Inequality": "13", "Privatisation": "1", "Public Services": "5", "Immigration": "22", "Scots/Welsh Assembly": "1", "Taxation": "4", "Trade Unions": "", "Transport": "2", "Tsunami": "", "Unemployment": "30" }, { "date": "19790201", "Ageing": "6", "Aids": "", "Animal Welfare": "1", "Bird Flu": "", "BSE": "", "Coal Pits": "", "EU": "6", "Countryside": "2", "Crime": "17", "Defence": "6", "Drug Abuse": "3", "Economy": "55", "Education": "14", "Farming": "", "German Reunification": "", "GM foods": "", "Housing": "10", "Inflation/Prices": "16", "Inner Cities": "", "Local Govt": "4", "Low Pay": "8", "Morality": "7", "NHS": "20", "Northern Ireland": "0", "Nuclear Power": "", "Nuclear Weapons": "", "Pensions": "9", "Fuel Prices": "5", "Environment": "5", "The Pound": "1", "Poverty/Inequality": "13", "Privatisation": "1", "Public Services": "4", "Immigration": "19", "Scots/Welsh Assembly": "1", "Taxation": "2", "Trade Unions": "", "Transport": "4", "Tsunami": "", "Unemployment": "33" }]';
-
-		console.log(data);
 		var req = ocpu.rpc("timeSeries", {data: data}, function(output){
 				var timeSeriesData = output.message;
 				var count = output.count;
-				alert(timeSeriesData);
 				plotTimeSeries(timeSeriesData, count);
 			});
 
@@ -149,6 +160,32 @@ function makePlot(obj, props) {
 			req.fail(function(){
 				alert("Server error: " + req.responseText);
 			});
+	}
+
+	if (type === "plotComatrix") {
+
+		ocpu.seturl("http://localhost/ocpu/github/shubhamkmr47/Helikar/R");
+
+		var method = props.comatrix;
+		alert(method);
+		var data = dataJSON;
+
+		var req = ocpu.rpc("comatrix",
+											{	data: data,
+												method: method
+											}, function(output){
+				var comatrixData = output.message;
+
+				heatmap_display(comatrixData, "#plot-panel", "Spectral");
+			});
+
+			//if R returns an error, alert the error message
+			req.fail(function(){
+				alert("Server error: " + req.responseText);
+			});
+
+		//var out = '{ "columns": [ ["R", "mpg"], ["R", "cyl"], ["R", "disp"], ["R", "hp"], ["R", "drat"], ["R", "wt"], ["R", "qsec"], ["R", "vs"], ["R", "am"], ["R", "gear"], ["R", "carb"] ], "index": ["mpg", "cyl", "disp", "hp", "drat", "wt", "qsec", "vs", "am", "gear", "carb"], "data": [ [1, -0.8522, -0.8476, -0.7762, 0.6812, -0.8677, 0.4187, 0.664, 0.5998, 0.4803, -0.5509], [-0.8522, 1, 0.902, 0.8324, -0.6999, 0.7825, -0.5912, -0.8108, -0.5226, -0.4927, 0.527], [-0.8476, 0.902, 1, 0.7909, -0.7102, 0.888, -0.4337, -0.7104, -0.5912, -0.5556, 0.395], [-0.7762, 0.8324, 0.7909, 1, -0.4488, 0.6587, -0.7082, -0.7231, -0.2432, -0.1257, 0.7498], [0.6812, -0.6999, -0.7102, -0.4488, 1, -0.7124, 0.0912, 0.4403, 0.7127, 0.6996, -0.0908], [-0.8677, 0.7825, 0.888, 0.6587, -0.7124, 1, -0.1747, -0.5549, -0.6925, -0.5833, 0.4276], [0.4187, -0.5912, -0.4337, -0.7082, 0.0912, -0.1747, 1, 0.7445, -0.2299, -0.2127, -0.6562], [0.664, -0.8108, -0.7104, -0.7231, 0.4403, -0.5549, 0.7445, 1, 0.1683, 0.206, -0.5696], [0.5998, -0.5226, -0.5912, -0.2432, 0.7127, -0.6925, -0.2299, 0.1683, 1, 0.7941, 0.0575], [0.4803, -0.4927, -0.5556, -0.1257, 0.6996, -0.5833, -0.2127, 0.206, 0.7941, 1, 0.2741], [-0.5509, 0.527, 0.395, 0.7498, -0.0908, 0.4276, -0.6562, -0.5696, 0.0575, 0.2741, 1] ] }';
+
 	}
 
 	if(type === "discreteBarChart")

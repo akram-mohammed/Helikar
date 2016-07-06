@@ -16,6 +16,10 @@ var MyBar = React.createClass(
 		this.props.onClick('save');
 	},
 
+	urlClick: function(plotType, child, url) {
+		this.props.onClick("url", plotType, url);
+	},
+
 	tableClick: function() {
 		this.props.onClick("show-table");
 	},
@@ -29,7 +33,15 @@ var MyBar = React.createClass(
 	},
 
 	plotD3Chart: function(plotType, child) {
+		this.props.onClick("show-table");
 		this.props.onClick("plot", plotType);
+		this.props.onClick("show-table");
+	},
+
+	plotComatrixChart: function(plotType, child, comatrix) {
+		this.props.onClick("show-table");
+		this.props.onClick("comatrix", plotType, comatrix);
+		this.props.onClick("show-table");
 	},
 
 	uniClick: function(child, variables, functions) {
@@ -74,42 +86,26 @@ var MyBar = React.createClass(
 		return (
 			<Navbar>
 				<Nav>
+
 					<DropdownButton title="File">
 						<MenuItem onClick={this.handleClick}>Open</MenuItem>
 						<FileField ref="file"/>
 						<MenuItem onClick={this.saveClick}>Export image</MenuItem>
+
+						<ModalTrigger modal={<URLModal onClick={this.urlClick.bind(this, "urlData")} variables={this.props.variables}  />}>
+							<MenuItem>Input URL</MenuItem>
+						</ModalTrigger>
+
 					</DropdownButton>
+
 					<DropdownButton title="View">
 						<MenuItem onClick={this.tableClick}>Data table</MenuItem>
 					</DropdownButton>
+
 					<DropdownButton title="Plot">
 
 						<ModalTrigger modal={<PlotModal onClick={this.plotClick.bind(this, "lineChart")} variables={this.props.variables}  />}>
 							<MenuItem>Line</MenuItem>
-						</ModalTrigger>
-
-						<ModalTrigger modal={<HeatmapModal/>}>
-							<MenuItem>Heatmap ?</MenuItem>
-						</ModalTrigger>
-
-						<ModalTrigger modal={<DendogramModal onClick={this.plotD3Chart.bind(this, "plotDendogram")} variables={this.props.variables}  />}>
-							<MenuItem>Dendogram</MenuItem>
-						</ModalTrigger>
-
-						<ModalTrigger modal={<KMeansModal onClick={this.plotD3Chart.bind(this, "plotKMeans")} variables={this.props.variables}  />}>
-							<MenuItem>K-means clustering</MenuItem>
-						</ModalTrigger>
-
-						<ModalTrigger modal={<ScatterMatrixModal onClick={this.plotD3Chart.bind(this, "plotScatterMatrix")} variables={this.props.variables}  />}>
-							<MenuItem>Scatter Matrix</MenuItem>
-						</ModalTrigger>
-
-						<ModalTrigger modal={<QQPlotModal onClick={this.plotD3Chart.bind(this, "plotQQ")} variables={this.props.variables}  />}>
-							<MenuItem>QQ plot</MenuItem>
-						</ModalTrigger>
-
-						<ModalTrigger modal={<TimeSeriesModal onClick={this.plotD3Chart.bind(this, "plotTimeSeries")} variables={this.props.variables}  />}>
-							<MenuItem>Time Series</MenuItem>
 						</ModalTrigger>
 
 						<ModalTrigger modal={<PlotModal onClick={this.plotClick.bind(this, "scatterChart")} variables={this.props.variables}  />}>
@@ -138,6 +134,37 @@ var MyBar = React.createClass(
 
 						<ModalTrigger modal={<DCModal onClick={this.multiPlotClick} variables={this.props.variables} />}>
 							<MenuItem>Multiplot</MenuItem>
+						</ModalTrigger>
+
+					</DropdownButton>
+
+					<DropdownButton title="Statistics">
+						<ModalTrigger modal={<HeatmapModal/>}>
+							<MenuItem>Heatmap ?</MenuItem>
+						</ModalTrigger>
+
+						<ModalTrigger modal={<DendogramModal onClick={this.plotD3Chart.bind(this, "plotDendogram")} variables={this.props.variables}  />}>
+							<MenuItem>Dendogram</MenuItem>
+						</ModalTrigger>
+
+						<ModalTrigger modal={<KMeansModal onClick={this.plotD3Chart.bind(this, "plotKMeans")} variables={this.props.variables}  />}>
+							<MenuItem>K-means clustering</MenuItem>
+						</ModalTrigger>
+
+						<ModalTrigger modal={<ScatterMatrixModal onClick={this.plotD3Chart.bind(this, "plotScatterMatrix")} variables={this.props.variables}  />}>
+							<MenuItem>Scatter Matrix</MenuItem>
+						</ModalTrigger>
+
+						<ModalTrigger modal={<QQPlotModal onClick={this.plotD3Chart.bind(this, "plotQQ")} variables={this.props.variables}  />}>
+							<MenuItem>QQ plot</MenuItem>
+						</ModalTrigger>
+
+						<ModalTrigger modal={<TimeSeriesModal onClick={this.plotD3Chart.bind(this, "plotTimeSeries")} variables={this.props.variables}  />}>
+							<MenuItem>Time Series</MenuItem>
+						</ModalTrigger>
+
+						<ModalTrigger modal={<ComatrixModal onClick={this.plotComatrixChart.bind(this, "plotComatrix")} variables={this.props.variables}  />}>
+							<MenuItem>Correlation & Covariance Matrix</MenuItem>
 						</ModalTrigger>
 
 					</DropdownButton>

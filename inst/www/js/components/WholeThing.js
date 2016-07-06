@@ -125,7 +125,6 @@ var WholeThing = React.createClass(
 	        		this.setState({variables: headers});
 
                 	this.refs.data_ref.setHeaders(headers);
-                	console.log(out);
                 	this.refs.data_ref.displayOn();
                 	this.refs.data_ref.setData(out);
 
@@ -155,7 +154,6 @@ var WholeThing = React.createClass(
 
 	    	makePlot(this);
 	        this.setProps({plot: false});
-
 	    }
 
 	    if(this.state.cluster) {
@@ -213,8 +211,35 @@ var WholeThing = React.createClass(
 
 			case "submit":
 				var myFile = $("#invis-file")[0].files[0];
-				console.log(myFile);
+				console.log("File: " + myFile);
 				this.setState({file: myFile});
+				break;
+
+				/*input URL*/
+				case "url":
+				var plot_type = arguments[1], url = arguments[2];
+				this.setProps({multi: false, plot: true});
+				this.setProps({plot_type: plot_type, url: url});
+
+				$.ajax({
+					url: url,
+					type: 'GET',
+					dataType: "json",
+					success: getUrlData
+				});
+
+				function getUrlData(data){
+					var dataJSON = JSON.stringify(data);
+					alert(dataJSON);
+				}
+
+				break;
+
+				/*choose correlation or covariance matrix*/
+				case "comatrix":
+				var plot_type = arguments[1], comatrix = arguments[2];
+				this.setProps({multi: false, plot: true});
+				this.setProps({plot_type: plot_type, comatrix: comatrix});
 				break;
 
 			/*
@@ -398,8 +423,8 @@ var WholeThing = React.createClass(
 
 				//data.push(groups);
 				//data.push(values);
-				console.log(JSON.stringify(groups));
-				console.log(JSON.stringify(values));
+				//console.log(JSON.stringify(groups));
+				//console.log(JSON.stringify(values));
 
 				ocpu.seturl("//public.opencpu.org/ocpu/library/stats/R");
 
@@ -570,7 +595,7 @@ var WholeThing = React.createClass(
 			 */
 
 			case "classify":
-				console.log(arguments[2]);
+				//console.log(arguments[2]);
 				this.setState({classify: true, classify_var: arguments[1], classify_file: arguments[2], classify_eval: arguments[3], classify_ratio: arguments[4], classify_type: arguments[5]});
 				break;
 
@@ -588,7 +613,7 @@ var WholeThing = React.createClass(
 
 
 	render: function() {
-		console.log(this.props.multi);
+		//console.log(this.props.multi);
 		if(!this.props.multi)
 			var thing = <svg id="plot-panel" ref="plot_ref"></svg>;
 		else {
