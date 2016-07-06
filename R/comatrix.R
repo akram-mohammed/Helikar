@@ -3,15 +3,11 @@ comatrix <- function(data = "", method = ""){
   library(jsonlite)
 
   data <- fromJSON(data)
-
-  data <- lapply(data, function(x) {
-    x[sapply(x, is.null)] <- NA
-    unlist(x)
-  })
-
-  data <- do.call("cbind", data)
   data <- data.frame(data)
   data <- na.omit(data)
+  rownames(data) <- as.vector(data[,1])
+  data[,1] <- NULL
+  data <- as.matrix(data)
 
   if(method == 'cor'){
     mat = cor(data)
@@ -34,4 +30,5 @@ comatrix <- function(data = "", method = ""){
   out <- toJSON(out)
 
   list(message = paste(out))
+
 }

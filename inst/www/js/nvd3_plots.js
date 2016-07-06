@@ -167,8 +167,8 @@ function makePlot(obj, props) {
 		ocpu.seturl("http://localhost/ocpu/github/shubhamkmr47/Helikar/R");
 
 		var method = props.comatrix;
-		alert(method);
 		var data = dataJSON;
+		console.log(data);
 
 		var req = ocpu.rpc("comatrix",
 											{	data: data,
