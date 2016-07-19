@@ -2,7 +2,12 @@ var classesNumber = 10,
     cellSize = 24;
 
 //#########################################################
-function heatmap_display(data, heatmapId, paletteName) {
+function comatrixPlot(data) {
+
+    var heatmapId = '#plot-panel';
+    var paletteName = 'RdBu';
+
+    d3.selectAll("svg > *").remove();
 
     data = JSON.parse(data);
 

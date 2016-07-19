@@ -20,6 +20,10 @@ var MyBar = React.createClass(
 		this.props.onClick("url", plotType, url);
 	},
 
+	dashboardClick: function(task, child, plotId){
+		this.props.onClick("initDashboard", child, plotId)
+	},
+
 	tableClick: function() {
 		this.props.onClick("show-table");
 	},
@@ -41,6 +45,12 @@ var MyBar = React.createClass(
 	plotComatrixChart: function(plotType, child, comatrix) {
 		this.props.onClick("show-table");
 		this.props.onClick("comatrix", plotType, comatrix);
+		this.props.onClick("show-table");
+	},
+
+	plotBarChart: function(plotType, child, simple_bool, group_bool, stack_bool, varx){
+		this.props.onClick("show-table");
+		this.props.onClick("barChart", plotType, simple_bool, group_bool, stack_bool, varx);
 		this.props.onClick("show-table");
 	},
 
@@ -94,6 +104,10 @@ var MyBar = React.createClass(
 
 						<ModalTrigger modal={<URLModal onClick={this.urlClick.bind(this, "urlData")} variables={this.props.variables}  />}>
 							<MenuItem>Input URL</MenuItem>
+						</ModalTrigger>
+
+						<ModalTrigger modal={<DashboardModal onClick={this.dashboardClick.bind(this, "initDashboard")} variables={this.props.variables}  />}>
+							<MenuItem>Dashboard</MenuItem>
 						</ModalTrigger>
 
 					</DropdownButton>
@@ -165,6 +179,10 @@ var MyBar = React.createClass(
 
 						<ModalTrigger modal={<ComatrixModal onClick={this.plotComatrixChart.bind(this, "plotComatrix")} variables={this.props.variables}  />}>
 							<MenuItem>Correlation & Covariance Matrix</MenuItem>
+						</ModalTrigger>
+
+						<ModalTrigger modal={<BarChartModal onClick={this.plotBarChart.bind(this, "plotBarChart")} variables={this.props.variables}  />}>
+							<MenuItem>Bar Plot</MenuItem>
 						</ModalTrigger>
 
 					</DropdownButton>

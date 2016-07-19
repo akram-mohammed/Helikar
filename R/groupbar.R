@@ -1,10 +1,11 @@
-###returns json object to render scatter matrix plot
+###returns json object to render group bar plot
 
-scatterMatrix <- function(data = ""){
+groupBar <- function(data = ""){
 
   library(jsonlite)
 
   data <- fromJSON(data)
+  colnames(data)[1] <- "Group"
 
   data <- sapply(data, as.character)
   data <- as.data.frame(data)

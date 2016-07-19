@@ -2,7 +2,6 @@
  *	Contains all the plot functions
  *	MASSIVE TODO: reorganise the variables into SOME consistent system
  */
-
 function makePlot(obj, props) {
 
 
@@ -84,6 +83,7 @@ function makePlot(obj, props) {
 
 		var req = ocpu.rpc("dendogram", {data: data}, function(output){
         var dendogramData = output.message;
+				addNewPlot('Dendogram', dendogramData);
 				plotDendogram(dendogramData);
       });
 
@@ -101,13 +101,15 @@ function makePlot(obj, props) {
 
 		var req = ocpu.rpc("kmeansCluster", {data: data}, function(output){
 				var kmeansData = output.message;
-				plotKMeans(kmeansData)
+				addNewPlot('K-means clustering', kmeansData);
+				plotKMeans(kmeansData);
 			});
 
 			//if R returns an error, alert the error message
 			req.fail(function(){
 				alert("Server error: " + req.responseText);
 			});
+		//addNewPlot("dendogram", plotsData);
 	}
 
 	if (type === "plotScatterMatrix") {
@@ -118,6 +120,7 @@ function makePlot(obj, props) {
 
 		var req = ocpu.rpc("scatterMatrix", {data: data}, function(output){
 				var scatterMatrixData = output.message;
+				addNewPlot('Scatter Matrix', scatterMatrixData);
 					plotScatterMatrix(scatterMatrixData);
 			});
 
@@ -135,6 +138,7 @@ function makePlot(obj, props) {
 
 		var req = ocpu.rpc("q_qplot", {data: data}, function(output){
 				var qqPlotData = output.message;
+					addNewPlot('Q-Q plot', qqPlotData);
 					plotQQ(qqPlotData);
 			});
 
@@ -153,6 +157,7 @@ function makePlot(obj, props) {
 		var req = ocpu.rpc("timeSeries", {data: data}, function(output){
 				var timeSeriesData = output.message;
 				var count = output.count;
+				addNewPlot('Time Series', timeSeriesData);
 				plotTimeSeries(timeSeriesData, count);
 			});
 
@@ -168,24 +173,49 @@ function makePlot(obj, props) {
 
 		var method = props.comatrix;
 		var data = dataJSON;
-		console.log(data);
 
 		var req = ocpu.rpc("comatrix",
 											{	data: data,
 												method: method
 											}, function(output){
 				var comatrixData = output.message;
-
-				heatmap_display(comatrixData, "#plot-panel", "Spectral");
+				addNewPlot(method, comatrixData);
+				comatrixPlot(comatrixData);
 			});
 
 			//if R returns an error, alert the error message
 			req.fail(function(){
 				alert("Server error: " + req.responseText);
 			});
+	}
 
-		//var out = '{ "columns": [ ["R", "mpg"], ["R", "cyl"], ["R", "disp"], ["R", "hp"], ["R", "drat"], ["R", "wt"], ["R", "qsec"], ["R", "vs"], ["R", "am"], ["R", "gear"], ["R", "carb"] ], "index": ["mpg", "cyl", "disp", "hp", "drat", "wt", "qsec", "vs", "am", "gear", "carb"], "data": [ [1, -0.8522, -0.8476, -0.7762, 0.6812, -0.8677, 0.4187, 0.664, 0.5998, 0.4803, -0.5509], [-0.8522, 1, 0.902, 0.8324, -0.6999, 0.7825, -0.5912, -0.8108, -0.5226, -0.4927, 0.527], [-0.8476, 0.902, 1, 0.7909, -0.7102, 0.888, -0.4337, -0.7104, -0.5912, -0.5556, 0.395], [-0.7762, 0.8324, 0.7909, 1, -0.4488, 0.6587, -0.7082, -0.7231, -0.2432, -0.1257, 0.7498], [0.6812, -0.6999, -0.7102, -0.4488, 1, -0.7124, 0.0912, 0.4403, 0.7127, 0.6996, -0.0908], [-0.8677, 0.7825, 0.888, 0.6587, -0.7124, 1, -0.1747, -0.5549, -0.6925, -0.5833, 0.4276], [0.4187, -0.5912, -0.4337, -0.7082, 0.0912, -0.1747, 1, 0.7445, -0.2299, -0.2127, -0.6562], [0.664, -0.8108, -0.7104, -0.7231, 0.4403, -0.5549, 0.7445, 1, 0.1683, 0.206, -0.5696], [0.5998, -0.5226, -0.5912, -0.2432, 0.7127, -0.6925, -0.2299, 0.1683, 1, 0.7941, 0.0575], [0.4803, -0.4927, -0.5556, -0.1257, 0.6996, -0.5833, -0.2127, 0.206, 0.7941, 1, 0.2741], [-0.5509, 0.527, 0.395, 0.7498, -0.0908, 0.4276, -0.6562, -0.5696, 0.0575, 0.2741, 1] ] }';
+	if (type == "plotBarChart") {
+		if (props.simple_bool) {
 
+		}
+		if (props.group_bool) {
+
+			ocpu.seturl("http://localhost/ocpu/github/shubhamkmr47/Helikar/R");
+
+			var data = dataJSON;
+
+			var req = ocpu.rpc("groupBar", {data: data}, function(output){
+					var groupBarPlotData = output.message;
+						addNewPlot('Group Bar Plot', groupBarPlotData);
+						plotGroupBar(groupBarPlotData);
+				});
+
+				//if R returns an error, alert the error message
+				req.fail(function(){
+					alert("Server error: " + req.responseText);
+				});
+
+			//data = '[{"Group":"CA","Under 5 Years":"270","5 to 13 Years":"449","14 to 17 Years":"215","18 to 24 Years":"385","25 to 44 Years":"106","45 to 64 Years":"881","65 Years and Over":"411"},{"Group":"TX","Under 5 Years":"202","5 to 13 Years":"327","14 to 17 Years":"142","18 to 24 Years":"245","25 to 44 Years":"701","45 to 64 Years":"565","65 Years and Over":"247"},{"Group":"NY","Under 5 Years":"120","5 to 13 Years":"214","14 to 17 Years":"105","18 to 24 Years":"199","25 to 44 Years":"535","45 to 64 Years":"512","65 Years and Over":"260"},{"Group":"FL","Under 5 Years":"114","5 to 13 Years":"193","14 to 17 Years":"925","18 to 24 Years":"160","25 to 44 Years":"478","45 to 64 Years":"474","65 Years and Over":"318"},{"Group":"IL","Under 5 Years":"894","5 to 13 Years":"155","14 to 17 Years":"725","18 to 24 Years":"131","25 to 44 Years":"359","45 to 64 Years":"323","65 Years and Over":"157"},{"Group":"PA","Under 5 Years":"737","5 to 13 Years":"134","14 to 17 Years":"679","18 to 24 Years":"120","25 to 44 Years":"315","45 to 64 Years":"341","65 Years and Over":"191"}]';
+			//plotGroupBar(dataJSON);
+		}
+		if (props.stack_bool) {
+			stackBarPlot();
+		}
 	}
 
 	if(type === "discreteBarChart")
@@ -397,7 +427,7 @@ function plotBox(data, type, var_x, var_y, x_name, y_name) {
 			process.push({label: x, values: now});
 	});
 
-	console.log(process);
+	//console.log(process);
 	_.initial(process).forEach(function (p) {
 		ocpu.call("quantile", {
 			x: p.values
@@ -412,9 +442,9 @@ function plotBox(data, type, var_x, var_y, x_name, y_name) {
 					outliers: []
 				};
 				p.values = d;
-				console.log(p);
+				//console.log(p);
 				myData.push(p);
-				console.log(myData);
+				//console.log(myData);
 			});
 		});
 	});
@@ -435,7 +465,7 @@ function plotBox(data, type, var_x, var_y, x_name, y_name) {
 			};
 			last.values = d;
 			myData.push(last);
-			console.log(myData);
+			//console.log(myData);
 
 			realBox(myData, x_name, y_name);
 		});

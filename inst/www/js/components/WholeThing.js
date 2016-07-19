@@ -235,11 +235,30 @@ var WholeThing = React.createClass(
 
 				break;
 
-				/*choose correlation or covariance matrix*/
-				case "comatrix":
+			case "initDashboard":
+				var id = arguments[2];
+				this.refs.data_ref = null;
+
+				var plotId = getDashboardOptionIds(), plotType = getDashboardOptionType(), plotData = getDashboardOptionData();
+
+				plotId = plotId[id-1];
+				plotType = plotType[plotId-1];
+				plotData = plotData[plotId-1];
+				plotDashboard(plotType, plotData);
+
+				break;
+
+			/*choose correlation or covariance matrix*/
+			case "comatrix":
 				var plot_type = arguments[1], comatrix = arguments[2];
 				this.setProps({multi: false, plot: true});
 				this.setProps({plot_type: plot_type, comatrix: comatrix});
+				break;
+
+			case "barChart":
+				var plot_type = arguments[1], simple_bool = arguments[2], group_bool = arguments[3], stack_bool = arguments[4], var_x = arguments[5];
+				this.setProps({multi: false, plot: true});
+				this.setProps({plot_type: plot_type, simple_bool: simple_bool, group_bool: group_bool, stack_bool: stack_bool, var_x: var_x});
 				break;
 
 			/*
@@ -247,7 +266,8 @@ var WholeThing = React.createClass(
 			 */
 
 			case "show-table":
-				this.refs.data_ref.toggleDisplay();
+				if(this.refs.data_ref != null)
+					this.refs.data_ref.toggleDisplay();
 				break;
 
 			/*
