@@ -163,6 +163,8 @@ function plotGroupBar(data){
 
 function plotStackBar(data){
 
+  d3.selectAll("svg > *").remove();
+
   data = JSON.parse(data);
 
   var rowNames = d3.keys(data[0]).filter(function(key) { return key !== "Group"; });

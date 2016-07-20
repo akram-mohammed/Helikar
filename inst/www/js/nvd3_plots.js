@@ -196,7 +196,7 @@ function makePlot(obj, props) {
 
 			var data = dataJSON, value = props.var_x;
 
-			var req = ocpu.rpc("groupBar", {data: data, value: value}, function(output){
+			var req = ocpu.rpc("simpleBar", {data: data, value: value}, function(output){
 					var simpleBarPlotData = output.message;
 						addNewPlot('Simple Bar Plot', simpleBarPlotData);
 						plotSimpleBar(simpleBarPlotData);
@@ -234,7 +234,6 @@ function makePlot(obj, props) {
 
 			var req = ocpu.rpc("groupBar", {data: data}, function(output){
 					var stackBarPlotData = output.message;
-					alert(stackBarPlotData);
 					addNewPlot('Stack Bar Plot', stackBarPlotData);
 					plotStackBar(stackBarPlotData);
 				});
