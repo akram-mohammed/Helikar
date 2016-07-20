@@ -192,6 +192,22 @@ function makePlot(obj, props) {
 	if (type == "plotBarChart") {
 		if (props.simple_bool) {
 
+			ocpu.seturl("http://localhost/ocpu/github/shubhamkmr47/Helikar/R");
+
+			var data = dataJSON, value = props.var_x;
+
+			var req = ocpu.rpc("groupBar", {data: data, value: value}, function(output){
+					var simpleBarPlotData = output.message;
+						addNewPlot('Simple Bar Plot', simpleBarPlotData);
+						plotSimpleBar(simpleBarPlotData);
+				});
+
+				//if R returns an error, alert the error message
+				req.fail(function(){
+					alert("Server error: " + req.responseText);
+				});
+			//var data = '[{"date":"201301","value":"53"},{"date":"201302","value":"165"},{"date":"201303","value":"269"},{"date":"201304","value":"344"},{"date":"201305","value":"376"},{"date":"201306","value":"410"},{"date":"201307","value":"421"},{"date":"201308","value":"405"},{"date":"201309","value":"376"},{"date":"201310","value":"359"},{"date":"201311","value":"392"},{"date":"201312","value":"433"},{"date":"201401","value":"455"},{"date":"201402","value":"478"}]';
+			//plotSimpleBar(data);
 		}
 		if (props.group_bool) {
 
@@ -209,12 +225,24 @@ function makePlot(obj, props) {
 				req.fail(function(){
 					alert("Server error: " + req.responseText);
 				});
-
-			//data = '[{"Group":"CA","Under 5 Years":"270","5 to 13 Years":"449","14 to 17 Years":"215","18 to 24 Years":"385","25 to 44 Years":"106","45 to 64 Years":"881","65 Years and Over":"411"},{"Group":"TX","Under 5 Years":"202","5 to 13 Years":"327","14 to 17 Years":"142","18 to 24 Years":"245","25 to 44 Years":"701","45 to 64 Years":"565","65 Years and Over":"247"},{"Group":"NY","Under 5 Years":"120","5 to 13 Years":"214","14 to 17 Years":"105","18 to 24 Years":"199","25 to 44 Years":"535","45 to 64 Years":"512","65 Years and Over":"260"},{"Group":"FL","Under 5 Years":"114","5 to 13 Years":"193","14 to 17 Years":"925","18 to 24 Years":"160","25 to 44 Years":"478","45 to 64 Years":"474","65 Years and Over":"318"},{"Group":"IL","Under 5 Years":"894","5 to 13 Years":"155","14 to 17 Years":"725","18 to 24 Years":"131","25 to 44 Years":"359","45 to 64 Years":"323","65 Years and Over":"157"},{"Group":"PA","Under 5 Years":"737","5 to 13 Years":"134","14 to 17 Years":"679","18 to 24 Years":"120","25 to 44 Years":"315","45 to 64 Years":"341","65 Years and Over":"191"}]';
-			//plotGroupBar(dataJSON);
 		}
 		if (props.stack_bool) {
-			stackBarPlot();
+
+			ocpu.seturl("http://localhost/ocpu/github/shubhamkmr47/Helikar/R");
+
+			var data = dataJSON;
+
+			var req = ocpu.rpc("groupBar", {data: data}, function(output){
+					var stackBarPlotData = output.message;
+					alert(stackBarPlotData);
+					addNewPlot('Stack Bar Plot', stackBarPlotData);
+					plotStackBar(stackBarPlotData);
+				});
+
+				//if R returns an error, alert the error message
+				req.fail(function(){
+					alert("Server error: " + req.responseText);
+				});
 		}
 	}
 

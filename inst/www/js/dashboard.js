@@ -34,8 +34,16 @@ function plotDashboard(plotType, plotData){
       plotQQ(plotData);
       break;
 
+    case 'Simple Bar Plot':
+      plotSimpleBar(plotData);
+      break;
+
     case 'Group Bar Plot':
       plotGroupBar(plotData);
+      break;
+
+    case 'Stack Bar Plot':
+      plotStackBar(plotData);
       break;
   }
 }

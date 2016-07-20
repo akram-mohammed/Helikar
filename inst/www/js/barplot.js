@@ -1,5 +1,68 @@
-function simpleBarPlot(){
+function plotSimpleBar(data){
 
+  d3.selectAll("svg > *").remove();
+
+  data = JSON.parse(data);
+
+  var margin = {top: 20, right: 20, bottom: 70, left: 40},
+    width = $(document).width() - margin.left - margin.right,
+    height = 500 - margin.top - margin.bottom;
+
+  var x = d3.scale.ordinal().rangeRoundBands([0, width], .05);
+
+  var y = d3.scale.linear().range([height, 0]);
+
+  var xAxis = d3.svg.axis()
+      .scale(x)
+      .orient("bottom");
+
+  var yAxis = d3.svg.axis()
+      .scale(y)
+      .orient("left")
+      .ticks(10);
+
+  var svg = d3.select("#plot-panel").append("svg")
+      .attr("width", width + margin.left + margin.right)
+      .attr("height", height + margin.top + margin.bottom)
+    .append("g")
+      .attr("transform",
+            "translate(" + margin.left + "," + margin.top + ")");
+
+  data.forEach(function(d) {
+      d.value = +d.value;
+  });
+
+  x.domain(data.map(function(d) { return d.date; }));
+  y.domain([0, d3.max(data, function(d) { return d.value; })]);
+
+  svg.append("g")
+      .attr("class", "x axis")
+      .attr("transform", "translate(0," + height + ")")
+      .call(xAxis)
+    .selectAll("text")
+      .style("text-anchor", "end")
+      .attr("dx", "-.8em")
+      .attr("dy", "-.55em")
+      .attr("transform", "rotate(-90)" );
+
+  svg.append("g")
+      .attr("class", "y axis")
+      .call(yAxis)
+    .append("text")
+      .attr("transform", "rotate(-90)")
+      .attr("y", 6)
+      .attr("dy", ".71em")
+      .style("text-anchor", "end")
+      .text("y-coordinate");
+
+  svg.selectAll("bar")
+      .data(data)
+    .enter().append("rect")
+      .style("fill", "steelblue")
+      .attr("x", function(d) { return x(d.date); })
+      .attr("width", x.rangeBand())
+      .attr("y", function(d) { return y(d.value); })
+      .attr("height", function(d) { return height - y(d.value); });
 }
 
 function plotGroupBar(data){
@@ -37,14 +100,14 @@ function plotGroupBar(data){
     .append("g")
       .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-  var ageNames = d3.keys(data[0]).filter(function(key) { return key !== "Group"; });
+  var rowNames = d3.keys(data[0]).filter(function(key) { return key !== "Group"; });
 
   data.forEach(function(d) {
-    d.ages = ageNames.map(function(name) { return {name: name, value: +d[name]}; });
+    d.ages = rowNames.map(function(name) { return {name: name, value: +d[name]}; });
   });
 
   x0.domain(data.map(function(d) { return d.Group; }));
-  x1.domain(ageNames).rangeRoundBands([0, x0.rangeBand()]);
+  x1.domain(rowNames).rangeRoundBands([0, x0.rangeBand()]);
   y.domain([0, d3.max(data, function(d) { return d3.max(d.ages, function(d) { return d.value; }); })]);
 
   svg.append("g")
@@ -78,7 +141,7 @@ function plotGroupBar(data){
       .style("fill", function(d) { return color(d.name); });
 
   var legend = svg.selectAll(".legend")
-      .data(ageNames.slice().reverse())
+      .data(rowNames.slice().reverse())
     .enter().append("g")
       .attr("class", "legend")
       .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
@@ -98,13 +161,15 @@ function plotGroupBar(data){
 
 }
 
-function stackBarPlot(){
+function plotStackBar(data){
 
-  d3.selectAll("svg > *").remove();
+  data = JSON.parse(data);
 
-  var Stack = ["wounds", "other", "disease"];
+  var rowNames = d3.keys(data[0]).filter(function(key) { return key !== "Group"; });
 
-  var parseDate = d3.time.format("%m/%Y").parse;
+  data.forEach(function(d) {
+    rowNames.forEach(function(c) { d[c] = +d[c]; });
+  });
 
   var margin = {top: 20, right: 50, bottom: 30, left: 40},
       width = $(document).width() - margin.left - margin.right,
@@ -120,12 +185,11 @@ function stackBarPlot(){
 
   var xAxis = d3.svg.axis()
       .scale(x)
-      .orient("bottom")
-      .tickFormat(d3.time.format("%b"));
+      .orient("bottom");
 
   var yAxis = d3.svg.axis()
       .scale(y)
-      .orient("left")
+      .orient("left");
 
   var svg = d3.select("#plot-panel").append("svg")
       .attr("width", width + margin.left + margin.right)
@@ -133,12 +197,9 @@ function stackBarPlot(){
     .append("g")
       .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-  d3.tsv("barchart.tsv", type, function(error, crimea) {
-    if (error) throw error;
-
-    var layers = d3.layout.stack()(Stack.map(function(c) {
-      return crimea.map(function(d) {
-        return {x: d.date, y: d[c]};
+    var layers = d3.layout.stack()(rowNames.map(function(c) {
+      return data.map(function(d) {
+        return {x: d.Group, y: d[c]};
       });
     }));
 
@@ -166,15 +227,6 @@ function stackBarPlot(){
 
     svg.append("g")
         .attr("class", "axis axis--y")
-        .attr("transform", "translate(" + 5 + ",0)")
+        .attr("transform", "translate(" + 0 + ",0)")
         .call(yAxis);
-
-  });
-
-  function type(d) {
-    d.date = parseDate(d.date);
-    Stack.forEach(function(c) { d[c] = +d[c]; });
-    return d;
-  }
-
 }
