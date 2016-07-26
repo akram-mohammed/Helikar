@@ -33,7 +33,9 @@ var MyBar = React.createClass(
 	},
 
 	plotClick: function(plotType, child, var_x, var_y, var_g, x_name, y_name) {
+		this.props.onClick("show-table");
 		this.props.onClick("plot", plotType, var_x, var_y, var_g, x_name, y_name);
+		this.props.onClick("show-table");
 	},
 
 	plotD3Chart: function(plotType, child) {
@@ -54,12 +56,22 @@ var MyBar = React.createClass(
 		this.props.onClick("show-table");
 	},
 
+	plotScatterChart: function(plotType, child, var_x, var_y, straight_bool, exponential_bool, polynomial_bool, logarithmic_bool){
+		this.props.onClick("show-table");
+		this.props.onClick("scatterPlot", plotType, var_x, var_y, straight_bool, exponential_bool, polynomial_bool, logarithmic_bool);
+		this.props.onClick("show-table");
+	},
+
 	uniClick: function(child, variables, functions) {
+		this.props.onClick("show-table");
 		this.props.onClick("stats", variables, functions);
+		this.props.onClick("show-table");
 	},
 
 	biClick: function(child, var_x, var_y, functions) {
+		this.props.onClick("show-table");
 		this.props.onClick("bivariate", var_x, var_y, functions);
+		this.props.onClick("show-table");
 	},
 
 	testClick: function(child, var_x, var_y, functions) {
@@ -134,10 +146,6 @@ var MyBar = React.createClass(
 							<MenuItem>Bar</MenuItem>
 						</ModalTrigger>
 
-						<ModalTrigger modal={<BoxPlotModal onClick={this.plotClick.bind(this, "boxChart")} variables={this.props.variables}  />}>
-							<MenuItem>Box</MenuItem>
-						</ModalTrigger>
-
 						<ModalTrigger modal={<BoxPlotModal onClick={this.plotClick.bind(this, "quadreg")} variables={this.props.variables}  />}>
 							<MenuItem>Quadratic</MenuItem>
 						</ModalTrigger>
@@ -183,6 +191,14 @@ var MyBar = React.createClass(
 
 						<ModalTrigger modal={<BarChartModal onClick={this.plotBarChart.bind(this, "plotBarChart")} variables={this.props.variables}  />}>
 							<MenuItem>Bar Plot</MenuItem>
+						</ModalTrigger>
+
+						<ModalTrigger modal={<BoxPlotModal onClick={this.plotClick.bind(this, "boxChart")} variables={this.props.variables}  />}>
+							<MenuItem>Box Plot</MenuItem>
+						</ModalTrigger>
+
+						<ModalTrigger modal={<ScatterPlotModal onClick={this.plotScatterChart.bind(this, "plotScatterPlot")} variables={this.props.variables}  />}>
+							<MenuItem>Scatter Plot</MenuItem>
 						</ModalTrigger>
 
 					</DropdownButton>

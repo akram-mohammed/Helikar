@@ -1,4 +1,7 @@
-function plotSimpleBar(data){
+function plotSimpleBar(plotData){
+
+  var ylabel = plotData.value;
+  var data = plotData.data;
 
   d3.selectAll("svg > *").remove();
 
@@ -25,14 +28,13 @@ function plotSimpleBar(data){
       .attr("width", width + margin.left + margin.right)
       .attr("height", height + margin.top + margin.bottom)
     .append("g")
-      .attr("transform",
-            "translate(" + margin.left + "," + margin.top + ")");
+      .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
   data.forEach(function(d) {
       d.value = +d.value;
   });
 
-  x.domain(data.map(function(d) { return d.date; }));
+  x.domain(data.map(function(d) { return d.Group; }));
   y.domain([0, d3.max(data, function(d) { return d.value; })]);
 
   svg.append("g")
@@ -51,15 +53,16 @@ function plotSimpleBar(data){
     .append("text")
       .attr("transform", "rotate(-90)")
       .attr("y", 6)
+      .attr("x", 10)
       .attr("dy", ".71em")
       .style("text-anchor", "end")
-      .text("y-coordinate");
+      .text(ylabel);
 
   svg.selectAll("bar")
       .data(data)
     .enter().append("rect")
       .style("fill", "steelblue")
-      .attr("x", function(d) { return x(d.date); })
+      .attr("x", function(d) { return x(d.Group); })
       .attr("width", x.rangeBand())
       .attr("y", function(d) { return y(d.value); })
       .attr("height", function(d) { return height - y(d.value); });
@@ -117,13 +120,15 @@ function plotGroupBar(data){
 
   svg.append("g")
       .attr("class", "y axis")
-      .call(yAxis)
-    .append("text")
+      .call(yAxis);
+
+    svg.append("text")
+      .attr("class", "ylabel")
       .attr("transform", "rotate(-90)")
       .attr("y", 6)
       .attr("dy", ".71em")
       .style("text-anchor", "end")
-      .text("Population");
+      .text("y-coordinate");
 
   var state = svg.selectAll(".state")
       .data(data)
@@ -173,8 +178,8 @@ function plotStackBar(data){
     rowNames.forEach(function(c) { d[c] = +d[c]; });
   });
 
-  var margin = {top: 20, right: 50, bottom: 30, left: 40},
-      width = $(document).width() - margin.left - margin.right,
+  var margin = {top: 20, right: 150, bottom: 30, left: 40},
+      width = $(document).width()*0.9 - margin.left - margin.right,
       height = 500 - margin.top - margin.bottom;
 
   var x = d3.scale.ordinal()
@@ -207,6 +212,25 @@ function plotStackBar(data){
 
     x.domain(layers[0].map(function(d) { return d.x; }));
     y.domain([0, d3.max(layers[layers.length - 1], function(d) { return d.y0 + d.y; })]).nice();
+
+    var legend = svg.selectAll(".legend")
+        .data(rowNames.slice())
+      .enter().append("g")
+        .attr("class", "legend")
+        .attr("transform", function(d, i) { return "translate(120," + i * 20 + ")"; });
+
+    legend.append("rect")
+        .attr("x", width )
+        .attr("width", 10)
+        .attr("height", 18)
+        .style("fill", function(d, i) { return z(i); });
+
+    legend.append("text")
+        .attr("x", width - 24)
+        .attr("y", 9)
+        .attr("dy", ".35em")
+        .style("text-anchor", "end")
+        .text(function(d) { return d; });
 
     var layer = svg.selectAll(".layer")
         .data(layers)

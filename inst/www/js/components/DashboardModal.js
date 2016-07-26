@@ -2,10 +2,14 @@ var DashboardModal = React.createClass({
 
 	render: function() {
 
-		var options_list = [];
+		var button_list = [];
 
 		var plotId = getDashboardOptionIds(), plotType = getDashboardOptionType(), plotTime = getDashboardOptionTime();
 		var count = plotId.length;
+
+		var button_style = {
+			"width": "100%"
+		};
 
 		if (count == 0) {
 			return (
@@ -23,32 +27,26 @@ var DashboardModal = React.createClass({
 		}
 
 		for(var i = 1; i <= count; i = i + 1){
-			options_list.push(<option value={plotId[i-1]}>{plotType[i-1] + ' ' + plotTime[i-1]}</option>);
+			button_list.push(<Button style = {button_style} onClick={this.handleClick.bind(this, plotId[i-1])} value={plotId[i-1]}>{plotType[i-1] + ' ' + plotTime[i-1]}</Button>);
 		}
 
 		return (
 			<Modal {...this.props} title="Dashboard">
 				<div className='modal-body'>
-
-					<Input type='select' label='Plot' ref='dashboardId'>
-						{options_list}
-					</Input>
+					{button_list}
 
 				</div>
-        <div className='modal-footer'>
-			    <Button onClick={this.handleClick}>Submit</Button>
-    		</div>
 			</Modal>
 		);
 	},
 
-  handleClick: function() {
+  handleClick: function(id) {
 
     this.props.onRequestHide();
 		if (this.refs.dashboardId == null){
 				this.props.onClick(this);
 		}
 		else
-			this.props.onClick(this, this.refs.dashboardId.getValue());
+			this.props.onClick(this, id);
   }
 });

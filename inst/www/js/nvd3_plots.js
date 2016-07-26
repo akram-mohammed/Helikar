@@ -194,20 +194,20 @@ function makePlot(obj, props) {
 
 			ocpu.seturl("http://localhost/ocpu/github/shubhamkmr47/Helikar/R");
 
-			var data = dataJSON, value = props.var_x;
+			var data = dataJSON, value = props.var_x, plotData = {};
 
 			var req = ocpu.rpc("simpleBar", {data: data, value: value}, function(output){
 					var simpleBarPlotData = output.message;
-						addNewPlot('Simple Bar Plot', simpleBarPlotData);
-						plotSimpleBar(simpleBarPlotData);
+					plotData.data = simpleBarPlotData;
+					plotData.value = value;
+					addNewPlot('Simple Bar Plot', plotData);
+					plotSimpleBar(plotData);
 				});
 
 				//if R returns an error, alert the error message
 				req.fail(function(){
 					alert("Server error: " + req.responseText);
 				});
-			//var data = '[{"date":"201301","value":"53"},{"date":"201302","value":"165"},{"date":"201303","value":"269"},{"date":"201304","value":"344"},{"date":"201305","value":"376"},{"date":"201306","value":"410"},{"date":"201307","value":"421"},{"date":"201308","value":"405"},{"date":"201309","value":"376"},{"date":"201310","value":"359"},{"date":"201311","value":"392"},{"date":"201312","value":"433"},{"date":"201401","value":"455"},{"date":"201402","value":"478"}]';
-			//plotSimpleBar(data);
 		}
 		if (props.group_bool) {
 
@@ -243,6 +243,24 @@ function makePlot(obj, props) {
 					alert("Server error: " + req.responseText);
 				});
 		}
+	}
+
+	if (type == "plotScatterPlot") {
+		var var_x = props.var_x, var_y = props.var_y, straight_bool = props.straight_bool, exponential_bool = props.exponential_bool, polynomial_bool = props.polynomial_bool, logarithmic_bool = props.logarithmic_bool;
+		ocpu.seturl("http://localhost/ocpu/github/shubhamkmr47/Helikar/R");
+
+		var data = dataJSON;
+
+		var req = ocpu.rpc("scatterplot", {data: data, var_x: var_x, var_y: var_y}, function(output){
+				var scatterdata = output.scatterdata, intercept = output.intercept, slope = output.slope, logdata = output.logdata, expdata = output.expdata, logdata = output.logdata, poldata = output.poldata;
+				//addNewPlot('Stack Bar Plot', stackBarPlotData);
+				//plotStackBar(stackBarPlotData);
+			});
+
+			//if R returns an error, alert the error message
+			req.fail(function(){
+				alert("Server error: " + req.responseText);
+			});
 	}
 
 	if(type === "discreteBarChart")

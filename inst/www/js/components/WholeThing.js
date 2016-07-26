@@ -261,6 +261,12 @@ var WholeThing = React.createClass(
 				this.setProps({plot_type: plot_type, simple_bool: simple_bool, group_bool: group_bool, stack_bool: stack_bool, var_x: var_x});
 				break;
 
+			case "scatterPlot":
+				var plot_type = arguments[1], var_x = arguments[2], var_y = arguments[3], straight_bool = arguments[4], exponential_bool = arguments[5], polynomial_bool = arguments[6], logarithmic_bool = arguments[7];
+				this.setProps({multi: false, plot: true});
+				this.setProps({plot_type: plot_type, var_x: var_x, var_y: var_y, straight_bool: straight_bool, exponential_bool: exponential_bool, polynomial_bool, polynomial_bool, logarithmic_bool: logarithmic_bool});
+				break;
+
 			/*
 			 *	Toggle table visibility
 			 */
@@ -426,7 +432,6 @@ var WholeThing = React.createClass(
 				var title_string = "";
 				var labels = arguments[1], functions = arguments[2];
 
-
 				labels.forEach(function (l, index) {
 					title_string = title_string.concat(index ===0 ? l : (", " + l));
 					var col = getSanitizedData(table, getIndex(table, l));
@@ -441,11 +446,6 @@ var WholeThing = React.createClass(
 				this.refs.anova_ref.setHeaders(["Test", title_string]);
 				this.refs.anova_ref.displayOn();
 
-				//data.push(groups);
-				//data.push(values);
-				//console.log(JSON.stringify(groups));
-				//console.log(JSON.stringify(values));
-
 				ocpu.seturl("//public.opencpu.org/ocpu/library/stats/R");
 
 				ocpu.call("lm", {
@@ -454,26 +454,20 @@ var WholeThing = React.createClass(
 				}, function (session) {
 
 					// BEGIN
-		        	functions.forEach(function (fn, n) {
-		        		var row = [fn];
+        	functions.forEach(function (fn, n) {
+        		var row = [fn];
 
-						var statsRequest = ocpu.call(fn, {
-							object: session
-						}, function (session) {
-							session.getObject(null, {force: true}, function (out) {
-								d = "F-value: " + out[0]["F value"] + "\np: " + out[0]["Pr(>F)"];
-								anova_table.spliceRow(n, 0, 0, fn, d);
-							});
-						});
-
-						data.push(row);
-						console.log(for_table);
-		        	});
-		        	// END
-
+					var statsRequest = ocpu.call(fn, {
+						object: session
+					}, function (session) {
+						session.getObject(null, {force: true}, function (out) {
+						d = "F-value: " + out[0]["F value"] + "\np: " + out[0]["Pr(>F)"];
+						anova_table.spliceRow(n, 0, 0, fn, d);
+					});
+					});
+					data.push(row);
+        	});
 				});
-
-
 				break;
 
 

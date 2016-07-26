@@ -4,16 +4,18 @@ var BivariateModal = React.createClass({
 		var options_list = [];
 
 		this.props.variables.forEach(function (variable) {
-			options_list.push(<option value={variable}>{variable}</option>);				
+			options_list.push(<option value={variable}>{variable}</option>);
 		});
+
+		var label_x = 'Variable - X (' + options_list.length + ')', label_y = 'Variable - Y (' + options_list.length + ')';
 
 		return (
 			<Modal {...this.props} title="Choose data">
 				<div className='modal-body'>
-					<Input type='select' label='Variable - X' ref='first'>
+					<Input type='select' label={label_x} ref='first'>
 						{options_list}
 					</Input>
-					<Input type='select' label='Variable - Y' ref='second'>
+					<Input type='select' label={label_y} ref='second'>
 						{options_list}
 					</Input>
 					<Input type='select' label='Functions' ref='fn' multiple>

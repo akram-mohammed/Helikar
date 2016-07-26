@@ -4,13 +4,15 @@ var ChoiceModal = React.createClass({
 		var options_list = [];
 
 		this.props.variables.forEach(function (variable) {
-			options_list.push(<option value={variable}>{variable}</option>);				
+			options_list.push(<option value={variable}>{variable}</option>);
 		});
+
+		var label = 'Variables (' + options_list.length + ')';
 
 		return (
 			<Modal {...this.props} title="Choose data">
 				<div className='modal-body'>
-					<Input type='select' label='Variables' ref='first' multiple>
+					<Input type='select' label={label} ref='first' multiple>
 						{options_list}
 					</Input>
 					<Input type='select' label='Functions' ref='second' multiple>
@@ -20,7 +22,7 @@ var ChoiceModal = React.createClass({
 						<option value='variance'>Variance</option>
 						<option value='skewness'>Skewness</option>
 						<option value='kurtosis'>Kurtosis</option>
-					</Input>	
+					</Input>
 				</div>
 		        <div className='modal-footer'>
     			    <Button onClick={this.handleClick}>Submit</Button>
@@ -31,6 +33,6 @@ var ChoiceModal = React.createClass({
 
 	handleClick: function() {
 		this.props.onRequestHide();
-		this.props.onClick(this, this.refs.first.getValue(), this.refs.second.getValue());		
+		this.props.onClick(this, this.refs.first.getValue(), this.refs.second.getValue());
 	}
 });

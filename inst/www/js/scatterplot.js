@@ -202,5 +202,4 @@ function plotQQ(data){
     .attr("dy", ".75em")
     .attr("transform", "rotate(-90)")
     .text("y-coordinate");
-
 }
