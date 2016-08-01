@@ -4,7 +4,7 @@ scatterplot <- function(data, var_x, var_y){
   data <- fromJSON(data)
   data <- na.omit(data)
 
-  data <- data[c(varx, vary)]
+  data <- data[c(var_x, var_y)]
   colnames(data) <- c("X", "Y")
   rownames(data) <- 1:nrow(data)
 
