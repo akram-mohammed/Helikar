@@ -18,7 +18,7 @@ function plotScatterData(plotData, straight_bool, exponential_bool, polynomial_b
     .attr("height", h + margin.t + margin.b);
 
   var line = d3.svg.line()
-  .interpolate("bundle")
+  .interpolate("basis")
 	.x(function(d) { return x(d.X); } )
 	.y(function(d) { return y(d.Y); } );
 
@@ -211,7 +211,7 @@ function plotScatterData(plotData, straight_bool, exponential_bool, polynomial_b
           .datum(lindata)
           .attr("transform", "translate(" + margin.l + "," + margin.t + ")")
           .attr("fill", "none")
-          .attr("stroke", "steelblue")
+          .attr("stroke", "#dc3912")
           .attr("stroke-width", "1.5px")
           .attr("d", line);
     }
@@ -221,7 +221,7 @@ function plotScatterData(plotData, straight_bool, exponential_bool, polynomial_b
           .datum(expdata)
           .attr("transform", "translate(" + margin.l + "," + margin.t + ")")
           .attr("fill", "none")
-          .attr("stroke", "green")
+          .attr("stroke", "#ff9900")
           .attr("stroke-width", "1.5px")
           .attr("d", line);
     }
@@ -231,7 +231,7 @@ function plotScatterData(plotData, straight_bool, exponential_bool, polynomial_b
           .datum(logdata)
           .attr("transform", "translate(" + margin.l + "," + margin.t + ")")
           .attr("fill", "none")
-          .attr("stroke", "purple")
+          .attr("stroke", "#109618")
           .attr("stroke-width", "1.5px")
           .attr("d", line);
     }
@@ -241,7 +241,7 @@ function plotScatterData(plotData, straight_bool, exponential_bool, polynomial_b
           .datum(poldata)
           .attr("transform", "translate(" + margin.l + "," + margin.t + ")")
           .attr("fill", "none")
-          .attr("stroke", "red")
+          .attr("stroke", "#990099")
           .attr("stroke-width", "1.5px")
           .attr("d", line);
     }
