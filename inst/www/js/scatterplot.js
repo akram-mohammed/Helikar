@@ -1,15 +1,14 @@
-function plotScatterData(plotData){
+function plotScatterData(plotData, straight_bool, exponential_bool, polynomial_bool, logarithmic_bool){
 
   d3.selectAll("svg > *").remove();
 
-  var logdata = plotData.lindata;
-  alert(logdata);
-
-  //logdata = '[{"X":"100","Y":"300"},{"X":"100","Y":"200"},{"X":"250","Y":"250"}]'
-  logdata = JSON.parse(logdata);
-
-  var data = plotData.scatterdata;
+  var data = plotData.scatterdata, lindata = plotData.lindata, expdata = plotData.expdata, logdata = plotData.logdata, poldata = plotData.poldata;
+  alert(data);
   data = JSON.parse(data);
+  lindata = JSON.parse(lindata);
+  expdata = JSON.parse(expdata);
+  logdata = JSON.parse(logdata);
+  poldata = JSON.parse(poldata);
 
   // set the stage
   var margin = {t:30, r:20, b:20, l:40 },
@@ -211,12 +210,40 @@ function plotScatterData(plotData){
     .attr("transform", "rotate(-90)")
     .text("y-coordinate");
 
-
-  svg.append("path")
-      .datum(logdata)
-      .attr("transform", "translate(" + margin.l + "," + margin.t + ")")
-      .attr("fill", "none")
-      .attr("stroke", "steelblue")
-      .attr("stroke-width", "1.5px")
-      .attr("d", line);
+    if (straight_bool) {
+      svg.append("path")
+          .datum(lindata)
+          .attr("transform", "translate(" + margin.l + "," + margin.t + ")")
+          .attr("fill", "none")
+          .attr("stroke", "steelblue")
+          .attr("stroke-width", "1.5px")
+          .attr("d", line);
+    }
+    else if (exponential_bool) {
+      svg.append("path")
+          .datum(expdata)
+          .attr("transform", "translate(" + margin.l + "," + margin.t + ")")
+          .attr("fill", "none")
+          .attr("stroke", "green")
+          .attr("stroke-width", "1.5px")
+          .attr("d", line);
+    }
+    else if (logarithmic_bool) {
+      svg.append("path")
+          .datum(logdata)
+          .attr("transform", "translate(" + margin.l + "," + margin.t + ")")
+          .attr("fill", "none")
+          .attr("stroke", "purple")
+          .attr("stroke-width", "1.5px")
+          .attr("d", line);
+    }
+    else if (polynomial_bool) {
+      svg.append("path")
+          .datum(poldata)
+          .attr("transform", "translate(" + margin.l + "," + margin.t + ")")
+          .attr("fill", "none")
+          .attr("stroke", "red")
+          .attr("stroke-width", "1.5px")
+          .attr("d", line);
+    }
 }

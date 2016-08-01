@@ -7,10 +7,12 @@ scatterplot <- function(data, var_x, var_y){
   colnames(data) <- c("X", "Y")
   rownames(data) <- 1:nrow(data)
 
-  scatterdata <- toJSON(data)
-
   x <- data$X
   y <- data$Y
+
+  scatterdata <- sapply(data, as.character)
+  scatterdata <- data.frame(scatterdata)
+  scatterdata <- toJSON(scatterdata)
 
   # basic straight line of fit
   f <- function(x,a,b) {a*x + b}

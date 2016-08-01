@@ -258,7 +258,7 @@ function makePlot(obj, props) {
 			plotData.logdata = output.logdata;
 			plotData.poldata = output.poldata;
 			//addNewPlot('Stack Bar Plot', stackBarPlotData);
-			plotScatterData(plotData);
+			plotScatterData(plotData, straight_bool, exponential_bool, polynomial_bool, logarithmic_bool);
 			});
 
 			//if R returns an error, alert the error message
