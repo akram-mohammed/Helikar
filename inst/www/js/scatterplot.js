@@ -2,10 +2,10 @@ function plotScatterData(plotData){
 
   d3.selectAll("svg > *").remove();
 
-  var logdata = plotData.logdata;
+  var logdata = plotData.lindata;
   alert(logdata);
 
-  // logdata = '[{"X":"100","Y":"300"},{"X":"100","Y":"200"},{"X":"250","Y":"250"}]'
+  //logdata = '[{"X":"100","Y":"300"},{"X":"100","Y":"200"},{"X":"250","Y":"250"}]'
   logdata = JSON.parse(logdata);
 
   var data = plotData.scatterdata;
