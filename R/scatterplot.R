@@ -5,6 +5,7 @@ scatterplot <- function(data, var_x, var_y){
   data <- na.omit(data)
   data <- data[c(var_x, var_y)]
   colnames(data) <- c("X", "Y")
+  data <- data[order(data$X), ]
   rownames(data) <- 1:nrow(data)
 
   x <- data$X

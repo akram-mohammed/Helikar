@@ -248,7 +248,6 @@ function makePlot(obj, props) {
 	if (type == "plotScatterPlot") {
 		var var_x = props.var_x, var_y = props.var_y, straight_bool = props.straight_bool, exponential_bool = props.exponential_bool, polynomial_bool = props.polynomial_bool, logarithmic_bool = props.logarithmic_bool;
 		ocpu.seturl("http://localhost/ocpu/github/shubhamkmr47/Helikar/R");
-
 		var data = dataJSON, plotData = {};
 
 		var req = ocpu.rpc("scatterplot", {data: data, var_x: var_x, var_y: var_y}, function(output){

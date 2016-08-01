@@ -3,12 +3,7 @@ function plotScatterData(plotData, straight_bool, exponential_bool, polynomial_b
   d3.selectAll("svg > *").remove();
 
   var data = plotData.scatterdata, lindata = plotData.lindata, expdata = plotData.expdata, logdata = plotData.logdata, poldata = plotData.poldata;
-  alert(data);
   data = JSON.parse(data);
-  lindata = JSON.parse(lindata);
-  expdata = JSON.parse(expdata);
-  logdata = JSON.parse(logdata);
-  poldata = JSON.parse(poldata);
 
   // set the stage
   var margin = {t:30, r:20, b:20, l:40 },
@@ -16,7 +11,6 @@ function plotScatterData(plotData, straight_bool, exponential_bool, polynomial_b
     h = 500 - margin.t - margin.b,
     x = d3.scale.linear().range([0, w]),
     y = d3.scale.linear().range([h - 60, 0]),
-    //colors that will reflect geographical regions
     color = d3.scale.category10();
 
   var svg = d3.select("#plot-panel").append("svg")
@@ -24,6 +18,7 @@ function plotScatterData(plotData, straight_bool, exponential_bool, polynomial_b
     .attr("height", h + margin.t + margin.b);
 
   var line = d3.svg.line()
+  .interpolate("bundle")
 	.x(function(d) { return x(d.X); } )
 	.y(function(d) { return y(d.Y); } );
 
@@ -211,6 +206,7 @@ function plotScatterData(plotData, straight_bool, exponential_bool, polynomial_b
     .text("y-coordinate");
 
     if (straight_bool) {
+      lindata = JSON.parse(lindata);
       svg.append("path")
           .datum(lindata)
           .attr("transform", "translate(" + margin.l + "," + margin.t + ")")
@@ -219,7 +215,8 @@ function plotScatterData(plotData, straight_bool, exponential_bool, polynomial_b
           .attr("stroke-width", "1.5px")
           .attr("d", line);
     }
-    else if (exponential_bool) {
+    if (exponential_bool && expdata != "Singular Gradient") {
+      expdata = JSON.parse(expdata);
       svg.append("path")
           .datum(expdata)
           .attr("transform", "translate(" + margin.l + "," + margin.t + ")")
@@ -228,7 +225,8 @@ function plotScatterData(plotData, straight_bool, exponential_bool, polynomial_b
           .attr("stroke-width", "1.5px")
           .attr("d", line);
     }
-    else if (logarithmic_bool) {
+    if (logarithmic_bool) {
+      logdata = JSON.parse(logdata);
       svg.append("path")
           .datum(logdata)
           .attr("transform", "translate(" + margin.l + "," + margin.t + ")")
@@ -237,7 +235,8 @@ function plotScatterData(plotData, straight_bool, exponential_bool, polynomial_b
           .attr("stroke-width", "1.5px")
           .attr("d", line);
     }
-    else if (polynomial_bool) {
+    if (polynomial_bool) {
+      poldata = JSON.parse(poldata);
       svg.append("path")
           .datum(poldata)
           .attr("transform", "translate(" + margin.l + "," + margin.t + ")")
