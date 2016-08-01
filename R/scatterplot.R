@@ -4,7 +4,7 @@ scatterplot <- function(data, var_x, var_y){
   data <- fromJSON(data)
   data <- na.omit(data)
 
-  data <- data[c(var_x, var_y)]
+  data <- data[c(varx, vary)]
   colnames(data) <- c("X", "Y")
   rownames(data) <- 1:nrow(data)
 
@@ -14,10 +14,15 @@ scatterplot <- function(data, var_x, var_y){
   y <- data$Y
 
   # basic straight line of fit
+  f <- function(x,a,b) {a*x + b}
   fit <- glm(y~x)
   co <- coef(fit)
-  intercept <- as.vector(fit$coefficients[1])
-  slope <- as.vector(fit$coefficients[2])
+  y <- f(x, co[1], co[2])
+  lindata <- cbind(X = x, Y = y)
+  lindata <- data.frame(lindata)
+  lindata <- sapply(lindata, as.character)
+  lindata <- data.frame(lindata)
+  lindata <- toJSON(lindata)
 
   # exponential
   f <- function(x,a,b) {a * exp(b * x)}
@@ -25,10 +30,11 @@ scatterplot <- function(data, var_x, var_y){
   if(expdata != "Singular Gradient"){
     fit <- nls(y ~ f(x,a,b), start = c(a=1, b=1))
     co <- coef(fit)
-    expdata <- curve(f(x, a=co[1], b=co[2]))
+    y <- f(x,co[1],co[2])
+    expdata <- cbind(X = x, Y = y)
+    expdata <- data.frame(expdata)
     expdata <- sapply(expdata, as.character)
-    expdata <- as.data.frame(expdata)
-    colnames(expdata) <- c("X", "Y")
+    expdata <- data.frame(expdata)
     expdata <- toJSON(expdata)
   }
 
@@ -36,21 +42,23 @@ scatterplot <- function(data, var_x, var_y){
   f <- function(x,a,b) {a * log(x) + b}
   fit <- nls(y ~ f(x,a,b), start = c(a=1, b=1))
   co <- coef(fit)
-  logdata <- curve(f(x, a=co[1], b=co[2]))
+  y <- f(x,co[1],co[2])
+  logdata <- cbind(X = x, Y = y)
+  logdata <- data.frame(logdata)
   logdata <- sapply(logdata, as.character)
-  logdata <- as.data.frame(logdata)
-  colnames(logdata) <- c("X", "Y")
+  logdata <- data.frame(logdata)
   logdata <- toJSON(logdata)
 
   # polynomial
   f <- function(x,a,b,d) {(a*x^2) + (b*x) + d}
   fit <- nls(y ~ f(x,a,b,d), start = c(a=1, b=1, d=1))
   co <- coef(fit)
-  poldata <- curve(f(x, a=co[1], b=co[2], d=co[3]))
+  y <- f(x,co[1],co[2], co[3])
+  poldata <- cbind(X = x, Y = y)
+  poldata <- as.data.frame(poldata)
   poldata <- sapply(poldata, as.character)
   poldata <- as.data.frame(poldata)
-  colnames(poldata) <- c("X", "Y")
   poldata <- toJSON(poldata)
 
-  list(scatterdata = paste(scatterdata), intercept = (intercept), slope = paste(slope), expdata = paste(expdata), logdata = paste(logdata), poldata = paste(poldata))
+  list(scatterdata = paste(scatterdata), lindata = paste(lindata), logdata = paste(logdata), poldata = paste(poldata), expdata = paste(expdata))
 }

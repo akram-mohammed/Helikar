@@ -201,6 +201,10 @@ var MyBar = React.createClass(
 							<MenuItem>Scatter Plot</MenuItem>
 						</ModalTrigger>
 
+						<ModalTrigger modal={<PlotModal onClick={this.plotClick.bind(this, "regression")} variables={this.props.variables}  />}>
+							<MenuItem>Linear Regression</MenuItem>
+						</ModalTrigger>
+
 					</DropdownButton>
 
 

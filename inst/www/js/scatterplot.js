@@ -1,7 +1,14 @@
-function plotQQ(data){
+function plotScatterData(plotData){
 
   d3.selectAll("svg > *").remove();
 
+  var logdata = plotData.logdata;
+  alert(logdata);
+
+  // logdata = '[{"X":"100","Y":"300"},{"X":"100","Y":"200"},{"X":"250","Y":"250"}]'
+  logdata = JSON.parse(logdata);
+
+  var data = plotData.scatterdata;
   data = JSON.parse(data);
 
   // set the stage
@@ -16,6 +23,10 @@ function plotQQ(data){
   var svg = d3.select("#plot-panel").append("svg")
     .attr("width", w + margin.l + margin.r)
     .attr("height", h + margin.t + margin.b);
+
+  var line = d3.svg.line()
+	.x(function(d) { return x(d.X); } )
+	.y(function(d) { return y(d.Y); } );
 
   // set axes, as well as details on their ticks
   var xAxis = d3.svg.axis()
@@ -167,14 +178,11 @@ function plotQQ(data){
   circles.on("mouseover", mouseOn);
   circles.on("mouseout", mouseOff);
 
-  // tooltips (using jQuery plugin tipsy)
-  circles.append("title")
-      .text(function(d) { return d.description; })
+  // // tooltips (using jQuery plugin tipsy)
+  // circles.append("title")
+  //     .text(function(d) { return d.description; })
 
   $(".circles").tipsy({ gravity: 's', });
-
-  // the legend color guide
-  var legend = svg.selectAll("rect")
 
   // draw axes and axis labels
   svg.append("g")
@@ -202,4 +210,13 @@ function plotQQ(data){
     .attr("dy", ".75em")
     .attr("transform", "rotate(-90)")
     .text("y-coordinate");
+
+
+  svg.append("path")
+      .datum(logdata)
+      .attr("transform", "translate(" + margin.l + "," + margin.t + ")")
+      .attr("fill", "none")
+      .attr("stroke", "steelblue")
+      .attr("stroke-width", "1.5px")
+      .attr("d", line);
 }

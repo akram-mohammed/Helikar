@@ -249,12 +249,16 @@ function makePlot(obj, props) {
 		var var_x = props.var_x, var_y = props.var_y, straight_bool = props.straight_bool, exponential_bool = props.exponential_bool, polynomial_bool = props.polynomial_bool, logarithmic_bool = props.logarithmic_bool;
 		ocpu.seturl("http://localhost/ocpu/github/shubhamkmr47/Helikar/R");
 
-		var data = dataJSON;
+		var data = dataJSON, plotData = {};
 
 		var req = ocpu.rpc("scatterplot", {data: data, var_x: var_x, var_y: var_y}, function(output){
-				var scatterdata = output.scatterdata, intercept = output.intercept, slope = output.slope, logdata = output.logdata, expdata = output.expdata, logdata = output.logdata, poldata = output.poldata;
-				//addNewPlot('Stack Bar Plot', stackBarPlotData);
-				//plotStackBar(stackBarPlotData);
+			plotData.scatterdata = output.scatterdata;
+			plotData.lindata = output.lindata;
+			plotData.expdata = output.expdata;
+			plotData.logdata = output.logdata;
+			plotData.poldata = output.poldata;
+			//addNewPlot('Stack Bar Plot', stackBarPlotData);
+			plotScatterData(plotData);
 			});
 
 			//if R returns an error, alert the error message
