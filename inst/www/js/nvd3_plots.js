@@ -80,6 +80,7 @@ function makePlot(obj, props) {
 		ocpu.seturl("http://localhost/ocpu/github/shubhamkmr47/Helikar/R");
 
 		var data = dataJSON;
+		console.log(data);
 
 		var req = ocpu.rpc("dendogram", {data: data}, function(output){
         var dendogramData = output.message;
@@ -264,6 +265,30 @@ function makePlot(obj, props) {
 			req.fail(function(){
 				alert("Server error: " + req.responseText);
 			});
+	}
+
+	if (type == "plotRegression") {
+		ocpu.seturl("http://localhost/ocpu/github/shubhamkmr47/Helikar/R");
+		var data = dataJSON, plotData = {};
+
+		var var_x = props.var_x, var_s = props.vars;
+		var data = dataJSON, plotData = {};
+		var_s.unshift(var_x);
+
+		var req = ocpu.rpc("regression", {data: data, var_s: var_s}, function(output){
+			plotData.scatterdata = output.scatterdata;
+			plotData.linedata = output.linedata;
+			plotRegression(plotData);
+		});
+
+			//if R returns an error, alert the error message
+			req.fail(function(){
+				alert("Server error: " + req.responseText);
+			});
+
+		// plotData.scatterdata = '[{"description":"hp1","X":"160","Y":"110","cl":"1"},{"description":"hp2","X":"140.8","Y":"95","cl":"1"},{"description":"hp3","X":"167.6","Y":"123","cl":"1"},{"description":"hp4","X":"167.6","Y":"123","cl":"1"},{"description":"hp5","X":"275.8","Y":"180","cl":"1"},{"description":"hp6","X":"275.8","Y":"180","cl":"1"},{"description":"hp7","X":"275.8","Y":"180","cl":"1"},{"description":"hp8","X":"472","Y":"205","cl":"1"},{"description":"hp9","X":"460","Y":"215","cl":"1"},{"description":"hp10","X":"440","Y":"230","cl":"1"},{"description":"hp11","X":"78.7","Y":"66","cl":"1"},{"description":"hp12","X":"75.7","Y":"52","cl":"1"},{"description":"hp13","X":"71.1","Y":"65","cl":"1"},{"description":"hp14","X":"120.1","Y":"97","cl":"1"},{"description":"hp15","X":"318","Y":"150","cl":"1"},{"description":"hp16","X":"304","Y":"150","cl":"1"},{"description":"hp17","X":"350","Y":"245","cl":"1"},{"description":"hp18","X":"400","Y":"175","cl":"1"},{"description":"hp19","X":"79","Y":"66","cl":"1"},{"description":"hp20","X":"120.3","Y":"91","cl":"1"},{"description":"hp21","X":"95.1","Y":"113","cl":"1"},{"description":"hp22","X":"351","Y":"264","cl":"1"},{"description":"hp23","X":"145","Y":"175","cl":"1"},{"description":"hp24","X":"301","Y":"335","cl":"1"},{"description":"hp25","X":"121","Y":"109","cl":"1"}]';
+		// plotData.linedata = '[{"X":"71.1","Y":"66"},{"X":"75.7","Y":"53"},{"X":"78.7","Y":"67"},{"X":"79","Y":"67"},{"X":"95.1","Y":"114"},{"X":"120.1","Y":"98"},{"X":"120.3","Y":"92"},{"X":"121","Y":"110"},{"X":"140.8","Y":"96"},{"X":"145","Y":"176"},{"X":"160","Y":"111"},{"X":"167.6","Y":"124"},{"X":"167.6","Y":"124"},{"X":"275.8","Y":"181"},{"X":"275.8","Y":"181"},{"X":"275.8","Y":"181"},{"X":"301","Y":"336"},{"X":"304","Y":"151"},{"X":"318","Y":"151"},{"X":"350","Y":"246"},{"X":"351","Y":"265"},{"X":"400","Y":"176"},{"X":"440","Y":"231"},{"X":"460","Y":"216"},{"X":"472","Y":"206"}]';
+		// plotRegression(plotData);
 	}
 
 	if(type === "discreteBarChart")

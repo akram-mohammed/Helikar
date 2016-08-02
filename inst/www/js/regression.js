@@ -1,9 +1,10 @@
-function plotScatterData(plotData, straight_bool, exponential_bool, polynomial_bool, logarithmic_bool){
+function plotRegression(plotData){
 
   d3.selectAll("svg > *").remove();
 
-  var data = plotData.scatterdata, lindata = plotData.lindata, expdata = plotData.expdata, logdata = plotData.logdata, poldata = plotData.poldata;
+  var data = plotData.scatterdata, linedata = plotData.linedata;
   data = JSON.parse(data);
+  linedata = JSON.parse(linedata);
 
   // set the stage
   var margin = {t:30, r:20, b:20, l:40 },
@@ -11,16 +12,12 @@ function plotScatterData(plotData, straight_bool, exponential_bool, polynomial_b
     h = 500 - margin.t - margin.b,
     x = d3.scale.linear().range([0, w]),
     y = d3.scale.linear().range([h - 60, 0]),
+    //colors that will reflect geographical regions
     color = d3.scale.category10();
 
   var svg = d3.select("#plot-panel").append("svg")
     .attr("width", w + margin.l + margin.r)
     .attr("height", h + margin.t + margin.b);
-
-  var line = d3.svg.line()
-  .interpolate("basis")
-	.x(function(d) { return x(d.X); } )
-	.y(function(d) { return y(d.Y); } );
 
   // set axes, as well as details on their ticks
   var xAxis = d3.svg.axis()
@@ -36,6 +33,12 @@ function plotScatterData(plotData, straight_bool, exponential_bool, polynomial_b
     .tickSubdivide(true)
     .tickSize(6, 3, 0)
     .orient("left");
+
+  var line = d3.svg.line()
+  .interpolate("basis")
+	.x(function(d) { return x(d.X); } )
+	.y(function(d) { return y(d.Y); } );
+
 
   // group that will contain all of the plots
   var groups = svg.append("g").attr("transform", "translate(" + margin.l + "," + margin.t + ")");
@@ -58,7 +61,8 @@ function plotScatterData(plotData, straight_bool, exponential_bool, polynomial_b
     .attr({
       cx: function(d) { return x(+d.X); },
       cy: function(d) { return y(+d.Y); },
-      r: function(d) { return 4;},
+      r: function(d) {if(d.description == "center") return 8; else return 4;},
+      id: function(d) { return d.description; }
     })
     .style("fill", function(d) { return color(d.cl); });
 
@@ -159,7 +163,7 @@ function plotScatterData(plotData, straight_bool, exponential_bool, polynomial_b
     else{
       circle.transition()
       .duration(800).style("opacity", 0.8)
-      .attr("r", 4.5).ease("elastic");
+      .attr("r", 4).ease("elastic");
     }
 
     // fade out guide lines, then remove them
@@ -172,9 +176,9 @@ function plotScatterData(plotData, straight_bool, exponential_bool, polynomial_b
   circles.on("mouseover", mouseOn);
   circles.on("mouseout", mouseOff);
 
-  // // tooltips (using jQuery plugin tipsy)
-  // circles.append("title")
-  //     .text(function(d) { return d.description; })
+  // tooltips (using jQuery plugin tipsy)
+  circles.append("title")
+      .text(function(d) { return d.description; })
 
   $(".circles").tipsy({ gravity: 's', });
 
@@ -205,44 +209,12 @@ function plotScatterData(plotData, straight_bool, exponential_bool, polynomial_b
     .attr("transform", "rotate(-90)")
     .text("y-coordinate");
 
-    if (straight_bool) {
-      lindata = JSON.parse(lindata);
-      svg.append("path")
-          .datum(lindata)
-          .attr("transform", "translate(" + margin.l + "," + margin.t + ")")
-          .attr("fill", "none")
-          .attr("stroke", "#dc3912")
-          .attr("stroke-width", "1.5px")
-          .attr("d", line);
-    }
-    if (exponential_bool && expdata != "Singular Gradient") {
-      expdata = JSON.parse(expdata);
-      svg.append("path")
-          .datum(expdata)
-          .attr("transform", "translate(" + margin.l + "," + margin.t + ")")
-          .attr("fill", "none")
-          .attr("stroke", "#ff9900")
-          .attr("stroke-width", "1.5px")
-          .attr("d", line);
-    }
-    if (logarithmic_bool && logdata != "Singular Gradient") {
-      logdata = JSON.parse(logdata);
-      svg.append("path")
-          .datum(logdata)
-          .attr("transform", "translate(" + margin.l + "," + margin.t + ")")
-          .attr("fill", "none")
-          .attr("stroke", "#109618")
-          .attr("stroke-width", "1.5px")
-          .attr("d", line);
-    }
-    if (polynomial_bool && poldata != "Singular Gradient") {
-      poldata = JSON.parse(poldata);
-      svg.append("path")
-          .datum(poldata)
-          .attr("transform", "translate(" + margin.l + "," + margin.t + ")")
-          .attr("fill", "none")
-          .attr("stroke", "#990099")
-          .attr("stroke-width", "1.5px")
-          .attr("d", line);
-    }
+    svg.append("path")
+        .datum(linedata)
+        .attr("transform", "translate(" + margin.l + "," + margin.t + ")")
+        .attr("fill", "none")
+        .attr("stroke", "#dc3912")
+        .attr("stroke-width", "1.5px")
+        .attr("d", line);
+
 }

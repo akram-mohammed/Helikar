@@ -267,6 +267,12 @@ var WholeThing = React.createClass(
 				this.setProps({plot_type: plot_type, var_x: var_x, var_y: var_y, straight_bool: straight_bool, exponential_bool: exponential_bool, polynomial_bool, polynomial_bool, logarithmic_bool: logarithmic_bool});
 				break;
 
+			case "regressionPlot":
+				var plot_type = arguments[1], var_x = arguments[3], vars = arguments[4];
+				this.setProps({multi: false, plot: true});
+				this.setProps({plot_type: plot_type, var_x: var_x, vars: vars});
+				break;
+
 			/*
 			 *	Toggle table visibility
 			 */

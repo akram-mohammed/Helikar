@@ -62,6 +62,12 @@ var MyBar = React.createClass(
 		this.props.onClick("show-table");
 	},
 
+	plotRegression: function(plotType, child, varx, vars){
+		this.props.onClick("show-table");
+		this.props.onClick("regressionPlot", plotType, child, varx, vars);
+		this.props.onClick("show-table");
+	},
+
 	uniClick: function(child, variables, functions) {
 		this.props.onClick("show-table");
 		this.props.onClick("stats", variables, functions);
@@ -203,6 +209,10 @@ var MyBar = React.createClass(
 
 						<ModalTrigger modal={<PlotModal onClick={this.plotClick.bind(this, "regression")} variables={this.props.variables}  />}>
 							<MenuItem>Linear Regression</MenuItem>
+						</ModalTrigger>
+
+						<ModalTrigger modal={<RegressionModal onClick={this.plotRegression.bind(this, "plotRegression")} variables={this.props.variables}  />}>
+							<MenuItem>Regression Analysis</MenuItem>
 						</ModalTrigger>
 
 					</DropdownButton>
