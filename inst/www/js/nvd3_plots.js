@@ -97,15 +97,17 @@ function makePlot(obj, props) {
 	if (type === "plotKMeans") {
 
 		var var_x = props.var_x, var_y = props.var_y, kvalue = props.kvalue;
-	
+
 		ocpu.seturl("http://localhost/ocpu/github/shubhamkmr47/Helikar/R");
 
-		var data = dataJSON;
+		var data = dataJSON, plotData = {};
+		plotData.kvalue = kvalue;
 
-		var req = ocpu.rpc("kmeansCluster", {data: data, var_x: var_y, kvalue: kvalue}, function(output){
+		var req = ocpu.rpc("kmeansCluster", {data: data, var_x: var_x, var_y: var_y, kvalue: kvalue}, function(output){
 				var kmeansData = output.message;
-				//addNewPlot('K-means clustering', kmeansData);
-				plotKMeans(kmeansData);
+				plotData.kmeansData = kmeansData;
+				addNewPlot('K-means clustering', plotData);
+				plotKMeans(plotData);
 			});
 
 			//if R returns an error, alert the error message
@@ -135,14 +137,17 @@ function makePlot(obj, props) {
 
 	if (type === "plotQQ") {
 
+	var var_x = props.var_x, var_y = props.var_y;
+
 		ocpu.seturl("http://localhost/ocpu/github/shubhamkmr47/Helikar/R");
 
-		var data = dataJSON;
+		var data = dataJSON, plotData = {};
 
-		var req = ocpu.rpc("q_qplot", {data: data}, function(output){
-				var qqPlotData = output.message;
-					addNewPlot('Q-Q plot', qqPlotData);
-					plotQQ(qqPlotData);
+		var req = ocpu.rpc("q_qplot", {data: data, var_x: var_x, var_y}, function(output){
+				 	plotData.qqdata = output.qqdata;
+					plotData.linedata = output.linedata;
+					addNewPlot('Q-Q plot', plotData);
+					plotQQ(plotData);
 			});
 
 			//if R returns an error, alert the error message

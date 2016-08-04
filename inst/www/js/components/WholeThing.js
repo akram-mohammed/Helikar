@@ -254,6 +254,14 @@ var WholeThing = React.createClass(
 				this.setProps({plot_type: plot_type, var_x: var_x, var_y: var_y, kvalue: kvalue});
 				break;
 
+			case "qq":
+				var plot_type = arguments[1], var_x = arguments[3], var_y = arguments[4];
+				this.setProps({multi: false, plot: true});
+				this.setProps({plot_type: plot_type, var_x: var_x, var_y: var_y});
+				break;
+
+
+
 			/*choose correlation or covariance matrix*/
 			case "comatrix":
 				var plot_type = arguments[1], comatrix = arguments[2];

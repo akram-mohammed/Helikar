@@ -50,6 +50,12 @@ var MyBar = React.createClass(
 		this.props.onClick("show-table");
 	},
 
+	plotQQChart: function(plotType, child, var_x, var_y){
+		this.props.onClick("show-table");
+		this.props.onClick("qq", plotType, child, var_x, var_y);
+		this.props.onClick("show-table");
+	},
+
 	plotComatrixChart: function(plotType, child, comatrix) {
 		this.props.onClick("show-table");
 		this.props.onClick("comatrix", plotType, comatrix);
@@ -189,7 +195,7 @@ var MyBar = React.createClass(
 							<MenuItem>Scatter Matrix</MenuItem>
 						</ModalTrigger>
 
-						<ModalTrigger modal={<QQPlotModal onClick={this.plotD3Chart.bind(this, "plotQQ")} variables={this.props.variables}  />}>
+						<ModalTrigger modal={<QQPlotModal onClick={this.plotQQChart.bind(this, "plotQQ")} variables={this.props.variables}  />}>
 							<MenuItem>QQ plot</MenuItem>
 						</ModalTrigger>
 

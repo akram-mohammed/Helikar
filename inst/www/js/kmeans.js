@@ -1,7 +1,8 @@
-function plotKMeans(data){
+function plotKMeans(plotData){
 
   d3.selectAll("svg > *").remove();
 
+  var data = plotData.kmeansData, kvalue = plotData.kvalue;
   data = JSON.parse(data);
 
   // set the stage
@@ -36,7 +37,7 @@ function plotKMeans(data){
   var groups = svg.append("g").attr("transform", "translate(" + margin.l + "," + margin.t + ")");
 
   // array of the regions, used for the legend
-  var regions = ["1", "2", "3", "4", "5", "6"];
+  var regions = (function(a,b){while(a--)b[a]=a+1;return b})(kvalue,[]);
 
   // sort data alphabetically by region, so that the colors match with legend
   //data.sort(function(a, b) { return d3.ascending(a.region, b.region); })

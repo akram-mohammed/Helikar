@@ -1,7 +1,8 @@
-function plotQQ(data){
+function plotQQ(plotData){
 
   d3.selectAll("svg > *").remove();
 
+  var data = plotData.qqdata, linedata = plotData.linedata;
   data = JSON.parse(data);
 
   // set the stage
