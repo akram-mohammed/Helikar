@@ -13,7 +13,7 @@ var RegressionModal = React.createClass({
 			<Modal {...this.props} title="Regression Analysis">
 				<div className='modal-body'>
 
-          <Input type='select' label='Reference Variable' ref='varx'>
+          <Input type='select' label='Response Variable' ref='varx'>
             {options_list}
           </Input>
 

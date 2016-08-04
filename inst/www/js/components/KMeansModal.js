@@ -2,11 +2,27 @@ var KMeansModal = React.createClass({
 
 	render: function() {
 
+		var options_list = [];
+
+		this.props.variables.forEach(function (variable) {
+			options_list.push(<option value={variable}>{variable}</option>);
+		});
+
 		return (
 			<Modal {...this.props} title="Kmeans Clustering">
 
 				<div className='modal-body'>
 					Input format: The input csv file should contain only two columns of data points.
+
+					<Input type='select' label='Variable - X' ref='first'>
+						{options_list}
+					</Input>
+
+					<Input type='select' label='Variable - Y' ref='second'>
+						{options_list}
+					</Input>
+
+					<Input type="number" label="Number of clusters (k)" ref="kvalue" pattern="[0-9]*" min = "1" step = "1"/>
 				</div>
 
 				<div className='modal-footer'>
@@ -19,6 +35,6 @@ var KMeansModal = React.createClass({
 
 	handleClick: function() {
 		this.props.onRequestHide();
-		this.props.onClick(this);
+		this.props.onClick(this, this.refs.first.getValue(), this.refs.second.getValue(), this.refs.kvalue.getValue());
 		}
 });

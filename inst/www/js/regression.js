@@ -35,10 +35,9 @@ function plotRegression(plotData){
     .orient("left");
 
   var line = d3.svg.line()
-  .interpolate("basis")
+  //.interpolate("basis")
 	.x(function(d) { return x(d.X); } )
 	.y(function(d) { return y(d.Y); } );
-
 
   // group that will contain all of the plots
   var groups = svg.append("g").attr("transform", "translate(" + margin.l + "," + margin.t + ")");

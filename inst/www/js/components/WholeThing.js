@@ -248,6 +248,12 @@ var WholeThing = React.createClass(
 
 				break;
 
+			case "kmeans":
+				var plot_type = arguments[1], var_x = arguments[3], var_y = arguments[4], kvalue = arguments[5];
+				this.setProps({multi: false, plot: true});
+				this.setProps({plot_type: plot_type, var_x: var_x, var_y: var_y, kvalue: kvalue});
+				break;
+
 			/*choose correlation or covariance matrix*/
 			case "comatrix":
 				var plot_type = arguments[1], comatrix = arguments[2];

@@ -44,6 +44,12 @@ var MyBar = React.createClass(
 		this.props.onClick("show-table");
 	},
 
+	plotKMeansChart: function(plotType, child, var_x, var_y, kvalue){
+		this.props.onClick("show-table");
+		this.props.onClick("kmeans", plotType, child, var_x, var_y, kvalue);
+		this.props.onClick("show-table");
+	},
+
 	plotComatrixChart: function(plotType, child, comatrix) {
 		this.props.onClick("show-table");
 		this.props.onClick("comatrix", plotType, comatrix);
@@ -175,7 +181,7 @@ var MyBar = React.createClass(
 							<MenuItem>Dendogram</MenuItem>
 						</ModalTrigger>
 
-						<ModalTrigger modal={<KMeansModal onClick={this.plotD3Chart.bind(this, "plotKMeans")} variables={this.props.variables}  />}>
+						<ModalTrigger modal={<KMeansModal onClick={this.plotKMeansChart.bind(this, "plotKMeans")} variables={this.props.variables}  />}>
 							<MenuItem>K-means clustering</MenuItem>
 						</ModalTrigger>
 

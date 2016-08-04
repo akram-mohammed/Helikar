@@ -1,11 +1,13 @@
-kmeansClustring <- function(myname = ""){
+kmeansClustring <- function(data, var_x, var_y, kvalue){
 
   library(jsonlite)
 
-  data <- fromJSON(myname)
+  data <- fromJSON(data)
+  data <- na.omit(data)
+  data <- data[c(var_x, var_y)]
   colnames(data) <- c("X", "Y")
 
-  cl <- kmeans(x = data, centers = 6)
+  cl <- kmeans(x = data, centers = kvalue)
 
   data <- cbind(description = c(1:dim(data)[1]), data, cl = cl$cluster)
 
@@ -15,6 +17,6 @@ kmeansClustring <- function(myname = ""){
 
   data <- merge(data, center, all = TRUE)
 
-  json_string <- toJSON(data)
-  list(message = paste(json_string))
+  kmeansdata <- toJSON(data)
+  list(message = paste(kmeansdata))
 }
