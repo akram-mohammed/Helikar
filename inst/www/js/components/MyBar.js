@@ -179,9 +179,9 @@ var MyBar = React.createClass(
 					</DropdownButton>
 
 					<DropdownButton title="Statistics">
-						<ModalTrigger modal={<HeatmapModal/>}>
-							<MenuItem>Heatmap ?</MenuItem>
-						</ModalTrigger>
+					<ModalTrigger modal={<HeatmapModal onClick={this.plotD3Chart.bind(this, "plotDendogram")} variables={this.props.variables}  />}>
+						<MenuItem>Heatmap ??</MenuItem>
+					</ModalTrigger>
 
 						<ModalTrigger modal={<DendogramModal onClick={this.plotD3Chart.bind(this, "plotDendogram")} variables={this.props.variables}  />}>
 							<MenuItem>Dendogram</MenuItem>

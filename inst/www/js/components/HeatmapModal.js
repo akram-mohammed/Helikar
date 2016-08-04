@@ -1,16 +1,24 @@
 var HeatmapModal = React.createClass({
-    render: function() {
-        return (
 
-          <div>
-            <iframe
-                    style={{overflow:"hidden", height:"500", width:"100%", position:"absolute"}}
-                    src="./heatmap.html"
-                    frameborder="0"
-                    allowfullscreen>
-            </iframe>
-          </div>
-        );
-    }
+	render: function() {
+
+		return (
+			<Modal {...this.props} title="Heatmap">
+
+				<div className='modal-body'>
+          Input format: The csv file of data should contain a column of rows.
+				</div>
+
+				<div className='modal-footer'>
+			    <Button onClick={this.handleClick}>Submit</Button>
+    		</div>
+
+			</Modal>
+		);
+	},
+
+	handleClick: function() {
+		this.props.onRequestHide();
+		this.props.onClick(this);
+		}
 });
-React.render(<HeatmapModal/>, document.body);

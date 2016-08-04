@@ -4,6 +4,7 @@ function plotQQ(plotData){
 
   var data = plotData.qqdata, linedata = plotData.linedata;
   data = JSON.parse(data);
+  linedata = JSON.parse(linedata);
 
   // set the stage
   var margin = {t:30, r:20, b:20, l:40 },
@@ -17,6 +18,10 @@ function plotQQ(plotData){
   var svg = d3.select("#plot-panel").append("svg")
     .attr("width", w + margin.l + margin.r)
     .attr("height", h + margin.t + margin.b);
+
+  var line = d3.svg.line()
+	.x(function(d) { return x(d.X); } )
+	.y(function(d) { return y(d.Y); } );
 
   // set axes, as well as details on their ticks
   var xAxis = d3.svg.axis()
@@ -203,5 +208,13 @@ function plotQQ(plotData){
     .attr("dy", ".75em")
     .attr("transform", "rotate(-90)")
     .text("y-coordinate");
+
+  svg.append("path")
+      .datum(linedata)
+      .attr("transform", "translate(" + margin.l + "," + margin.t + ")")
+      .attr("fill", "none")
+      .attr("stroke", "#dc3912")
+      .attr("stroke-width", "1.5px")
+      .attr("d", line);
 
 }

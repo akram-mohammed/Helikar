@@ -77,7 +77,7 @@ function makePlot(obj, props) {
 
 	if (type === "plotDendogram") {
 
-		ocpu.seturl("http://localhost/ocpu/github/shubhamkmr47/Helikar/R");
+		ocpu.seturl("http://public.opencpu.org/ocpu/github/shubhamkmr47/Helikar/R");
 
 		var data = dataJSON;
 		console.log(data);
@@ -98,7 +98,7 @@ function makePlot(obj, props) {
 
 		var var_x = props.var_x, var_y = props.var_y, kvalue = props.kvalue;
 
-		ocpu.seturl("http://localhost/ocpu/github/shubhamkmr47/Helikar/R");
+		ocpu.seturl("http://public.opencpu.org/ocpu/github/shubhamkmr47/Helikar/R");
 
 		var data = dataJSON, plotData = {};
 		plotData.kvalue = kvalue;
@@ -114,12 +114,11 @@ function makePlot(obj, props) {
 			req.fail(function(){
 				alert("Server error: " + req.responseText);
 			});
-		//addNewPlot("dendogram", plotsData);
 	}
 
 	if (type === "plotScatterMatrix") {
 
-		ocpu.seturl("http://localhost/ocpu/github/shubhamkmr47/Helikar/R");
+		ocpu.seturl("http://public.opencpu.org/ocpu/github/shubhamkmr47/Helikar/R");
 
 		var data = dataJSON;
 
@@ -139,7 +138,7 @@ function makePlot(obj, props) {
 
 	var var_x = props.var_x, var_y = props.var_y;
 
-		ocpu.seturl("http://localhost/ocpu/github/shubhamkmr47/Helikar/R");
+		ocpu.seturl("http://public.opencpu.org/ocpu/github/shubhamkmr47/Helikar/R");
 
 		var data = dataJSON, plotData = {};
 
@@ -158,7 +157,7 @@ function makePlot(obj, props) {
 
 	if (type === "plotTimeSeries") {
 
-		ocpu.seturl("http://localhost/ocpu/github/shubhamkmr47/Helikar/R");
+		ocpu.seturl("http://public.opencpu.org/ocpu/github/shubhamkmr47/Helikar/R");
 
 		var data = dataJSON;
 
@@ -177,7 +176,7 @@ function makePlot(obj, props) {
 
 	if (type === "plotComatrix") {
 
-		ocpu.seturl("http://localhost/ocpu/github/shubhamkmr47/Helikar/R");
+		ocpu.seturl("http://public.opencpu.org/ocpu/github/shubhamkmr47/Helikar/R");
 
 		var method = props.comatrix;
 		var data = dataJSON;
@@ -200,7 +199,7 @@ function makePlot(obj, props) {
 	if (type == "plotBarChart") {
 		if (props.simple_bool) {
 
-			ocpu.seturl("http://localhost/ocpu/github/shubhamkmr47/Helikar/R");
+			ocpu.seturl("http://public.opencpu.org/ocpu/github/shubhamkmr47/Helikar/R");
 
 			var data = dataJSON, value = props.var_x, plotData = {};
 
@@ -219,7 +218,7 @@ function makePlot(obj, props) {
 		}
 		if (props.group_bool) {
 
-			ocpu.seturl("http://localhost/ocpu/github/shubhamkmr47/Helikar/R");
+			ocpu.seturl("http://public.opencpu.org/ocpu/github/shubhamkmr47/Helikar/R");
 
 			var data = dataJSON;
 
@@ -236,7 +235,7 @@ function makePlot(obj, props) {
 		}
 		if (props.stack_bool) {
 
-			ocpu.seturl("http://localhost/ocpu/github/shubhamkmr47/Helikar/R");
+			ocpu.seturl("http://public.opencpu.org/ocpu/github/shubhamkmr47/Helikar/R");
 
 			var data = dataJSON;
 
@@ -255,7 +254,7 @@ function makePlot(obj, props) {
 
 	if (type == "plotScatterPlot") {
 		var var_x = props.var_x, var_y = props.var_y, straight_bool = props.straight_bool, exponential_bool = props.exponential_bool, polynomial_bool = props.polynomial_bool, logarithmic_bool = props.logarithmic_bool;
-		ocpu.seturl("http://localhost/ocpu/github/shubhamkmr47/Helikar/R");
+		ocpu.seturl("http://public.opencpu.org/ocpu/github/shubhamkmr47/Helikar/R");
 		var data = dataJSON, plotData = {};
 
 		var req = ocpu.rpc("scatterplot", {data: data, var_x: var_x, var_y: var_y}, function(output){
@@ -275,7 +274,7 @@ function makePlot(obj, props) {
 	}
 
 	if (type == "plotRegression") {
-		// ocpu.seturl("http://localhost/ocpu/github/shubhamkmr47/Helikar/R");
+		// ocpu.seturl("http://public.opencpu.org/ocpu/github/shubhamkmr47/Helikar/R");
 		var data = dataJSON, plotData = {};
 		//
 		// var var_x = props.var_x, var_s = props.vars;
