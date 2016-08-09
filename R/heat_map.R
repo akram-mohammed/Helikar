@@ -11,19 +11,17 @@ heat_map <- function(data = ""){
 
   mat <- data
 
-  t <- dim(mat)[1]
+  t <- dim(mat)[2]
 
   V1 <- rep("R", t)
   V2 <- colnames(mat)
   columns <- data.frame(V1, V2)
   columns <- as.matrix(columns)
 
-  index <- rownames(data)
-  data <- as.matrix(mat)
+  index <- rownames(mat)
 
   out <- list(columns = columns, index = index, data = data)
   out <- toJSON(out)
-  cat(out)
 
   list(message = paste(out))
 }
