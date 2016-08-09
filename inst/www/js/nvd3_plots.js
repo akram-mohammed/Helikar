@@ -273,7 +273,7 @@ function makePlot(obj, props) {
 	}
 
 	if (type == "plotHeatmap") {
-		ocpu.seturl("//public.opencpu.org/ocpu/github/shubhamkmr47/Helikar/R");
+		ocpu.seturl("http://localhost/ocpu/github/shubhamkmr47/Helikar/R");
 
 		var data = dataJSON, plotData = {};
 

@@ -22,7 +22,7 @@ heat_map <- function(data = ""){
   data <- as.matrix(mat)
 
   out <- list(columns = columns, index = index, data = data)
-  out <- toJSON
+  out <- toJSON(out)
 
   list(message = paste(out))
 }
