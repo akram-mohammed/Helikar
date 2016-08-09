@@ -1,20 +1,15 @@
-comatrix <- function(data = "", method = ""){
+heat_map <- function(data = ""){
 
   library(jsonlite)
 
   data <- fromJSON(data)
-  data <- data.frame(data)
   data <- na.omit(data)
+
   rownames(data) <- as.vector(data[,1])
   data[,1] <- NULL
   data <- as.matrix(data)
 
-  if(method == 'cor'){
-    mat = cor(data)
-  }
-  if(method == 'cov'){
-    mat = cov(data)
-  }
+  mat <- data
 
   t <- dim(mat)[1]
 
@@ -27,7 +22,7 @@ comatrix <- function(data = "", method = ""){
   data <- as.matrix(mat)
 
   out <- list(columns = columns, index = index, data = data)
-  out <- toJSON(out)
+  out <- toJSON
 
   list(message = paste(out))
 }

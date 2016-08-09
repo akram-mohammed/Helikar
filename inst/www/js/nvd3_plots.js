@@ -277,13 +277,13 @@ function makePlot(obj, props) {
 
 		var data = dataJSON, plotData = {};
 
-		var req = ocpu.rpc("heatMap", {data: data}, function(output){
-				plotData.heatmapdata = output.heatmapdata;
+		var req = ocpu.rpc("heat_map", {data: data}, function(output){
+				plotData.heatmapdata = output.message;
 				// plotData.rowLabel = output.rowLabel;
 				// plotData.colLabel = output.colLabel;
 				// plotData.maxValue = output.maxValue;
 				// plotData.minValue = output.minValue;
-				alert(plotData.heatmapdata);
+				alert(plotData.message);
 				// //var stackBarPlotData = output.message;
 				// //addNewPlot('Stack Bar Plot', stackBarPlotData);
 				// plotHeatmap(plotData);
