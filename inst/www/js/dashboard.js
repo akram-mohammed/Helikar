@@ -45,6 +45,10 @@ function plotDashboard(plotType, plotData){
     case 'Stack Bar Plot':
       plotStackBar(plotData);
       break;
+      
+    case 'Heatmap':
+      comatrixPlot(plotData);
+      break;
   }
 }
 

@@ -279,13 +279,7 @@ function makePlot(obj, props) {
 
 		var req = ocpu.rpc("heat_map", {data: data}, function(output){
 				plotData.message = output.message;
-				// plotData.rowLabel = output.rowLabel;
-				// plotData.colLabel = output.colLabel;
-				// plotData.maxValue = output.maxValue;
-				// plotData.minValue = output.minValue;
-				alert(plotData.message);
-				// //var stackBarPlotData = output.message;
-				// //addNewPlot('Stack Bar Plot', stackBarPlotData);
+				addNewPlot('Heatmap', plotData.message);
 				comatrixPlot(plotData.message);
 			});
 

@@ -4,7 +4,6 @@ heat_map <- function(data = ""){
 
   data <- fromJSON(data)
   data <- na.omit(data)
-  data <- data[1:3, 1:4]
 
   rownames(data) <- as.vector(data[,1])
   data[,1] <- NULL
