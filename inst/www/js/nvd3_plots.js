@@ -279,7 +279,7 @@ function makePlot(obj, props) {
 
 		var data = dataJSON;
 
-		var req = ocpu.rpc("plotHeatmap", {data: data}, function(output){
+		var req = ocpu.rpc("heatMap", {data: data}, function(output){
 				plotData.heatmapdata = output.heatmapdata;
 				plotData.rowLabel = output.rowLabel;
 				plotData.colLabel = output.colLabel;
