@@ -4,6 +4,7 @@ heat_map <- function(data = ""){
 
   data <- fromJSON(data)
   data <- na.omit(data)
+  data <- data[1:3, 1:4]
 
   rownames(data) <- as.vector(data[,1])
   data[,1] <- NULL
@@ -14,15 +15,16 @@ heat_map <- function(data = ""){
   t <- dim(mat)[1]
 
   V1 <- rep("R", t)
-  V2 <- rownames(mat)
+  V2 <- colnames(mat)
   columns <- data.frame(V1, V2)
   columns <- as.matrix(columns)
 
-  index <- colnames(data)
+  index <- rownames(data)
   data <- as.matrix(mat)
 
   out <- list(columns = columns, index = index, data = data)
   out <- toJSON(out)
+  cat(out)
 
   list(message = paste(out))
 }
