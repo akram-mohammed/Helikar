@@ -132,10 +132,6 @@ var MyBar = React.createClass(
 						<FileField ref="file"/>
 						<MenuItem onClick={this.saveClick}>Export image</MenuItem>
 
-						<ModalTrigger modal={<URLModal onClick={this.urlClick.bind(this, "urlData")} variables={this.props.variables}  />}>
-							<MenuItem>Input URL</MenuItem>
-						</ModalTrigger>
-
 						<ModalTrigger modal={<DashboardModal onClick={this.dashboardClick.bind(this, "initDashboard")} variables={this.props.variables}  />}>
 							<MenuItem>Dashboard</MenuItem>
 						</ModalTrigger>
@@ -179,10 +175,6 @@ var MyBar = React.createClass(
 					</DropdownButton>
 
 					<DropdownButton title="Statistics">
-					<ModalTrigger modal={<HeatmapModal onClick={this.plotD3Chart.bind(this, "plotDendogram")} variables={this.props.variables}  />}>
-						<MenuItem>Heatmap ??</MenuItem>
-					</ModalTrigger>
-
 						<ModalTrigger modal={<DendogramModal onClick={this.plotD3Chart.bind(this, "plotDendogram")} variables={this.props.variables}  />}>
 							<MenuItem>Dendogram</MenuItem>
 						</ModalTrigger>
@@ -221,10 +213,6 @@ var MyBar = React.createClass(
 
 						<ModalTrigger modal={<PlotModal onClick={this.plotClick.bind(this, "regression")} variables={this.props.variables}  />}>
 							<MenuItem>Linear Regression</MenuItem>
-						</ModalTrigger>
-
-						<ModalTrigger modal={<RegressionModal onClick={this.plotRegression.bind(this, "plotRegression")} variables={this.props.variables}  />}>
-							<MenuItem>Regression Analysis</MenuItem>
 						</ModalTrigger>
 
 					</DropdownButton>

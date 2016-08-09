@@ -27,6 +27,7 @@ function comatrixPlot(data) {
     //==================================================
     var tooltip = d3.select(heatmapId)
         .append("div")
+        .style("width", "600p")
         .style("position", "absolute")
         .style("visibility", "hidden");
 
@@ -42,7 +43,7 @@ function comatrixPlot(data) {
     //==================================================
     var viewerWidth = $(document).width();
     var viewerHeight = $(document).height();
-    var viewerPosTop = 200;
+    var viewerPosTop = 100;
     var viewerPosLeft = 100;
 
     var legendElementWidth = cellSize * 2;
@@ -231,35 +232,28 @@ function comatrixPlot(data) {
               //console.log(d3.select(this));
           });
 
-      var legend = svg.append("g")
-          .attr("class", "legend")
-          .attr("transform", "translate(0,-300)")
-          .selectAll(".legendElement")
+      var legend = svg.selectAll(".legend")
           .data(list)
-          .enter().append("g")
-          .attr("class", "legendElement");
+        .enter().append("g")
+          .attr("class", "legend")
+          .attr("transform", function(d, i) { return "translate(1000," + i * 20 + ")"; });
 
-      legend.append("svg:rect")
-          .attr("x", function(d, i) {
-              return legendElementWidth * i;
-          })
-          .attr("y", viewerPosTop)
-          .attr("class", "cellLegend bordered")
-          .attr("width", legendElementWidth)
-          .attr("height", cellSize / 2)
+      legend.append("rect")
+          .attr("x", 0)
+          .attr("width", 18)
+          .attr("height", 18)
           .style("fill", function(d, i) {
               return colors[i];
           });
 
       legend.append("text")
-          .attr("class", "mono legendElement")
+          .attr("x", -10)
+          .attr("y", 9)
+          .attr("dy", ".35em")
+          .style("text-anchor", "end")
           .text(function(d) {
               return Math.round(d * 100) / 100;
           })
-          .attr("x", function(d, i) {
-              return legendElementWidth * i;
-          })
-          .attr("y", viewerPosTop + cellSize);
 
       //==================================================
       // Change ordering of cells

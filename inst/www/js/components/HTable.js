@@ -39,8 +39,8 @@ var HTable = React.createClass({
 
 	            colHeaders: function (col) {
 	            	// GHETTO - change later if necessary
-	            	// Sets markup of each column header 
-        	    	return "<b>" + headers[col] + "</b>" + "<button class='mod_button' name='" + headers[col] + "' style='margin-left: 10%;'>\u25BC</button>";		
+	            	// Sets markup of each column header
+        	    	return "<b>" + headers[col] + "</b>" + "<button class='mod_button' name='" + headers[col] + "' style='margin-left: 10%;'>\u25BC</button>";
 	        	}
 	        });
     	}
@@ -66,7 +66,7 @@ var HTable = React.createClass({
 	},
 
 	toggleDisplay: function() {
-		if(!this.props.visible) 
+		if(!this.props.visible)
 			this.displayOn();
 		else
 			this.displayOff();
@@ -75,7 +75,7 @@ var HTable = React.createClass({
 	render: function() {
 
 		return (
-			<div id={"hot-div" + this.props.table_id} ref="tempref" style={{width: '500px', overflow: 'auto', margin: '2% auto'}}></div>
+			<div id={"hot-div" + this.props.table_id} ref="tempref" style={{width: '1000px', overflow: 'auto', margin: '2% auto'}}></div>
 		);
 	}
 });

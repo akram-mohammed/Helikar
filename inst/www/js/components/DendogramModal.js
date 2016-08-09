@@ -12,7 +12,6 @@ var DendogramModal = React.createClass({
 				<div className='modal-footer'>
 			    <Button onClick={this.handleClick}>Submit</Button>
     		</div>
-
 			</Modal>
 		);
 	},

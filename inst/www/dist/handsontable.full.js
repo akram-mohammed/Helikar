@@ -20043,7 +20043,7 @@ WalkontableColumnFilter.prototype.sourceColumnToVisibleRowHeadedColumn = functio
 
 /**
  * WalkontableColumnStrategy
- * 
+ *
  * @param containerSizeFn
  * @param sizeAtIndex
  * @param strategy - all, last, none

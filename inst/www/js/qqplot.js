@@ -196,15 +196,15 @@ function plotQQ(plotData){
   svg.append("text")
     .attr("class", "x label")
     .attr("text-anchor", "end")
-    .attr("x", w + 50)
-    .attr("y", h - margin.t - 5)
+    .attr("x", w/2)
+    .attr("y", h)
     .text("x-coordinate");
 
   svg.append("text")
     .attr("class", "y label")
     .attr("text-anchor", "end")
-    .attr("x", -20)
-    .attr("y", 45)
+    .attr("x", -200)
+    .attr("y", 0)
     .attr("dy", ".75em")
     .attr("transform", "rotate(-90)")
     .text("y-coordinate");

@@ -75,13 +75,15 @@ function plotTimeSeries(data, count){
 
   //end slider part-----------------------------------------------------------------------------------
 
+  var keys = d3.keys(data[0]);
+
   color.domain(d3.keys(data[0]).filter(function(key) { // Set the domain of the color ordinal scale to be all the csv headers except "date", matching a color to an issue
-    return key !== "date";
+    return key !== keys[0];
   }));
 
-  data.forEach(function(d) { // Make every date in the csv data a javascript date object format
-    d.date = d.date;
-  });
+  // data.forEach(function(d) { // Make every date in the csv data a javascript date object format
+  //   d.date = d.date;
+  // });
 
   var categories = color.domain().map(function(name) { // Nest the data into an array of objects with new keys
 
@@ -93,7 +95,7 @@ function plotTimeSeries(data, count){
           rating: +(d[name]),
           };
       }),
-      //visible: (name === "Unemployment" ? true : false) // "visible": all false except for economy which is true.
+      visible: (name === keys[1] ? true : false) // "visible": all false except for economy which is true.
     };
   });
 
@@ -152,7 +154,7 @@ function plotTimeSeries(data, count){
       .attr("x", -10)
       .attr("dy", ".71em")
       .style("text-anchor", "end")
-      .text("Issues Rating");
+      .text("y-coordinate");
 
   var issue = svg.selectAll(".issue")
       .data(categories) // Select nested data and append to new svg group elements
@@ -215,10 +217,35 @@ function plotTimeSeries(data, count){
         d3.select("#line-" + d.name.replace(" ", "").replace("/", ""))
           .transition()
           .style("stroke-width", 2.5);
+
+          d.visible = !d.visible; // If array key for this data selection is "visible" = true then make it false, if false then make it true
+
+          maxY = findMaxY(categories); // Find max Y rating value categories data with "visible"; true
+          yScale.domain([0,maxY]); // Redefine yAxis domain based on highest y value of categories data with "visible"; true
+          svg.select(".y.axis")
+            .transition()
+            .call(yAxis);
+
+          issue.select("path")
+            .transition()
+            .attr("d", function(d){
+              return d.visible ? line(d.values) : null; // If d.visible is true then draw line for this d selection
+            })
+
+          issue.select("text")
+            .transition()
+            .attr("fill", function(d) {
+            return d.visible ? color(d.name) : "#000";
+          })
+
+          issue.select("rect")
+            .transition()
+            .attr("fill", function(d) {
+            return d.visible ? color(d.name) : "#F1F1F2";
+          });
       })
 
       .on("mouseout", function(d){
-
         d3.select(this)
           .transition()
           .attr("fill", function(d) {
@@ -227,12 +254,150 @@ function plotTimeSeries(data, count){
         d3.select("#line-" + d.name.replace(" ", "").replace("/", ""))
           .transition()
           .style("stroke-width", 1.5);
-      })
+
+        d3.select("#line-" + d.name.replace(" ", "").replace("/", ""))
+          .transition()
+          .style("stroke-width", 2.5);
+
+        d.visible = !d.visible; // If array key for this data selection is "visible" = true then make it false, if false then make it true
+
+        maxY = findMaxY(categories); // Find max Y rating value categories data with "visible"; true
+        yScale.domain([0,maxY]); // Redefine yAxis domain based on highest y value of categories data with "visible"; true
+        svg.select(".y.axis")
+          .transition()
+          .call(yAxis);
+
+        issue.select("path")
+          .transition()
+          .attr("d", function(d){
+            return d.visible ? line(d.values) : null; // If d.visible is true then draw line for this d selection
+          })
+
+        issue.select("text")
+          .transition()
+          .attr("fill", function(d) {
+          return d.visible ? color(d.name) : "#000";
+        })
+
+        issue.select("rect")
+          .transition()
+          .attr("fill", function(d) {
+          return d.visible ? color(d.name) : "#F1F1F2";
+        });
+      });
 
   issue.append("text")
       .attr("x", width + (margin.right/3))
       .attr("y", function (d, i) { return (legendSpace)+i*(legendSpace); })  // (return (11.25/2 =) 5.625) + i * (5.625)
-      .text(function(d) { return d.name; });
+      .text(function(d) { return d.name; })
+
+    .on("click", function(d){ // On click make d.visible
+      d.visible = !d.visible; // If array key for this data selection is "visible" = true then make it false, if false then make it true
+
+      maxY = findMaxY(categories); // Find max Y rating value categories data with "visible"; true
+      yScale.domain([0,maxY]); // Redefine yAxis domain based on highest y value of categories data with "visible"; true
+      svg.select(".y.axis")
+        .transition()
+        .call(yAxis);
+
+      issue.select("path")
+        .transition()
+        .attr("d", function(d){
+          return d.visible ? line(d.values) : null; // If d.visible is true then draw line for this d selection
+        })
+
+      issue.select("rect")
+        .transition()
+        .attr("fill", function(d) {
+        return d.visible ? color(d.name) : "#F1F1F2";
+      })
+
+      issue.select("text")
+        .transition()
+        .attr("fill", function(d) {
+        return d.visible ? color(d.name) : "#000";
+      });
+    })
+
+    .on("mouseover", function(d){
+
+      d3.select(this)
+        .transition()
+        .attr("fill", function(d) { return color(d.name); });
+
+      d3.select("#line-" + d.name.replace(" ", "").replace("/", ""))
+        .transition()
+        .style("stroke-width", 2.5);
+
+        d.visible = !d.visible; // If array key for this data selection is "visible" = true then make it false, if false then make it true
+
+        maxY = findMaxY(categories); // Find max Y rating value categories data with "visible"; true
+        yScale.domain([0,maxY]); // Redefine yAxis domain based on highest y value of categories data with "visible"; true
+        svg.select(".y.axis")
+          .transition()
+          .call(yAxis);
+
+        issue.select("path")
+          .transition()
+          .attr("d", function(d){
+            return d.visible ? line(d.values) : null; // If d.visible is true then draw line for this d selection
+          })
+
+        issue.select("text")
+          .transition()
+          .attr("fill", function(d) {
+          return d.visible ? color(d.name) : "#000";
+        })
+
+        issue.select("rect")
+          .transition()
+          .attr("fill", function(d) {
+          return d.visible ? color(d.name) : "#F1F1F2";
+        });
+    })
+
+    .on("mouseout", function(d){
+      d3.select(this)
+        .transition()
+        .attr("fill", function(d) {
+        return d.visible ? color(d.name) : "#000";});
+
+      d3.select("#line-" + d.name.replace(" ", "").replace("/", ""))
+        .transition()
+        .style("stroke-width", 1.5);
+
+      d3.select("#line-" + d.name.replace(" ", "").replace("/", ""))
+        .transition()
+        .style("stroke-width", 2.5);
+
+      d.visible = !d.visible; // If array key for this data selection is "visible" = true then make it false, if false then make it true
+
+      maxY = findMaxY(categories); // Find max Y rating value categories data with "visible"; true
+      yScale.domain([0,maxY]); // Redefine yAxis domain based on highest y value of categories data with "visible"; true
+      svg.select(".y.axis")
+        .transition()
+        .call(yAxis);
+
+      issue.select("path")
+        .transition()
+        .attr("d", function(d){
+          return d.visible ? line(d.values) : null; // If d.visible is true then draw line for this d selection
+        })
+
+      issue.select("text")
+        .transition()
+        .attr("fill", function(d) {
+        return d.visible ? color(d.name) : "#000";
+      })
+
+      issue.select("rect")
+        .transition()
+        .attr("fill", function(d) {
+        return d.visible ? color(d.name) : "#F1F1F2";
+      });
+    });
+
+      ;
 
   // Hover line
   var hoverLineGroup = svg.append("g")

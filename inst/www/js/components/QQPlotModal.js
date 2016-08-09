@@ -12,8 +12,6 @@ var QQPlotModal = React.createClass({
 			<Modal {...this.props} title="QQ Plot">
 
 				<div className='modal-body'>
-          Input format: The csv file of data should contain only two columns.
-
 					<Input type='select' label='Variable - X' ref='first'>
 						{options_list}
 					</Input>

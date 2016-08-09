@@ -12,7 +12,6 @@ var KMeansModal = React.createClass({
 			<Modal {...this.props} title="Kmeans Clustering">
 
 				<div className='modal-body'>
-					Input format: The input csv file should contain only two columns of data points.
 
 					<Input type='select' label='Variable - X' ref='first'>
 						{options_list}
@@ -34,7 +33,13 @@ var KMeansModal = React.createClass({
 	},
 
 	handleClick: function() {
-		this.props.onRequestHide();
-		this.props.onClick(this, this.refs.first.getValue(), this.refs.second.getValue(), this.refs.kvalue.getValue());
+		var k = this.refs.kvalue.getValue();
+		if (k > 0 || parseFloat(k) === k >>> 0) {
+			this.props.onRequestHide();
+			this.props.onClick(this, this.refs.first.getValue(), this.refs.second.getValue(), this.refs.kvalue.getValue());
+		}
+		else {
+			alert("Value of 'K' is a positive integer");
+		}
 		}
 });
