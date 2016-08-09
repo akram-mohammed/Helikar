@@ -79,6 +79,7 @@ function makePlot(obj, props) {
 		ocpu.seturl("//public.opencpu.org/ocpu/github/shubhamkmr47/Helikar/R");
 
 		var data = dataJSON;
+		console.log(JSON.stringify(data));
 
 		var req = ocpu.rpc("dendogram", {data: data}, function(output){
         var dendogramData = output.message;
@@ -271,28 +272,37 @@ function makePlot(obj, props) {
 			});
 	}
 
-	if (type == "plotRegression") {
-		// ocpu.seturl("//public.opencpu.org/ocpu/github/shubhamkmr47/Helikar/R");
-		var data = dataJSON, plotData = {};
-		//
-		// var var_x = props.var_x, var_s = props.vars;
-		// var data = dataJSON, plotData = {};
-		// var_s.unshift(var_x);
-		//
-		// var req = ocpu.rpc("regression", {data: data, var_s: var_s}, function(output){
-		// 	plotData.scatterdata = output.scatterdata;
-		// 	plotData.linedata = output.linedata;
-		// 	plotRegression(plotData);
-		// });
-		//
-		// 	//if R returns an error, alert the error message
-		// 	req.fail(function(){
-		// 		alert("Server error: " + req.responseText);
-		// 	});
+	if (type == "plotHeatmap") {
+		var plotData = {};
 
-		plotData.scatterdata = '[{"description":"disp1","X":"160","Y":"21","cl":"1"},{"description":"disp2","X":"140.8","Y":"22.8","cl":"1"},{"description":"disp3","X":"167.6","Y":"19.2","cl":"1"},{"description":"disp4","X":"167.6","Y":"17.8","cl":"1"},{"description":"disp5","X":"275.8","Y":"16.4","cl":"1"},{"description":"disp6","X":"275.8","Y":"17.3","cl":"1"},{"description":"disp7","X":"275.8","Y":"15.2","cl":"1"},{"description":"disp8","X":"472","Y":"10.4","cl":"1"},{"description":"disp9","X":"460","Y":"10.4","cl":"1"},{"description":"disp10","X":"440","Y":"14.7","cl":"1"},{"description":"disp11","X":"78.7","Y":"32.4","cl":"1"},{"description":"disp12","X":"75.7","Y":"30.4","cl":"1"},{"description":"disp13","X":"71.1","Y":"33.9","cl":"1"},{"description":"disp14","X":"120.1","Y":"21.5","cl":"1"},{"description":"disp15","X":"318","Y":"15.5","cl":"1"},{"description":"disp16","X":"304","Y":"15.2","cl":"1"},{"description":"disp17","X":"350","Y":"13.3","cl":"1"},{"description":"disp18","X":"400","Y":"19.2","cl":"1"},{"description":"disp19","X":"79","Y":"27.3","cl":"1"},{"description":"disp20","X":"120.3","Y":"26","cl":"1"},{"description":"disp21","X":"95.1","Y":"30.4","cl":"1"},{"description":"disp22","X":"351","Y":"15.8","cl":"1"},{"description":"disp23","X":"145","Y":"19.7","cl":"1"},{"description":"disp24","X":"301","Y":"15","cl":"1"},{"description":"disp25","X":"121","Y":"21.4","cl":"1"}]';
-		plotData.linedata = '[{"X":"71.1","Y":"27.0036607790034"},{"X":"75.7","Y":"26.8042322603381"},{"X":"78.7","Y":"26.6741701829477"},{"X":"79","Y":"26.6611639752086"},{"X":"95.1","Y":"25.96316415988"},{"X":"120.1","Y":"24.8793135149599"},{"X":"120.3","Y":"24.8706427098005"},{"X":"121","Y":"24.8402948917428"},{"X":"140.8","Y":"23.981885180966"},{"X":"145","Y":"23.7997982726194"},{"X":"160","Y":"23.1494878856673"},{"X":"167.6","Y":"22.8199972896116"},{"X":"167.6","Y":"22.8199972896116"},{"X":"275.8","Y":"18.1290916983971"},{"X":"275.8","Y":"18.1290916983971"},{"X":"275.8","Y":"18.1290916983971"},{"X":"301","Y":"17.0365702483176"},{"X":"304","Y":"16.9065081709271"},{"X":"318","Y":"16.2995518097719"},{"X":"350","Y":"14.912222984274"},{"X":"351","Y":"14.8688689584772"},{"X":"400","Y":"12.7445216944337"},{"X":"440","Y":"11.0103606625614"},{"X":"460","Y":"10.1432801466253"},{"X":"472","Y":"9.62303183706364"}]';
-		plotRegression(plotData);
+		ocpu.seturl("//public.opencpu.org/ocpu/github/shubhamkmr47/Helikar/R");
+
+		var data = dataJSON;
+
+		var req = ocpu.rpc("plotHeatmap", {data: data}, function(output){
+				plotData.heatmapdata = output.heatmapdata;
+				plotData.rowLabel = output.rowLabel;
+				plotData.colLabel = output.colLabel;
+				plotData.maxValue = output.maxValue;
+				plotData.minValue = output.minValue;
+				//var stackBarPlotData = output.message;
+				//addNewPlot('Stack Bar Plot', stackBarPlotData);
+				plotHeatmap(plotData);
+			});
+
+			//if R returns an error, alert the error message
+			req.fail(function(){
+				alert("Server error: " + req.responseText);
+			});
+
+
+		// plotData.heatmapdata = '[{"row":1,"col":1,"value":21},{"row":2,"col":1,"value":22.8},{"row":3,"col":1,"value":19.2},{"row":1,"col":2,"value":6},{"row":2,"col":2,"value":4},{"row":3,"col":2,"value":6},{"row":1,"col":3,"value":160},{"row":2,"col":3,"value":140.8},{"row":3,"col":3,"value":167.6},{"row":1,"col":4,"value":110},{"row":2,"col":4,"value":95},{"row":3,"col":4,"value":123}]';
+		// plotData.rowLabel = ['1759080_s_at','1759302_s_at','1759502_s_at'];
+		// plotData.colLabel = ['con1027','con1028','con1029','con103','con1030'];
+		// plotData.maxValue = 160;
+		// plotData.minValue = 4;
+		// plotHeatmap(plotData);
+
 	}
 
 	if(type === "discreteBarChart")

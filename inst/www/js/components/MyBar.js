@@ -179,6 +179,10 @@ var MyBar = React.createClass(
 							<MenuItem>Dendogram</MenuItem>
 						</ModalTrigger>
 
+						<ModalTrigger modal={<HeatmapModal onClick={this.plotD3Chart.bind(this, "plotHeatmap")} variables={this.props.variables}  />}>
+							<MenuItem>Heatmap</MenuItem>
+						</ModalTrigger>
+
 						<ModalTrigger modal={<KMeansModal onClick={this.plotKMeansChart.bind(this, "plotKMeans")} variables={this.props.variables}  />}>
 							<MenuItem>K-means clustering</MenuItem>
 						</ModalTrigger>
