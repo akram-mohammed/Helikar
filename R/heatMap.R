@@ -24,6 +24,5 @@ heatMap <- function(data){
 
   heatmapdata <- toJSON(data)
 
-  list(heatmapdata = paste(heatmapdata), rowLabel = paste(rowNames),
-       colLabel = paste(colNames), maxValue = paste(maxValue), minValue = paste(minValue))
+  list(heatmapdata = paste(heatmapdata))
 }

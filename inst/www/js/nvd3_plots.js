@@ -273,21 +273,20 @@ function makePlot(obj, props) {
 	}
 
 	if (type == "plotHeatmap") {
-		var plotData = {};
-
 		ocpu.seturl("//public.opencpu.org/ocpu/github/shubhamkmr47/Helikar/R");
 
-		var data = dataJSON;
+		var data = dataJSON, plotData = {};
 
 		var req = ocpu.rpc("heatMap", {data: data}, function(output){
 				plotData.heatmapdata = output.heatmapdata;
-				plotData.rowLabel = output.rowLabel;
-				plotData.colLabel = output.colLabel;
-				plotData.maxValue = output.maxValue;
-				plotData.minValue = output.minValue;
-				//var stackBarPlotData = output.message;
-				//addNewPlot('Stack Bar Plot', stackBarPlotData);
-				plotHeatmap(plotData);
+				// plotData.rowLabel = output.rowLabel;
+				// plotData.colLabel = output.colLabel;
+				// plotData.maxValue = output.maxValue;
+				// plotData.minValue = output.minValue;
+				alert(plotData.heatmapdata);
+				// //var stackBarPlotData = output.message;
+				// //addNewPlot('Stack Bar Plot', stackBarPlotData);
+				// plotHeatmap(plotData);
 			});
 
 			//if R returns an error, alert the error message
