@@ -278,7 +278,7 @@ function makePlot(obj, props) {
 		var data = dataJSON, plotData = {};
 
 		var req = ocpu.rpc("heat_map", {data: data}, function(output){
-				plotData.heatmapdata = output.message;
+				plotData.message = output.message;
 				// plotData.rowLabel = output.rowLabel;
 				// plotData.colLabel = output.colLabel;
 				// plotData.maxValue = output.maxValue;
@@ -286,7 +286,7 @@ function makePlot(obj, props) {
 				alert(plotData.message);
 				// //var stackBarPlotData = output.message;
 				// //addNewPlot('Stack Bar Plot', stackBarPlotData);
-				// plotHeatmap(plotData);
+				comatrixPlot(plotData.message);
 			});
 
 			//if R returns an error, alert the error message

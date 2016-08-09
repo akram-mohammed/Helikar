@@ -18,7 +18,7 @@ heat_map <- function(data = ""){
   columns <- data.frame(V1, V2)
   columns <- as.matrix(columns)
 
-  index <- V2
+  index <- colnames(data)
   data <- as.matrix(mat)
 
   out <- list(columns = columns, index = index, data = data)
