@@ -1,4 +1,4 @@
-plotheatmap <- function(data){
+heatMap <- function(data){
 
   library(jsonlite)
 
