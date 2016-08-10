@@ -5,16 +5,16 @@ var DCModal = React.createClass({
 		var wololo="enabled";
 
 		this.props.variables.forEach(function (variable) {
-			options_list.push(<option value={variable}>{variable}</option>);				
+			options_list.push(<option value={variable}>{variable}</option>);
 		});
 
 		return (
 			<Modal {...this.props} title="Choose data">
 				<div className='modal-body'>
-					<Input>	
+					<Input>
 
 
-						<Row>	
+						<Row>
 							<Col xs={6}>
 								<h2>Bar chart</h2>
 							</Col>
@@ -57,7 +57,7 @@ var DCModal = React.createClass({
 									{options_list}
 								</Input>
 							</Col>
-						</Row>												
+						</Row>
 
 					</Input>
 				</div>
@@ -70,7 +70,7 @@ var DCModal = React.createClass({
 
 	handleClick: function() {
 		var count = 0;
-		
+
 		Object.keys(this.refs).forEach(function (ref) {
 			if(this.refs[ref].props.type == "checkbox" && this.refs[ref].getChecked())
 				count++;
@@ -79,8 +79,8 @@ var DCModal = React.createClass({
 		this.props.onRequestHide();
 		this.props.onClick(this, count, {
 			// TODO - remove bar and bubble entirely
-			bar: true, 
-			bubble: true, 
+			bar: true,
+			bubble: true,
 			bar_vars: {x: this.refs.bar_x.getValue(), y: this.refs.bar_y.getValue()},
 			bubble_vars: {x: this.refs.bubble_x.getValue(), y: this.refs.bubble_y.getValue(), g: this.refs.bubble_g.getValue()}
 		});

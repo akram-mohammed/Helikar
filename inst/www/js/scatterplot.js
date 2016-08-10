@@ -1,8 +1,11 @@
-function plotScatterData(plotData, straight_bool, exponential_bool, polynomial_bool, logarithmic_bool){
+function plotScatterData(plotData){
 
   d3.selectAll("svg > *").remove();
 
-  var data = plotData.scatterdata, lindata = plotData.lindata, expdata = plotData.expdata, logdata = plotData.logdata, poldata = plotData.poldata;
+  var data = plotData.scatterdata, lindata = plotData.lindata, expdata = plotData.expdata, logdata = plotData.logdata, poldata = plotData.poldata,
+   straight_bool = plotData.straight_bool, exponential_bool = plotData.exponential_bool, logarithmic_bool = plotData.logarithmic_bool,
+   polynomial_bool = plotData.polynomial_bool, label_x = plotData.label_x, label_y = plotData.label_y;
+
   data = JSON.parse(data);
 
   // set the stage
@@ -192,9 +195,10 @@ function plotScatterData(plotData, straight_bool, exponential_bool, polynomial_b
   svg.append("text")
     .attr("class", "x label")
     .attr("text-anchor", "end")
-    .attr("x", w + 50)
+    .attr("x", w)
     .attr("y", h - margin.t - 5)
-    .text("x-coordinate");
+    .style("font-size","10px")
+    .text(label_x);
 
   svg.append("text")
     .attr("class", "y label")
@@ -202,10 +206,15 @@ function plotScatterData(plotData, straight_bool, exponential_bool, polynomial_b
     .attr("x", -20)
     .attr("y", 45)
     .attr("dy", ".75em")
+    .style("font-size","10px")
     .attr("transform", "rotate(-90)")
-    .text("y-coordinate");
+    .text(label_y);
+
+    var legendData = [], color = [];
 
     if (straight_bool) {
+      legendData.push("Straight");
+      color.push("#dc3912");
       lindata = JSON.parse(lindata);
       svg.append("path")
           .datum(lindata)
@@ -216,6 +225,8 @@ function plotScatterData(plotData, straight_bool, exponential_bool, polynomial_b
           .attr("d", line);
     }
     if (exponential_bool && expdata != "Singular Gradient") {
+      legendData.push("Exponential");
+      color.push("#ff9900");
       expdata = JSON.parse(expdata);
       svg.append("path")
           .datum(expdata)
@@ -226,6 +237,8 @@ function plotScatterData(plotData, straight_bool, exponential_bool, polynomial_b
           .attr("d", line);
     }
     if (logarithmic_bool && logdata != "Singular Gradient") {
+      legendData.push("Logarithmic");
+      color.push("#109618");
       logdata = JSON.parse(logdata);
       svg.append("path")
           .datum(logdata)
@@ -236,6 +249,8 @@ function plotScatterData(plotData, straight_bool, exponential_bool, polynomial_b
           .attr("d", line);
     }
     if (polynomial_bool && poldata != "Singular Gradient") {
+      legendData.push("Polynomial");
+      color.push("#990099");
       poldata = JSON.parse(poldata);
       svg.append("path")
           .datum(poldata)
@@ -245,4 +260,24 @@ function plotScatterData(plotData, straight_bool, exponential_bool, polynomial_b
           .attr("stroke-width", "1.5px")
           .attr("d", line);
     }
+
+    var legend = svg.selectAll(".legend")
+        .data(legendData)
+      .enter().append("g")
+        .attr("class", "legend")
+        .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
+
+    legend.append("rect")
+        .attr("x", w - 18)
+        .attr("width", 18)
+        .attr("height", 18)
+        .style("fill", function(d) {return color[legendData.indexOf(d)]; });
+
+    legend.append("text")
+        .attr("x", w - 24)
+        .attr("y", 9)
+        .attr("dy", ".35em")
+        .style("text-anchor", "end")
+        .text(function(d) { return d; });
+
 }

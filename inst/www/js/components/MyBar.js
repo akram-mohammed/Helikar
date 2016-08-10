@@ -123,6 +123,9 @@ var MyBar = React.createClass(
 	},
 
 	render: function() {
+
+		var dashboard_style = {"left": "50%"};
+
 		return (
 			<Navbar>
 				<Nav>
@@ -131,10 +134,6 @@ var MyBar = React.createClass(
 						<MenuItem onClick={this.handleClick}>Open</MenuItem>
 						<FileField ref="file"/>
 						<MenuItem onClick={this.saveClick}>Export image</MenuItem>
-
-						<ModalTrigger modal={<DashboardModal onClick={this.dashboardClick.bind(this, "initDashboard")} variables={this.props.variables}  />}>
-							<MenuItem>Dashboard</MenuItem>
-						</ModalTrigger>
 
 					</DropdownButton>
 
@@ -148,28 +147,12 @@ var MyBar = React.createClass(
 							<MenuItem>Line</MenuItem>
 						</ModalTrigger>
 
-						<ModalTrigger modal={<PlotModal onClick={this.plotClick.bind(this, "scatterChart")} variables={this.props.variables}  />}>
-							<MenuItem>Scatter</MenuItem>
-						</ModalTrigger>
-
 						<ModalTrigger modal={<PlotModal onClick={this.plotClick.bind(this, "regression")} variables={this.props.variables}  />}>
 							<MenuItem>Regression</MenuItem>
 						</ModalTrigger>
 
-						<ModalTrigger modal={<PlotModal onClick={this.plotClick.bind(this, "discreteBarChart")} variables={this.props.variables}  />}>
-							<MenuItem>Bar</MenuItem>
-						</ModalTrigger>
-
-						<ModalTrigger modal={<BoxPlotModal onClick={this.plotClick.bind(this, "quadreg")} variables={this.props.variables}  />}>
-							<MenuItem>Quadratic</MenuItem>
-						</ModalTrigger>
-
 						<ModalTrigger modal={<HistModal onClick={this.plotClick.bind(this, "histogram")} variables={this.props.variables}  />}>
 							<MenuItem>Histogram</MenuItem>
-						</ModalTrigger>
-
-						<ModalTrigger modal={<DCModal onClick={this.multiPlotClick} variables={this.props.variables} />}>
-							<MenuItem>Multiplot</MenuItem>
 						</ModalTrigger>
 
 					</DropdownButton>
@@ -269,6 +252,10 @@ var MyBar = React.createClass(
 						</ModalTrigger>
 
 					</DropdownButton>
+
+					<ModalTrigger modal={<DashboardModal onClick={this.dashboardClick.bind(this, "initDashboard")} variables={this.props.variables}  />}>
+						<MenuItem style = {dashboard_style}>Dashboard</MenuItem>
+					</ModalTrigger>
 
 				</Nav>
 			</Navbar>

@@ -64,7 +64,6 @@ function makePlot(obj, props) {
 				session.getObject(null, {force: true}, function (obj) {
 					intercept = obj.coefficients[0];
 					slope = obj.coefficients[1];
-					console.log(intercept);
 					plotStandard(dataJSON, type, props.var_x, props.var_y, props.var_g, props.x_name, props.y_name, slope, intercept);
 				});
 			});
@@ -79,7 +78,6 @@ function makePlot(obj, props) {
 		ocpu.seturl("//public.opencpu.org/ocpu/github/shubhamkmr47/Helikar/R");
 
 		var data = dataJSON;
-		console.log(JSON.stringify(data));
 
 		var req = ocpu.rpc("dendogram", {data: data}, function(output){
         var dendogramData = output.message;
@@ -262,8 +260,14 @@ function makePlot(obj, props) {
 			plotData.expdata = output.expdata;
 			plotData.logdata = output.logdata;
 			plotData.poldata = output.poldata;
-			//addNewPlot('Scatter Plot', plotData);
-			plotScatterData(plotData, straight_bool, exponential_bool, polynomial_bool, logarithmic_bool);
+			plotData.straight_bool = straight_bool;
+			plotData.exponential_bool = exponential_bool;
+			plotData.polynomial_bool = polynomial_bool;
+			plotData.logarithmic_bool = logarithmic_bool;
+			plotData.label_x = var_x;
+			plotData.label_y = var_y;
+			addNewPlot('Scatter Plot', plotData);
+			plotScatterData(plotData);
 			});
 
 			//if R returns an error, alert the error message
@@ -280,22 +284,13 @@ function makePlot(obj, props) {
 		var req = ocpu.rpc("heat_map", {data: data}, function(output){
 				plotData.message = output.message;
 				addNewPlot('Heatmap', plotData.message);
-				comatrixPlot(plotData.message);
+				plotHeatmap(plotData.message);
 			});
 
 			//if R returns an error, alert the error message
 			req.fail(function(){
 				alert("Server error: " + req.responseText);
 			});
-
-
-		// plotData.heatmapdata = '[{"row":1,"col":1,"value":21},{"row":2,"col":1,"value":22.8},{"row":3,"col":1,"value":19.2},{"row":1,"col":2,"value":6},{"row":2,"col":2,"value":4},{"row":3,"col":2,"value":6},{"row":1,"col":3,"value":160},{"row":2,"col":3,"value":140.8},{"row":3,"col":3,"value":167.6},{"row":1,"col":4,"value":110},{"row":2,"col":4,"value":95},{"row":3,"col":4,"value":123}]';
-		// plotData.rowLabel = ['1759080_s_at','1759302_s_at','1759502_s_at'];
-		// plotData.colLabel = ['con1027','con1028','con1029','con103','con1030'];
-		// plotData.maxValue = 160;
-		// plotData.minValue = 4;
-		// plotHeatmap(plotData);
-
 	}
 
 	if(type === "discreteBarChart")
@@ -316,12 +311,12 @@ function makePlot(obj, props) {
 function plotHist(array, var_x, var_g) {
 
 	data = JSON.parse(array);
-	console.log(data);
+	// console.log(data);
 	elems = data.map(function (x) {
 		return x[var_x];
 	});
-	console.log(elems);
-	console.log(var_g);
+	// console.log(elems);
+	// console.log(var_g);
 	ocpu.seturl("//public.opencpu.org/ocpu/library/graphics/R");
 	ocpu.call("hist", {
 		x: elems,
@@ -336,7 +331,7 @@ function plotHist(array, var_x, var_g) {
 				vals.push({"label": d, "value": counts[n]});
 			})
 			out = [{'key': 'out', 'values': vals}];
-			console.log(out);
+			// console.log(out);
 
 			d3.selectAll("svg > *").remove();
 
@@ -373,7 +368,6 @@ function plotBar(array, type, var_x, var_y) {
 	});
 
 	out = [{'key': 'out', 'values': vals}];
-	console.log(out);
 
 	d3.selectAll("svg > *").remove();
 
@@ -402,8 +396,6 @@ function plotBar(array, type, var_x, var_y) {
 
 function buildData(array, group, slope, intercept) {
 
-	console.log(slope);
-
     if(!group) {
         return [{key: "Data", values: JSON.parse(array), slope: slope, intercept: intercept}];
     }
@@ -414,8 +406,6 @@ function buildData(array, group, slope, intercept) {
     data.forEach(function (d) {
         (obj[d[group]] = obj[d[group]] ? obj[d[group]] : []).push(d);
     });
-
-    console.log(obj);
 
     Object.keys(obj).forEach(function (o) {
         if(o != "null") {
@@ -430,7 +420,6 @@ function buildData(array, group, slope, intercept) {
 
 function plotStandard(data, type, var_x, var_y, var_g, x_name, y_name, slope, intercept) {
 	var myData = buildData(data, var_g, slope, intercept);
-    console.log(myData);
 
 	d3.selectAll("svg > *").remove();
 
@@ -458,8 +447,6 @@ function plotStandard(data, type, var_x, var_y, var_g, x_name, y_name, slope, in
 
 function realBox(myData, x_name, y_name) {
 
-	console.log(myData);
-
 	d3.selectAll("svg > *").remove();
 
 	nv.addGraph(function() {
@@ -479,7 +466,7 @@ function realBox(myData, x_name, y_name) {
 		.call(chart);
 
 		nv.utils.windowResize(chart.update);
-
+		
 		return chart;
 	});
 
@@ -507,7 +494,6 @@ function plotBox(data, type, var_x, var_y, x_name, y_name) {
 			process.push({label: x, values: now});
 	});
 
-	//console.log(process);
 	_.initial(process).forEach(function (p) {
 		ocpu.call("quantile", {
 			x: p.values
@@ -522,9 +508,7 @@ function plotBox(data, type, var_x, var_y, x_name, y_name) {
 					outliers: []
 				};
 				p.values = d;
-				//console.log(p);
 				myData.push(p);
-				//console.log(myData);
 			});
 		});
 	});
@@ -545,7 +529,6 @@ function plotBox(data, type, var_x, var_y, x_name, y_name) {
 			};
 			last.values = d;
 			myData.push(last);
-			//console.log(myData);
 
 			realBox(myData, x_name, y_name);
 		});

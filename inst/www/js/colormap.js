@@ -26,8 +26,8 @@ function comatrixPlot(data) {
 
     //==================================================
     var tooltip = d3.select(heatmapId)
-        .append("div")
-        .style("width", "600p")
+        .append("svg")
+        .style("width", "600px")
         .style("position", "absolute")
         .style("visibility", "hidden");
 
