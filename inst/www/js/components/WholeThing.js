@@ -113,67 +113,65 @@ var WholeThing = React.createClass(
 			// read.csv
 			ocpu.seturl("//public.opencpu.org/ocpu/library/utils/R");
 
-	        // upload
-	        var uploadRequest = ocpu.call("read.csv", {
-	        	"file": this.state.file,
-	        	"check.names": new ocpu.Snippet("FALSE")
-	        }, function (session) {
+		      // upload
+		      var uploadRequest = ocpu.call("read.csv", {
+		      	"file": this.state.file,
+		      	"check.names": new ocpu.Snippet("FALSE")
+		      }, function (session) {
 
-	        	session.getObject(function (out) {
+		    	session.getObject(function (out) {
 
-	        		var headers = Object.keys(out[0]);
-	        		this.setState({variables: headers});
+		  		var headers = Object.keys(out[0]);
+		  		this.setState({variables: headers});
 
-                	this.refs.data_ref.setHeaders(headers);
-                	this.refs.data_ref.displayOn();
-                	this.refs.data_ref.setData(out);
+		    	this.refs.data_ref.setHeaders(headers);
+		    	this.refs.data_ref.displayOn();
+		    	this.refs.data_ref.setData(out);
 
 					// colnames
-	        		ocpu.seturl("//public.opencpu.org/ocpu/library/base/R");
+		  		ocpu.seturl("//public.opencpu.org/ocpu/library/base/R");
 
-	        		var variableRequest = ocpu.call("colnames", {
-	        			x: new ocpu.Snippet("data.frame(jsonlite::fromJSON('" + JSON.stringify(out) + "'))")
-	        		}, function (fieldsession) {
+		  		var variableRequest = ocpu.call("colnames", {
+		  			x: new ocpu.Snippet("data.frame(jsonlite::fromJSON('" + JSON.stringify(out) + "'))")
+		  		}, function (fieldsession) {
 
-	        			fieldsession.getObject(function (obj) {
-	        				var i;
-	        				var choices = [];
-	        				for (i = 0; i < obj.length; i++) {
-	        					choices.push({name: obj[i], axis: "x"});
-	        					choices.push({name: obj[i], axis: "y"});
-	        				}
-	        				this.setState({data: choices});
-	        			}.bind(this));
-	        		}.bind(this));
-	        	}.bind(this));
-	        }.bind(this));
+		  			fieldsession.getObject(function (obj) {
+	  				var i;
+	  				var choices = [];
+	  				for (i = 0; i < obj.length; i++) {
+	  					choices.push({name: obj[i], axis: "x"});
+	  					choices.push({name: obj[i], axis: "y"});
+	    				}
+	    				this.setState({data: choices});
+		    			}.bind(this));
+		    		}.bind(this));
+        	}.bind(this));
+        }.bind(this));
 	    }
 
-	    // Plot graph
-	    if(this.props.plot) {
+    // Plot graph
+    if(this.props.plot) {
+    	makePlot(this);
+      this.setProps({plot: false});
+    }
 
-	    	makePlot(this);
-	        this.setProps({plot: false});
-	    }
+    if(this.state.cluster) {
+    	// clusters and minpts are the same
+    	var bundle = {clusters: this.state.clusters, eps: this.state.eps, table: this.props.data_table, vars: {x: this.state.var_x, y: this.state.var_y}};
 
-	    if(this.state.cluster) {
-	    	// clusters and minpts are the same
-	    	var bundle = {clusters: this.state.clusters, eps: this.state.eps, table: this.props.data_table, vars: {x: this.state.var_x, y: this.state.var_y}};
+    	if(this.state.cluster_type === "kmeans")
+    		kmeansCluster(bundle);
 
-	    	if(this.state.cluster_type === "kmeans")
-	    		kmeansCluster(bundle);
+    	else if(this.state.cluster_type === "hierarchical")
+    		hierarchicalCluster(bundle);
 
-	    	else if(this.state.cluster_type === "hierarchical")
-	    		hierarchicalCluster(bundle);
+    	else
+    		densityCluster(bundle);
 
-	    	else
-	    		densityCluster(bundle);
-
-			this.setState({cluster: false});
+				this.setState({cluster: false});
 	    }
 
 	    if(this.state.classify) {
-	    	console.log(this.state.classify_var);
 
 	    	var bundle = {classify_var: this.state.classify_var, table: this.props.data_table, file: this.state.classify_file, ratio: this.state.classify_ratio, classify_type: this.state.classify_type};
 	    	//naiveBayesClassify(bundle);
@@ -182,13 +180,9 @@ var WholeThing = React.createClass(
 		    else {
 		    	naiveBayesClassify(bundle, this.refs.classify_ref);
 		    }
-
-	    	//this.refs.top_bar.getModal("tref"));
 	    }
 	},
 
-	// ugly function thing
-	// TODO - replace params with arguments array
 	handleClick: function(buttonType, functionName, propertyName, plotType) {
 
 		// map function names to actual names
@@ -203,6 +197,22 @@ var WholeThing = React.createClass(
 			"cor": "Correlation"
 		}
 
+		function ConvertToCSV(objArray) {
+          var array = typeof objArray != 'object' ? JSON.parse(objArray) : objArray;
+          var str = '';
+
+          for (var i = 0; i < array.length-1; i++) {
+              var line = '';
+              for (var index in array[i]) {
+                  if (line != '') line += ','
+
+                  line += array[i][index];
+              }
+              str += line + '\r\n';
+          }
+          return str;
+      }
+
 		switch(buttonType) {
 
 			/*
@@ -211,12 +221,11 @@ var WholeThing = React.createClass(
 
 			case "submit":
 				var myFile = $("#invis-file")[0].files[0];
-				console.log("File: " + myFile);
 				this.setState({file: myFile});
 				break;
 
-				/*input URL*/
-				case "url":
+			/*input URL*/
+			case "url":
 				var plot_type = arguments[1], url = arguments[2];
 				this.setProps({multi: false, plot: true});
 				this.setProps({plot_type: plot_type, url: url});
@@ -232,7 +241,28 @@ var WholeThing = React.createClass(
 					var dataJSON = JSON.stringify(data);
 					alert(dataJSON);
 				}
+				break;
 
+				/*
+				 *	Toggle table visibility
+				 */
+
+				case "show-table":
+					if(this.refs.data_ref != null)
+						this.refs.data_ref.toggleDisplay();
+					break;
+
+				case "export-table":
+					var table = this.props.data_table;
+					var dataJSON = JSON.stringify(table.getData());
+					var dataCSV = Papa.unparse(dataJSON);
+					var csvString = dataCSV;
+					var a         = document.createElement('a');
+					a.href        = 'data:attachment/csv,' +  encodeURIComponent(csvString);
+					a.target      = '_blank';
+					a.download    = 'data.csv';
+					document.body.appendChild(a);
+					a.click();
 				break;
 
 			case "initDashboard":
@@ -245,7 +275,6 @@ var WholeThing = React.createClass(
 				plotType = plotType[plotId-1];
 				plotData = plotData[plotId-1];
 				plotDashboard(plotType, plotData);
-
 				break;
 
 			case "kmeans":
@@ -259,8 +288,6 @@ var WholeThing = React.createClass(
 				this.setProps({multi: false, plot: true});
 				this.setProps({plot_type: plot_type, var_x: var_x, var_y: var_y});
 				break;
-
-
 
 			/*choose correlation or covariance matrix*/
 			case "comatrix":
@@ -285,15 +312,6 @@ var WholeThing = React.createClass(
 				var plot_type = arguments[1], var_x = arguments[3], vars = arguments[4];
 				this.setProps({multi: false, plot: true});
 				this.setProps({plot_type: plot_type, var_x: var_x, vars: vars});
-				break;
-
-			/*
-			 *	Toggle table visibility
-			 */
-
-			case "show-table":
-				if(this.refs.data_ref != null)
-					this.refs.data_ref.toggleDisplay();
 				break;
 
 			/*
@@ -381,11 +399,10 @@ var WholeThing = React.createClass(
 
 						});
 					});
-
 					data.push(row);
 	        	});
 
-//	        	bi_table.loadData(data);
+//	      bi_table.loadData(data);
 
 				break;
 
@@ -432,7 +449,6 @@ var WholeThing = React.createClass(
 					});
 
 					data.push(row);
-					console.log(data);
 				});
 
 				break;
@@ -469,13 +485,12 @@ var WholeThing = React.createClass(
 				ocpu.seturl("//public.opencpu.org/ocpu/library/stats/R");
 
 				ocpu.call("lm", {
-					//"data": new ocpu.Snippet("jsonlite::fromJSON('" + JSON.stringify(data) + "')")
 					"data": new ocpu.Snippet("data.frame(label = jsonlite::fromJSON('" + JSON.stringify(values) + "'), value = jsonlite::fromJSON('" + JSON.stringify(groups) + "'))")
 				}, function (session) {
 
-					// BEGIN
-        	functions.forEach(function (fn, n) {
-        		var row = [fn];
+				// BEGIN
+      	functions.forEach(function (fn, n) {
+      		var row = [fn];
 
 					var statsRequest = ocpu.call(fn, {
 						object: session
@@ -490,14 +505,8 @@ var WholeThing = React.createClass(
 				});
 				break;
 
-
-			/*
-			 *	Multigraph
-			 */
-
 			case "multi":
 				count = arguments[1];
-				console.log(count);
 				this.setProps({plot_count: count, multi: true});
 				// DC stuff
 				values = arguments[2];
@@ -509,46 +518,44 @@ var WholeThing = React.createClass(
 
 				var table = this.props.data_table;
 
-		        var dataJSON = JSON.stringify(table.getData());
+        var dataJSON = JSON.stringify(table.getData());
 
-		        var dataCSV = Papa.unparse(dataJSON);
+        var dataCSV = Papa.unparse(dataJSON);
 
-		        var count = 0;
+        var count = 0;
 
-		        // Data
-		        var data = d3.csv.parse(dataCSV);
+        // Data
+        var data = d3.csv.parse(dataCSV);
 				var ndx = crossfilter(data);
-				console.log(values);
 
-		        // Bar is true, build plot
-		        if(values.bar) {
-					var barChart = dc.barChart("#box_" + count);
+        // Bar is true, build plot
+        if(values.bar) {
+				var barChart = dc.barChart("#box_" + count);
 
-					var weightDimension = ndx.dimension(function (d) {
-						return d[bar_x];
-					});
-					var weightGroup = weightDimension.group().reduceSum(function (x) { return x[bar_y] });
+				var weightDimension = ndx.dimension(function (d) {
+					return d[bar_x];
+				});
+				var weightGroup = weightDimension.group().reduceSum(function (x) { return x[bar_y] });
 
-					var top = weightDimension.top(1)[0][bar_x];
-					var bot = weightDimension.bottom(1)[0][bar_x];
-					barChart
-						.width(640)
-						.height(480)
-						.x(d3.scale.linear().domain([bot, top]))
-						.elasticX(true)
-						.xAxisPadding("5%")
-						.brushOn(true)
-						.dimension(weightDimension)
-						.group(weightGroup)
-				        .transitionDuration(500)
-				        .colors(['#3182bd', '#6baed6', '#9ecae1', '#c6dbef', '#dadaeb']);
+				var top = weightDimension.top(1)[0][bar_x];
+				var bot = weightDimension.bottom(1)[0][bar_x];
+				barChart
+					.width(640)
+					.height(480)
+					.x(d3.scale.linear().domain([bot, top]))
+					.elasticX(true)
+					.xAxisPadding("5%")
+					.brushOn(true)
+					.dimension(weightDimension)
+					.group(weightGroup)
+	        .transitionDuration(500)
+	        .colors(['#3182bd', '#6baed6', '#9ecae1', '#c6dbef', '#dadaeb']);
 
-				    count++;
-		        }
+			    count++;
+	        }
 
-		        // Bubble is true, build plot
-		        if(values.bubble) {
-		        	console.log(count);
+	        // Bubble is true, build plot
+	        if(values.bubble) {
 					var bubbleChart = dc.bubbleChart("#box_" + count);
 
 					var peopleDimension = ndx.dimension(function (d) {
@@ -556,19 +563,19 @@ var WholeThing = React.createClass(
 					});
 
 					var peopleGroup = peopleDimension.group().reduce(
-						function (p, v) {
+					function (p, v) {
 							p.totY += +v[bubble_y];
 							p.totX += +v[bubble_x];
 							return p;
 						},
-						function (p, v) {
-							--p.count;
-							p.totY -= +v[bubble_y];
-							p.totX -= +v[bubble_x];
-							return p;
-						},
-						function() {
-							return { totY: 0, totX: 0 }
+					function (p, v) {
+						--p.count;
+						p.totY -= +v[bubble_y];
+						p.totX -= +v[bubble_x];
+						return p;
+					},
+					function() {
+						return { totY: 0, totX: 0 }
 						}
 					);
 
@@ -595,9 +602,7 @@ var WholeThing = React.createClass(
 						.xAxisPadding(100)
 						.elasticY(true)
 						.elasticX(true);
-
 			    }
-
 			    dc.renderAll();
 			    dc.redrawAll();
 
@@ -609,10 +614,7 @@ var WholeThing = React.createClass(
 			 */
 
 			case "save":
-				console.log("Save!!");
-
 			 	$.getScript("js/libs/svg-crowbar.js", function() {
-			 		console.log("Script!!");
 			 	});
 				break;
 
@@ -629,7 +631,6 @@ var WholeThing = React.createClass(
 			 */
 
 			case "classify":
-				//console.log(arguments[2]);
 				this.setState({classify: true, classify_var: arguments[1], classify_file: arguments[2], classify_eval: arguments[3], classify_ratio: arguments[4], classify_type: arguments[5]});
 				break;
 
@@ -645,9 +646,7 @@ var WholeThing = React.createClass(
 
 	},
 
-
 	render: function() {
-		//console.log(this.props.multi);
 		if(!this.props.multi)
 			var thing = <svg id="plot-panel" ref="plot_ref"></svg>;
 		else {

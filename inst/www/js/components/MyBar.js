@@ -28,6 +28,10 @@ var MyBar = React.createClass(
 		this.props.onClick("show-table");
 	},
 
+	exportClick: function() {
+		this.props.onClick("export-table");
+	},
+
 	lineClick: function() {
 		this.props.onClick("show-feature");
 	},
@@ -93,11 +97,15 @@ var MyBar = React.createClass(
 	},
 
 	testClick: function(child, var_x, var_y, functions) {
+		this.props.onClick("show-table");
 		this.props.onClick("tests", var_x, var_y, functions);
+		this.props.onClick("show-table");
 	},
 
 	anovaClick: function(child, vars, functions) {
+		this.props.onClick("show-table");
 		this.props.onClick("anova", vars, functions);
+		this.props.onClick("show-table");
 	},
 
 	multiPlotClick: function(child, count, args) {
@@ -111,8 +119,6 @@ var MyBar = React.createClass(
 	densityClusterClick: function(clusterType, child, var_x, var_y, minpts, eps) {
 		this.props.onClick("cluster", clusterType, var_x, var_y, minpts, eps);
 	},
-
-	// TODO: combine into one
 
 	classifyClick: function(child, vars, file, evaluate, ratio) {
 		this.props.onClick("classify", vars, file, evaluate, ratio, "naiveBayes");
@@ -137,8 +143,9 @@ var MyBar = React.createClass(
 
 					</DropdownButton>
 
-					<DropdownButton title="View">
-						<MenuItem onClick={this.tableClick}>Data table</MenuItem>
+					<DropdownButton title="Data Table">
+						<MenuItem onClick={this.tableClick}>View</MenuItem>
+						<MenuItem onClick={this.exportClick}>Export</MenuItem>
 					</DropdownButton>
 
 					<DropdownButton title="Plot">

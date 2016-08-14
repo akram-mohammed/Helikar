@@ -45,10 +45,23 @@ function plotDashboard(plotType, plotData){
     case 'Stack Bar Plot':
       plotStackBar(plotData);
       break;
-      
+
     case 'Heatmap':
       comatrixPlot(plotData);
       break;
+
+    case 'Line Plot':
+      plotStandard(plotData);
+      break;
+
+    case 'Linear Regression':
+      plotStandard(plotData);
+      break;
+
+    case 'Histogram':
+      plotHist(plotData);
+      break;
+
   }
 }
 

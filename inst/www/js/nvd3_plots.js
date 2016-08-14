@@ -4,6 +4,7 @@
  */
 function makePlot(obj, props) {
 
+	d3.selectAll("svg > *").remove();
 
 	// read.csv
 	ocpu.seturl("//public.opencpu.org/ocpu/library/utils/R");
@@ -38,15 +39,7 @@ function makePlot(obj, props) {
 
 	if(type === "regression") type = "scatterChart";
 
-	/*
-	 *	Testing NVD3
-	 */
-
 	var nvdata = [{key: "Data", values: JSON.parse(dataJSON)}];
-
-	/*
-	 *	Slope/intercept
-	 */
 
 	ocpu.seturl("//public.opencpu.org/ocpu/library/stats/R");
 
@@ -64,12 +57,18 @@ function makePlot(obj, props) {
 				session.getObject(null, {force: true}, function (obj) {
 					intercept = obj.coefficients[0];
 					slope = obj.coefficients[1];
-					plotStandard(dataJSON, type, props.var_x, props.var_y, props.var_g, props.x_name, props.y_name, slope, intercept);
+					var plotData = {};
+					plotData.dataJSON = dataJSON, plotData.type = type, plotData.var_x = props.var_x, plotData.var_y = props.var_y, plotData.var_g = props.var_g, plotData.x_name = props.x_name, plotData.y_name = props.y_name, plotData.slope = slope, plotData.intercept = intercept;
+					addNewPlot('Linear Regression', plotData);
+					plotStandard(plotData);
 				});
 			});
 		}
 		else {
-			plotStandard(dataJSON, type, props.var_x, props.var_y, props.var_g, props.x_name, props.y_name);
+			var plotData = {};
+			plotData.dataJSON = dataJSON, plotData.type = type, plotData.var_x = props.var_x, plotData.var_y = props.var_y, plotData.var_g = props.var_g, plotData.x_name = props.x_name, plotData.y_name = props.y_name;
+			addNewPlot('Line Plot', plotData);
+			plotStandard(plotData);
 		}
 	}
 
@@ -277,7 +276,7 @@ function makePlot(obj, props) {
 	}
 
 	if (type == "plotHeatmap") {
-		ocpu.seturl("http://localhost/ocpu/github/shubhamkmr47/Helikar/R");
+		ocpu.seturl("//public.opencpu.org/ocpu/github/shubhamkmr47/Helikar/R");
 
 		var data = dataJSON, plotData = {};
 
@@ -296,65 +295,17 @@ function makePlot(obj, props) {
 	if(type === "discreteBarChart")
 		plotBar(dataJSON, type, props.var_x, props.var_y);
 
-	if(type === "histogram")
-		plotHist(dataJSON, props.var_x, props.var_g);
+	if(type === "histogram"){
+		var plotData = {};
+		plotData.dataJSON = dataJSON;
+		plotData.var_x = props.var_x;
+		plotData.var_g = props.var_g;
+		addNewPlot('Histogram', plotData);
+		plotHist(plotData);
+	}
 
 	if(type === "boxChart")
 		plotBox(dataJSON, type, props.var_g, props.var_x, props.x_name, props.y_name);
-
-	/*
-	 *	Done testing
-	 */
-
-}
-
-function plotHist(array, var_x, var_g) {
-
-	data = JSON.parse(array);
-	// console.log(data);
-	elems = data.map(function (x) {
-		return x[var_x];
-	});
-	// console.log(elems);
-	// console.log(var_g);
-	ocpu.seturl("//public.opencpu.org/ocpu/library/graphics/R");
-	ocpu.call("hist", {
-		x: elems,
-		plot: new ocpu.Snippet("FALSE"),
-		breaks: Number(var_g) || "Sturges"
-	}, function (session) {
-		session.getObject(null, {force: true}, function (obj) {
-			vals = [];
-			mids = obj["mids"];
-			counts = obj["counts"];
-			mids.forEach(function (d, n) {
-				vals.push({"label": d, "value": counts[n]});
-			})
-			out = [{'key': 'out', 'values': vals}];
-			// console.log(out);
-
-			d3.selectAll("svg > *").remove();
-
-		 	nv.addGraph(function() {
-
-				var chart = nv.models.discreteBarChart()
-				.x(function(d) { return d.label })    //Specify the data accessors.
-				.y(function(d) { return d.value })
-				.color(d3.scale.category10().range())
-				;
-
-				chart.yAxis.tickFormat(d3.format(',.0d'));
-
-				d3.select('#plot-panel')
-				.datum(out)
-				.call(chart);
-
-				nv.utils.windowResize(chart.update);
-
-				return chart;
-			}.bind(this));
-		}.bind(this))
-	}.bind(this))
 }
 
 function plotBar(array, type, var_x, var_y) {
@@ -394,57 +345,6 @@ function plotBar(array, type, var_x, var_y) {
  *     [{key: "group_name", values: [group_elements]}, ...]
  */
 
-function buildData(array, group, slope, intercept) {
-
-    if(!group) {
-        return [{key: "Data", values: JSON.parse(array), slope: slope, intercept: intercept}];
-    }
-
-    var data = JSON.parse(array);
-    var out = [];
-    var obj = {}
-    data.forEach(function (d) {
-        (obj[d[group]] = obj[d[group]] ? obj[d[group]] : []).push(d);
-    });
-
-    Object.keys(obj).forEach(function (o) {
-        if(o != "null") {
-            temp = {key: o, values: obj[o], slope: slope, intercept: intercept};
-            out.push(temp);
-        }
-    });
-
-    return out;
-}
-
-
-function plotStandard(data, type, var_x, var_y, var_g, x_name, y_name, slope, intercept) {
-	var myData = buildData(data, var_g, slope, intercept);
-
-	d3.selectAll("svg > *").remove();
-
- 	nv.addGraph(function() {
-
-		var chart = nv.models[type]()
-			.x(function(d) { return d[var_x] })    //Specify the data accessors.
-			.y(function(d) { return d[var_y] })
-			.color(d3.scale.category10().range())
-			;
-
-		chart.xAxis.axisLabel(x_name || var_x);
-		chart.yAxis.axisLabel(y_name || var_y);
-
-		d3.select('#plot-panel')
-			.datum(myData)
-			.call(chart);
-
-		nv.utils.windowResize(chart.update);
-
-		return chart;
-
-	}.bind(this));
-}
-
 function realBox(myData, x_name, y_name) {
 
 	d3.selectAll("svg > *").remove();
@@ -466,7 +366,7 @@ function realBox(myData, x_name, y_name) {
 		.call(chart);
 
 		nv.utils.windowResize(chart.update);
-		
+
 		return chart;
 	});
 

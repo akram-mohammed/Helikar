@@ -41,9 +41,6 @@ var DashboardModal = React.createClass({
 			<Modal {...this.props} title="Dashboard">
 				<div className='modal-body'>
 					{button_list}
-
-
-
 				</div>
 			</Modal>
 		);
@@ -52,10 +49,9 @@ var DashboardModal = React.createClass({
   handleClick: function(id) {
 
     this.props.onRequestHide();
-		if (this.refs.dashboardId == null){
-				this.props.onClick(this);
-		}
-		else
+		if (id > 0)
 			this.props.onClick(this, id);
+		else
+			this.props.onClick(this);
   }
 });
