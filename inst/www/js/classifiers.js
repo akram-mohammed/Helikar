@@ -1,3 +1,18 @@
+/*
+copyright 2016 Helikar Lab
+
+Developed by Shubham Kumar, Vinit Ravishankar and Akram Mohammed
+
+This program is free software: you can redistribute it and/or modify it under
+the terms of the GNU General Public License as published by the Free Software
+Foundation, either version 3 of the License, or (at your option) any later
+version. This program is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+details. You should have received a copy of the GNU General Public License
+along with this program. If not, see <http://www.gnu.org/licenses/>
+*/
+
 function naiveBayesClassify(bundle, table) {
 
 	console.log(bundle);
@@ -21,11 +36,11 @@ function naiveBayesClassify(bundle, table) {
 			train_x.forEach(function (f) {
 				delete f[classify_var];
 			});
-			
+
 			console.log(JSON.stringify(train_x));
 			console.log(JSON.stringify(train_y));
 			*/
-			ocpu.seturl("/ocpu/library/Helikar/R");
+			ocpu.seturl("/ocpu/library/Helikar");
 
 			ocpu.call("classify", {
 				fn: bundle.classify_type,
@@ -61,7 +76,7 @@ function evaluate(bundle, bar_ref) {
 	console.log(test_index);
 
 	var classify_var = bundle.classify_var;
-	
+
 	var train = data.slice(0, test_index);
 	var test = data.slice(test_index);
 
@@ -83,14 +98,14 @@ function evaluate(bundle, bar_ref) {
 	test_x.forEach(function (f) {
 		delete f[classify_var];
 	});
-	
+
 	console.log(JSON.stringify(train_x));
 	console.log(JSON.stringify(train_y));
 	console.log(JSON.stringify(test_x));
 	console.log(JSON.stringify(test_y));
 	*/
 
-	ocpu.seturl("/ocpu/library/Helikar/R");
+	ocpu.seturl("/ocpu/library/Helikar");
 
 	ocpu.call("myfn", {
 		fn: bundle.classify_type,

@@ -1,4 +1,19 @@
 /*
+copyright 2016 Helikar Lab
+
+Developed by Shubham Kumar, Vinit Ravishankar and Akram Mohammed
+
+This program is free software: you can redistribute it and/or modify it under
+the terms of the GNU General Public License as published by the Free Software
+Foundation, either version 3 of the License, or (at your option) any later
+version. This program is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+details. You should have received a copy of the GNU General Public License
+along with this program. If not, see <http://www.gnu.org/licenses/>
+*/
+
+/*
  *	Contains all the plot functions
  *	MASSIVE TODO: reorganise the variables into SOME consistent system
  */
@@ -74,7 +89,7 @@ function makePlot(obj, props) {
 
 	if (type === "plotDendogram") {
 
-		ocpu.seturl("//public.opencpu.org/ocpu/github/shubhamkmr47/Helikar/R");
+		ocpu.seturl("//public.opencpu.org/ocpu/github/shubhamkmr47/Helikar");
 
 		var data = dataJSON;
 
@@ -94,7 +109,7 @@ function makePlot(obj, props) {
 
 		var var_x = props.var_x, var_y = props.var_y, kvalue = props.kvalue;
 
-		ocpu.seturl("//public.opencpu.org/ocpu/github/shubhamkmr47/Helikar/R");
+		ocpu.seturl("//public.opencpu.org/ocpu/github/shubhamkmr47/Helikar");
 
 		var data = dataJSON, plotData = {};
 		plotData.kvalue = kvalue;
@@ -114,7 +129,7 @@ function makePlot(obj, props) {
 
 	if (type === "plotScatterMatrix") {
 
-		ocpu.seturl("//public.opencpu.org/ocpu/github/shubhamkmr47/Helikar/R");
+		ocpu.seturl("//public.opencpu.org/ocpu/github/shubhamkmr47/Helikar");
 
 		var data = dataJSON;
 
@@ -134,7 +149,7 @@ function makePlot(obj, props) {
 
 	var var_x = props.var_x, var_y = props.var_y;
 
-		ocpu.seturl("//public.opencpu.org/ocpu/github/shubhamkmr47/Helikar/R");
+		ocpu.seturl("//public.opencpu.org/ocpu/github/shubhamkmr47/Helikar");
 
 		var data = dataJSON, plotData = {};
 
@@ -153,7 +168,7 @@ function makePlot(obj, props) {
 
 	if (type === "plotTimeSeries") {
 
-		ocpu.seturl("//public.opencpu.org/ocpu/github/shubhamkmr47/Helikar/R");
+		ocpu.seturl("//public.opencpu.org/ocpu/github/shubhamkmr47/Helikar");
 
 		var data = dataJSON;
 
@@ -172,7 +187,7 @@ function makePlot(obj, props) {
 
 	if (type === "plotComatrix") {
 
-		ocpu.seturl("//public.opencpu.org/ocpu/github/shubhamkmr47/Helikar/R");
+		ocpu.seturl("//public.opencpu.org/ocpu/github/shubhamkmr47/Helikar");
 
 		var method = props.comatrix;
 		var data = dataJSON;
@@ -195,7 +210,7 @@ function makePlot(obj, props) {
 	if (type == "plotBarChart") {
 		if (props.simple_bool) {
 
-			ocpu.seturl("//public.opencpu.org/ocpu/github/shubhamkmr47/Helikar/R");
+			ocpu.seturl("//public.opencpu.org/ocpu/github/shubhamkmr47/Helikar");
 
 			var data = dataJSON, value = props.var_x, plotData = {};
 
@@ -214,7 +229,7 @@ function makePlot(obj, props) {
 		}
 		if (props.group_bool) {
 
-			ocpu.seturl("//public.opencpu.org/ocpu/github/shubhamkmr47/Helikar/R");
+			ocpu.seturl("//public.opencpu.org/ocpu/github/shubhamkmr47/Helikar");
 
 			var data = dataJSON;
 
@@ -231,7 +246,7 @@ function makePlot(obj, props) {
 		}
 		if (props.stack_bool) {
 
-			ocpu.seturl("//public.opencpu.org/ocpu/github/shubhamkmr47/Helikar/R");
+			ocpu.seturl("//public.opencpu.org/ocpu/github/shubhamkmr47/Helikar");
 
 			var data = dataJSON;
 
@@ -250,7 +265,7 @@ function makePlot(obj, props) {
 
 	if (type == "plotScatterPlot") {
 		var var_x = props.var_x, var_y = props.var_y, straight_bool = props.straight_bool, exponential_bool = props.exponential_bool, polynomial_bool = props.polynomial_bool, logarithmic_bool = props.logarithmic_bool;
-		ocpu.seturl("//public.opencpu.org/ocpu/github/shubhamkmr47/Helikar/R");
+		ocpu.seturl("//public.opencpu.org/ocpu/github/shubhamkmr47/Helikar");
 		var data = dataJSON, plotData = {};
 
 		var req = ocpu.rpc("scatterplot", {data: data, var_x: var_x, var_y: var_y}, function(output){
@@ -276,7 +291,7 @@ function makePlot(obj, props) {
 	}
 
 	if (type == "plotHeatmap") {
-		ocpu.seturl("//public.opencpu.org/ocpu/github/shubhamkmr47/Helikar/R");
+		ocpu.seturl("//public.opencpu.org/ocpu/github/shubhamkmr47/Helikar");
 
 		var data = dataJSON, plotData = {};
 

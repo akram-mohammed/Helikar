@@ -1,3 +1,18 @@
+/*
+copyright 2016 Helikar Lab
+
+Developed by Shubham Kumar, Vinit Ravishankar and Akram Mohammed
+
+This program is free software: you can redistribute it and/or modify it under
+the terms of the GNU General Public License as published by the Free Software
+Foundation, either version 3 of the License, or (at your option) any later
+version. This program is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+details. You should have received a copy of the GNU General Public License
+along with this program. If not, see <http://www.gnu.org/licenses/>
+*/
+
 /*global Handsontable, ocpu, Papa, Blob, saveAs*/
 
 // column class (for preprocessing)
@@ -127,7 +142,7 @@ window.onload = function () {
                 hot.updateSettings({
                     colHeaders: function (col) {
                         // GHETTO - change later if necessary
-                        // Sets markup of each column header 
+                        // Sets markup of each column header
                         return "<b>" + headers[col] + "</b>" + "<button class='mod_button' name='" + col + "' style='margin-left: 10%;'>\u25BC</button>";
                     }
                 });
